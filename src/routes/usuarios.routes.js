@@ -2,10 +2,6 @@ import { Router } from "express"
 import {
   createUsuario,
   getUsuario
-  // deleteTask,
-  // getAllTasks,
-  // getTask,
-  // updateTask,
 } from "../controllers/usuarios.controller.js"
 
 const usuariosRouter = Router()
@@ -17,6 +13,7 @@ const usuariosRouter = Router()
 usuariosRouter.get("/usuarios", (req, res) => {
   res.json({ message: "you are in path /api/usuarios/" })
 })
+
 usuariosRouter.get("/usuarios/:id", getUsuario)
 
 // usuariosRouter.put("/tasks/:id", updateTask);

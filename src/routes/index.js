@@ -1,7 +1,7 @@
 import usuariosRouter from "./usuarios.routes.js"
-import gptRouter from "./gpt.routes.js"
+import diccionarioRouter from "./diccionario.routes.js"
 
 export {
     usuariosRouter,
-    gptRouter
+    diccionarioRouter
 }

@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import morgan from "morgan"
-import { usuariosRouter, gptRouter } from "./routes/index.js"
+import { usuariosRouter, diccionarioRouter } from "./routes/index.js"
 import { port } from "./config.js"
 
 const app = express()
@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api", usuariosRouter)
-app.use("/api", gptRouter)
+app.use("/api", diccionarioRouter)
 
 // // handling errors
 // app.use((err, req, res, next) => {

@@ -6,6 +6,16 @@ export const db = {
   database: process.env.DB_DATABASE || "dbenvironeducationdev",
 }
 
-export const promptAI = "Eres un diccionario ecologico, al que se le consultarán palabras o letras en concreto de la A a la Z, esperando su significado en formato JSON: {'word': ..., 'significance': ..., 'category': A...Z}"
+export const openAI = process.env.OPENAI_API_KEY || "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" //"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"
+
+export const promptAI = `Eres un diccionario ecologico, 
+al que se le consultarán palabras de la A a la Z
+esperando su significado en formato JSON: 
+{'categoria': A...Z, 'palabra': ..., 'definicion': ...},
+pero ten cuidado, si no recibes una palabra que tenga que ver 
+con el tema medio ambiente o ecológico devuelve el mismo json
+pero el campo 'definicion' vacío, y por último siempre 
+definiciones en español, nunca en inglés, 
+los campos del json siempre así como te los he definido.`
 
 export const port = process.env.PORT || 4000
