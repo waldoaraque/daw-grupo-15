@@ -6,7 +6,7 @@ export const db = {
   database: process.env.DB_DATABASE || "dbenvironeducationdev",
 }
 
-export const openAI = process.env.OPENAI_API_KEY || "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" //"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"
+// export const openAI = process.env.OPENAI_API_KEY
 
 export const promptAI = `Eres un diccionario ecologico, 
 al que se le consultarán palabras de la A a la Z
