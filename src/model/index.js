@@ -3,6 +3,7 @@ import {
 } from './insert.model.js'
 
 import {
+  selectAllQuery,
   selectByIdQuery,
   selectByParamsConditionQuery
 } from './select.model.js'
@@ -16,6 +17,7 @@ import {
 } from './delete.model.js'
 
 export {
+  selectAllQuery,
   selectByIdQuery,
   selectByParamsConditionQuery,
   insertQuery,

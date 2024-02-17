@@ -1,23 +1,22 @@
 import { Router } from "express"
 import {
+  getUsuarios,
+  getUsuarioById,
   createUsuario,
-  getUsuarioById
+  updateUsuario,
+  deleteUsuario
 } from "../controllers/usuarios.controller.js"
 
 const usuariosRouter = Router()
 
-// create a task
-// router.post("/usuarios", createUser);
-
-// router.get("/usuarios", getAllTasks);
-usuariosRouter.get("/usuarios", (req, res) => {
-  res.json({ message: "you are in path /api/usuarios/" })
-})
+usuariosRouter.get("/usuarios", getUsuarios)
 
 usuariosRouter.get("/usuarios/:id", getUsuarioById)
 
-// usuariosRouter.put("/tasks/:id", updateTask);
+usuariosRouter.post("/usuarios", createUsuario);
 
-// usuariosRouter.delete("/tasks/:id", deleteTask);
+usuariosRouter.put("/usuarios/:id", updateUsuario);
+
+usuariosRouter.delete("/usuarios/:id", deleteUsuario);
 
 export default usuariosRouter

@@ -1,0 +1,45 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@id = 6
+
+### List Users
+GET http://{{host}}/api/usuarios HTTP/1.1
+content-type: application/json
+
+### Get User by Id
+GET http://{{host}}/api/usuarios/{{id}} HTTP/1.1
+content-type: application/json
+
+### Create User
+POST http://{{host}}/api/usuarios HTTP/1.1
+content-type: application/json
+
+{
+    "nombre_usuario": "gregorio",
+    "apellido_usuario": "araque",
+    "email": "educador@correo.com",
+    "contrasena": "1234",
+    "tipo_usuario": "educador",
+    "escuela_id": 1,
+    "foto_usuario": null
+}
+
+
+### Update User
+PUT http://{{host}}/api/usuarios/{{id}} HTTP/1.1
+content-type: application/json
+
+{
+    "nombre_usuario": "kevin",
+    "apellido_usuario": "alvarez",
+    "email": "estudiante2@correo.com",
+    "contrasena": "1234",
+    "tipo_usuario": "estudiante",
+    "escuela_id": 1,
+    "foto_usuario": ""
+}
+
+### Delete User
+DELETE http://{{host}}/api/usuarios/{{id}} HTTP/1.1
+content-type: application/json
