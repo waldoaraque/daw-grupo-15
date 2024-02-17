@@ -1,5 +1,9 @@
-import { pool } from "../db.js"
-import { generateWordOnOpenAI } from "../gpt.js"
+import { 
+  insertQuery,
+  selectByIdQuery,
+  selectByParamsConditionQuery
+} from "../model/index.js"
+import { generateWordOnOpenAI } from "../openai/gpt.js"
 
 function identifySearchPattern(searchPattern) {
   // if (/^[a-zA-Z]$/.test(searchPattern)) {
@@ -18,28 +22,26 @@ function identifySearchPattern(searchPattern) {
 }
 
 async function getDataFromDB(searchPattern) {
-  const palabra = await pool
-    .query(`
-      SELECT categoria, palabra, definicion
-      FROM diccionarioeco
-      WHERE palabra = $1 
-      OR categoria =$1`, [searchPattern]
-    )
-    if (palabra.rows.length === 0)
-      return { message: "Word not found" }
-    return palabra.rows[0]
+  let resSelectpalabra = await selectByParamsConditionQuery(
+    'diccionarioeco',
+    ['categoria', 'palabra', 'definicion'],
+    'palabra = $1 OR categoria = $1',
+    [searchPattern]
+  )
+  if (resSelectpalabra.length === 0)
+    return { message: "Word not found" }
+  return resSelectpalabra[0]
 }
 
 async function setDataOnDB(categoria, palabra, definicion) {
-  const palabraNueva = await pool
-    .query(
-      `INSERT INTO diccionarioeco
-      (categoria, palabra, definicion, usuario_id)
-      VALUES($1, $2, $3, 2) RETURNING *`,
-      [categoria, palabra, definicion]
-    )
-
-  return palabraNueva.rows[0]
+  const dicData = {
+    categoria,
+    palabra,
+    definicion,
+    usuario_id
+  }
+  let resInsertPalabra = await insertQuery('diccionarioeco', dicData)
+  return resInsertPalabra
 }
 
 export const generateWord = async (req, res, next) => {
@@ -50,7 +52,7 @@ export const generateWord = async (req, res, next) => {
     //  Identificar si es una letra, una palabra o algo que no tenga mucho sentido
     let pattern = search.toLowerCase()
     if (identifySearchPattern(pattern)) {
-       //     verificar que la palabra o patrón de búsqueda esté en la base de datos...  
+       // verificar que la palabra o patrón de búsqueda esté en la base de datos...  
       palabra = await getDataFromDB(pattern)
       if (palabra.message) {
         delete palabra.message
@@ -62,13 +64,13 @@ export const generateWord = async (req, res, next) => {
           })
         }
         else {
-          //          sino consulta a gpt y guardar en la bd
+          // sino consulta a gpt y guardar en la bd
           await setDataOnDB(palabra.categoria, palabra.palabra, palabra.definicion)
-          res.json(palabra)
+          res.status(201).json(palabra)
         }
       } else {
-        //          si está traemos los datos de la bd...
-        res.json(palabra)
+        // si está traemos los datos de la bd...
+        res.status(200).json(palabra)
       }
     }
   } catch (error) {
