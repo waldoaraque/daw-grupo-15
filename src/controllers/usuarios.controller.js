@@ -19,7 +19,7 @@ export const createUsuario = async (req, res, next) => {
     } = req.body
 
     const hashedPassword = await bcrypt.hash(contrasena, 10)
-    
+
     const userData = {
       usuario_nombre,
       usuario_apellido,
@@ -39,7 +39,7 @@ export const createUsuario = async (req, res, next) => {
   }
 }
 
-export const getUsuario = async (req, res, next) => {
+export const getUsuarioById = async (req, res, next) => {
   try {
     const { id } = req.params
 

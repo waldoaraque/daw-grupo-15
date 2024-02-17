@@ -1,5 +1,5 @@
 import { 
-  getUsuario, 
+  getUsuarioById, 
   createUsuario 
 } from './usuarios.controller.js'
 
@@ -8,7 +8,7 @@ import {
 } from './diccionario.controller.js'
 
 export {
-  getUsuario,
+  getUsuarioById,
   createUsuario,
   generateWord
 }
