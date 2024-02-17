@@ -1,0 +1,10 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@id = 6
+@basePath = api/palabras
+@palabra = reciclaje
+
+### Get Word
+GET http://{{host}}/{{basePath}}/{{palabra}} HTTP/1.1
+content-type: application/json

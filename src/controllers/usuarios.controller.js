@@ -1,4 +1,4 @@
-import pkg from "bcrypt"
+import bcrypt from "bcrypt"
 import {
   selectAllQuery,
   selectByIdQuery,
@@ -7,7 +7,6 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const bcrypt = pkg
 const usuarioTabla = 'usuarios'
 
 export const getUsuarios = async (req, res, next) => {

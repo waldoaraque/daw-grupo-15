@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import morgan from "morgan"
 import {
+  loginRouter,
   usuariosRouter,
   diccionarioRouter
 } from "./routes/index.js"
@@ -20,16 +21,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to my API" })
 })
 
+// Middleware Auth
+app.use("/api", loginRouter)
+
+// Services
 app.use("/api", usuariosRouter)
 app.use("/api", diccionarioRouter)
-
-// // handling errors
-// app.use((err, req, res, next) => {
-//   return res.status(500).json({
-//     status: "error",
-//     message: err.message,
-//   });
-// });
 
 app.listen(port)
 console.log(`Server on port ${port}`)

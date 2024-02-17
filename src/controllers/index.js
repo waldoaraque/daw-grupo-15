@@ -1,6 +1,11 @@
+import { login } from './login.controller.js'
+
 import { 
+  getUsuarios,
   getUsuarioById, 
-  createUsuario 
+  createUsuario,
+  updateUsuario,
+  deleteUsuario
 } from './usuarios.controller.js'
 
 import { 
@@ -8,7 +13,11 @@ import {
 } from './diccionario.controller.js'
 
 export {
+  login,
+  getUsuarios,
   getUsuarioById,
   createUsuario,
+  updateUsuario,
+  deleteUsuario,
   generateWord
 }

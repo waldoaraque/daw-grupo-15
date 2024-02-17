@@ -12,8 +12,6 @@ export const updateByIdQuery = async (tableName, data, id) => {
     }
     WHERE ${idField} = $${fields.length + 1}
     RETURNING *;`
-  console.log(query)
-  console.log([...values, id])
   const result = await pool.query(query, [...values, id])
   return result.rows[0]
 }

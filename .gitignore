@@ -3,3 +3,4 @@ package-lock.json
 node_modules
 src/config.js
 dataModel.html
+env.sh
