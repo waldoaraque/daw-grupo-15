@@ -7,6 +7,11 @@ import {
 
 const usuarioTabla = "usuarios"
 
+const generateToken = (userData) => {
+  const token = jwt.sign(userData, secretjwt, {expiresIn: '1h'})
+  return token
+}
+
 export const login = async (req, res, next) => {
   try {
     const {
@@ -24,9 +29,16 @@ export const login = async (req, res, next) => {
       const usuario = validateCredentials[0];
       const hashedPassword = await bcrypt.compare(contrasena, usuario.contrasena)
       if (hashedPassword) {
-        res.status(200).json({
-          message: "Login Successfull"
+        const token = generateToken({ 
+          userId: usuario.id_usuario,
+          email: usuario.email 
         })
+        res.status(200).json({
+          access_token: token 
+        })
+        // res.status(200).json({
+        //   message: "Login Successfull"
+        // })
       }
     } 
     else {

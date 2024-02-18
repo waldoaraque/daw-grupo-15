@@ -4,3 +4,8 @@ node_modules
 src/config.js
 dataModel.html
 env.sh
+
+frontend/node_modules
+frontend/package-lock.json
+frontend/README.md
+frontend/.gitignore
