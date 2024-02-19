@@ -1,0 +1,21 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@basePath = api/login
+
+### Entrypoint
+GET http://{{host}} HTTP/1.1
+content-type: application/json
+
+### Entrypoint /api
+GET http://{{host}}/api HTTP/1.1
+content-type: application/json
+
+### LogIn
+POST http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+
+{
+    "email": "educador@correo.com",
+    "contrasena": "1234"
+}

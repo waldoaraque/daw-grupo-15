@@ -1,32 +1,35 @@
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-//import router from "./routes/tasks.routes.js";
-//import { port } from "./config.js";
+import express from "express"
+import cors from "cors"
+import morgan from "morgan"
+import { verifyToken } from "./middleware/index.js"
+import {
+  loginRouter,
+  usuariosRouter,
+  diccionarioRouter
+} from "./routes/index.js"
+import { port } from "./config.js"
 
-const port = 4000
-const app = express();
+const app = express()
 
 // Middlewares
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(cors())
+app.use(morgan("dev"))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
+app.use("/api", loginRouter)
+
+// Middleware Auth
+app.use(verifyToken)
 
 // Routes
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to my API" });
-});
+  res.json({ message: "Welcome to my API" })
+})
 
-// app.use(router);
+// Services
+app.use("/api", usuariosRouter)
+app.use("/api", diccionarioRouter)
 
-// // handling errors
-// app.use((err, req, res, next) => {
-//   return res.status(500).json({
-//     status: "error",
-//     message: err.message,
-//   });
-// });
-
-app.listen(port);
-console.log(`Server on port ${port}`);
+app.listen(port)
+console.log(`Server on port ${port}`)
