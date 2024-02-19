@@ -14,3 +14,10 @@ Proyecto final para desarrollo de aplicaciones web. APLICACIÓN DE EDUCACIÓN AM
 
 ### Utilizar ubuntu como subsistema con WSL en Windows
 - https://learn.microsoft.com/es-es/windows/wsl/install
+
+### Importar Base de Datos
+
+```shell
+psql -U postgres -h localhost -d dbenvironeducationdev -f database/backup.sql
+
+```
