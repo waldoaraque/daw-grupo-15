@@ -75,6 +75,7 @@ export const generateWord = async (req, res, next) => {
         res.status(200).json(palabra)
       }
     }
+    // mandar error 
   } catch (error) {
     next(error)
   }
