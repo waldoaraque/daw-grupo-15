@@ -15,7 +15,7 @@ export default function Signup() {
 
     return (
         <DefaultLayout>
-            <form >
+            <form className="form">
                 <h1>Signup</h1>
 
                 <label>Name</label>

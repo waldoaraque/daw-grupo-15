@@ -14,7 +14,7 @@ export default function Login() {
 
     return (
         <DefaultLayout>
-            <form >
+            <form className="form">
                 <h1>Login</h1>
                 <label>User Name</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />

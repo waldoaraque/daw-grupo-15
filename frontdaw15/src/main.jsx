@@ -8,6 +8,8 @@ import Dashboard from './routes/Dashboard.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import { AuthProvider } from './auth/AuthProvider.jsx'
 
+import './index.css'
+
 const router = createBrowserRouter([
   {
     path: "/",
