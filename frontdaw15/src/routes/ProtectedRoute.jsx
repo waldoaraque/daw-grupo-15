@@ -1,4 +1,3 @@
-// import * as Outlet from 'react-router-dom'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider';
 
