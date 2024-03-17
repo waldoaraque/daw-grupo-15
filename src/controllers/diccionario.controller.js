@@ -7,7 +7,7 @@ import { generateWordOnOpenAI } from "../openai/gpt.js"
 
 const dicTabla = 'diccionarioeco'
 
-function identifySearchPattern(searchPattern) {
+const identifySearchPattern = (searchPattern) => {
   // if (/^[a-zA-Z]$/.test(searchPattern)) {
   //   return true
   // }
@@ -20,10 +20,9 @@ function identifySearchPattern(searchPattern) {
   else {
     return false
   }
-  
 }
 
-async function getDataFromDB(searchPattern) {
+const getDataFromDB = async (searchPattern) => {
   let resSelectpalabra = await selectByParamsConditionQuery(
     dicTabla,
     ['categoria', 'palabra', 'definicion'],
@@ -35,7 +34,7 @@ async function getDataFromDB(searchPattern) {
   return resSelectpalabra[0]
 }
 
-async function setDataOnDB(categoria, palabra, definicion) {
+const setDataOnDB = async (usuario_id, categoria, palabra, definicion) => {
   const dicData = {
     categoria,
     palabra,
@@ -48,6 +47,8 @@ async function setDataOnDB(categoria, palabra, definicion) {
 
 export const generateWord = async (req, res, next) => {
   try {
+    const userId = req.userId;
+    console.log(userId)
     let palabra = {}
     let resultAI = {}
     const { search } = req.params
@@ -67,7 +68,7 @@ export const generateWord = async (req, res, next) => {
         }
         else {
           // sino consulta a gpt y guardar en la bd
-          await setDataOnDB(palabra.categoria, palabra.palabra, palabra.definicion)
+          await setDataOnDB(userId, palabra.categoria, palabra.palabra, palabra.definicion)
           res.status(201).json(palabra)
         }
       } else {
@@ -76,6 +77,28 @@ export const generateWord = async (req, res, next) => {
       }
     }
     // mandar error 
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getWordsByCategory = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    const usuarioData = await selectByParamsConditionQuery(
+      dicTabla, 
+      ['categoria', 'palabra', 'definicion'],
+      'palabra = $1 OR categoria = $1',
+      [searchPattern]
+    )
+    if (usuarioData.length === 0)
+      return res
+              .status(404)
+              .json({ message: "User not found" })
+    res
+      .status(200)
+      .json(usuarioData[0])
   } catch (error) {
     next(error)
   }

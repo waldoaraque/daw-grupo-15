@@ -3,8 +3,15 @@
 @host = {{hostname}}:{{port}}
 @id = 6
 @basePath = api/palabras
-@palabra = reciclaje
+@palabra = 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxMDM2MDIxNiwiZXhwIjoxNzEwMzYzODE2fQ.Ua1KYHhNyaTxpxut8mE4Xv1ih1ZLgmT0_xDpeshRe4M
+
+### Get Words
+GET http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
 
 ### Get Word
 GET http://{{host}}/{{basePath}}/{{palabra}} HTTP/1.1
 content-type: application/json
+Authorization: {{token}}

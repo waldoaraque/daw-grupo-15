@@ -8,8 +8,33 @@ import {
   deleteUsuario
 } from './usuarios.controller.js'
 
+import {
+  getEscuelas,
+  getEscuelaById, 
+  createEscuela,
+  updateEscuela,
+  deleteEscuela
+} from './escuelas.controller.js'
+
+import {
+  getForos,
+  getForoById, 
+  createForo,
+  updateForo,
+  deleteForo
+} from './foro.controller.js'
+
+import {
+  getTemas,
+  getTemaById, 
+  createTema,
+  updateTema,
+  deleteTema
+} from './temas.controller.js'
+
 import { 
-  generateWord 
+  generateWord,
+  getWordsByCategory
 } from './diccionario.controller.js'
 
 export {
@@ -19,5 +44,21 @@ export {
   createUsuario,
   updateUsuario,
   deleteUsuario,
-  generateWord
+  getEscuelas,
+  getEscuelaById, 
+  createEscuela,
+  updateEscuela,
+  deleteEscuela,
+  getForos,
+  getForoById, 
+  createForo,
+  updateForo,
+  deleteForo,
+  getTemas,
+  getTemaById, 
+  createTema,
+  updateTema,
+  deleteTema,
+  generateWord,
+  getWordsByCategory
 }

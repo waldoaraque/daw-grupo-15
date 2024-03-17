@@ -12,8 +12,7 @@ export const verifyToken = (req, res, next) => {
     if (error) {
       return res.status(401).json({ message: 'Token inválido' })
     }
-
-    req.userId = decoded.userId // Agregar el ID de usuario al objeto de solicitud
+    req.userId = decoded.user_id // Agregar el ID de usuario al objeto de solicitud
     next()
   })
 }

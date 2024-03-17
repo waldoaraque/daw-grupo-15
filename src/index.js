@@ -5,7 +5,10 @@ import { verifyToken } from "./middleware/index.js"
 import {
   loginRouter,
   usuariosRouter,
-  diccionarioRouter
+  diccionarioRouter,
+  escuelasRouter,
+  foroRouter,
+  temasRouter
 } from "./routes/index.js"
 import { port } from "./config.js"
 
@@ -29,7 +32,10 @@ app.get("/", (req, res) => {
 
 // Services
 app.use("/api", usuariosRouter)
+app.use("/api", escuelasRouter)
 app.use("/api", diccionarioRouter)
+app.use("/api", foroRouter)
+app.use("/api", temasRouter)
 
 app.listen(port)
 console.log(`Server on port ${port}`)

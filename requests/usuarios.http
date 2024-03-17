@@ -3,20 +3,21 @@
 @host = {{hostname}}:{{port}}
 @id = 6
 @basePath = api/usuarios
+@token = 
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImVtYWlsIjoiZWR1Y2Fkb3JAY29ycmVvLmNvbSIsImlhdCI6MTcwODM3NDU1NCwiZXhwIjoxNzA4Mzc4MTU0fQ.KupnlkQ-rEDexWeKKstG_ppJeYuSu3s7eNYEMu6jkfQ
-
+Authorization: {{token}}
 ### Get User by Id
 GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImVtYWlsIjoiZWR1Y2Fkb3JAY29ycmVvLmNvbSIsImlhdCI6MTcwODI4MTkyNCwiZXhwIjoxNzA4Mjg1NTI0fQ.ujDw9NHpQlEJa4r9UCgF8uiRdoI9Wrg3M-Nke7et9uA
+Authorization: {{token}}
 
 ### Create User
 POST http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
     "nombre_usuario": "gregorio",
@@ -32,6 +33,7 @@ content-type: application/json
 ### Update User
 PUT http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
+Authorization: {{token}}
 
 {
     "nombre_usuario": "kevin",
@@ -46,3 +48,4 @@ content-type: application/json
 ### Delete User
 DELETE http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
+Authorization: {{token}}

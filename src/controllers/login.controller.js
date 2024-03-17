@@ -21,7 +21,7 @@ export const login = async (req, res, next) => {
     // Verificar las credenciales
     const validateCredentials = await selectByParamsConditionQuery(
       usuarioTabla,
-      ['id_usuario', 'email', 'contrasena'],
+      ['id_usuario', 'email', 'contrasena', 'tipo_usuario'],
       'email = $1',
       [email]
     )
@@ -30,9 +30,10 @@ export const login = async (req, res, next) => {
       const hashedPassword = await bcrypt.compare(contrasena, usuario.contrasena)
       if (hashedPassword) {
         const token = generateToken({ 
-          userId: usuario.id_usuario,
-          email: usuario.email 
-        })
+          user_id: usuario.id_usuario,
+          email: usuario.email,
+          user_type: usuario.tipo_usuario
+        })//email: usuario.email,
         res.status(200).json({
           access_token: token 
         })
