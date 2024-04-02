@@ -13,6 +13,9 @@ export default function DefaultLayout({children}) {
                         <li>
                             <Link to="/signup" >Signup</Link>
                         </li>
+                        <li>
+                            <Link to="/contact" >Contáctanos</Link>
+                        </li>
                     </ul>
                 </nav>
             </header>
