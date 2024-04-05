@@ -3,7 +3,8 @@
 @host = {{hostname}}:{{port}}
 @id = 6
 @basePath = api/usuarios
-@token = 
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxMjI4MjU4NSwiZXhwIjoxNzEyMjg2MTg1fQ.1n62CTEOoed11Vwm7PLFEVYeP2yuYQWFu3bJU3E7_VE
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1

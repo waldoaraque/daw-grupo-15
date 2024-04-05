@@ -37,5 +37,8 @@ app.use("/api", diccionarioRouter)
 app.use("/api", foroRouter)
 app.use("/api", temasRouter)
 
-app.listen(port)
-console.log(`Server on port ${port}`)
+const server = app.listen(port, () => {
+  console.log(`Server on port ${port}`)  
+})
+
+export default server
