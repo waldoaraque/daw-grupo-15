@@ -8,10 +8,13 @@ export default function DefaultLayout({children}) {
                 <nav>
                     <ul>
                         <li>
-                            <Link to="/" >Home</Link>
+                            <Link to="/signup" >Signup</Link>
                         </li>
                         <li>
-                            <Link to="/signup" >Signup</Link>
+                            <Link to="/dashboard" >Dashboard</Link>
+                        </li>
+                        <li>
+                            <Link to="/contact" >Contactanos</Link>
                         </li>
                     </ul>
                 </nav>

@@ -62,4 +62,3 @@ export const setUserProps = (expected, original) => {
   expected.foto_usuario = original.foto_usuario
   return expected
 }
-

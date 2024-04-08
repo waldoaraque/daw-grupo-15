@@ -4,6 +4,7 @@ import morgan from "morgan"
 import { verifyToken } from "./middleware/index.js"
 import {
   loginRouter,
+  signupRouter,
   usuariosRouter,
   diccionarioRouter,
   escuelasRouter,
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use("/api", loginRouter)
+app.use("/api", signupRouter)
 
 // Middleware Auth
 app.use(verifyToken)

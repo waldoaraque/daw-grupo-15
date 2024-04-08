@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon src/index.js --ignore frontend",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/__tests__/"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/__tests__"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +28,9 @@
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/dist/"
+      "/dist/",
+      "/frontdaw15/",
+      "/frontend/"
     ]
   }
 }

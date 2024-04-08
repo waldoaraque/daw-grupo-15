@@ -1,0 +1,15 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@basePath = api/signup
+
+### SignUp
+POST http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+
+{
+  "nombre_usuario": "usertest",
+  "apellido_usuario": "testuser",
+  "email": "estudiante12@correo.com",
+  "contrasena": "1234"
+}

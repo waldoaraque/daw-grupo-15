@@ -46,14 +46,12 @@ export const createMensaje = async (req, res, next) => {
       contenido_mensaje,
       usuario_id,
       tema_id,
-      fechapub_mensaje // cuando el evento de creación se dispare ?
     } = req.body
 
     const mensajesData = {
       contenido_mensaje,
       usuario_id,
-      tema_id,
-      fechapub_mensaje
+      tema_id
     }
 
     const newMensaje = await insertQuery(mensajesTabla, mensajesData)
@@ -72,15 +70,13 @@ export const updateTema = async (req, res, next) => {
     const {
       contenido_mensaje,
       usuario_id,
-      tema_id,
-      fechapub_mensaje
+      tema_id
     } = req.body
 
     const foroData = {
       contenido_mensaje,
       usuario_id,
-      tema_id,
-      fechapub_mensaje
+      tema_id
     }
 
     const putMensaje = await updateByIdQuery(mensajesTabla, foroData, id_mensaje)

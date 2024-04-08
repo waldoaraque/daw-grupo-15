@@ -68,3 +68,8 @@ Ahora nos salimos a la consola de nuestro ubuntu, y ejecutamos la restauración 
 psql -U postgres -h localhost -d dbenvironeducationdev -f database/backup.sql
 
 ```
+
+#### Testing Unitario con Jest
+- https://medium.com/@ben.dev.io/node-js-unit-testing-with-jest-b7042d7c2ad0
+
+- https://jestjs.io/docs/jest-object

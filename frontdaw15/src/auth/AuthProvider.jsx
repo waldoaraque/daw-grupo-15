@@ -1,21 +1,35 @@
 
+import React, { createContext, useContext, useState, useMemo } from 'react';
 
-import { useContext, createContext, useState, useEffect } from 'react'
+//const [isAuthenticated, setIsAuthenticated] = useState(false); // Inicializar como falso
 
-const AuthContext = createContext({
-    isAuthenticated: false,
-})
+const AuthContext = createContext();
 
-export function AuthProvider({children}) {
+export function AuthProvider({ children }) {
+    const [token, setToken_] = useState(localStorage.getItem('token'))
+    const setToken = (newToken) => {
+        setToken_(newToken);
+    };
+    console.log(token)
 
-    const [isAuthenticated, setIsAuthenticated] = useState(true  )
+    // Memoized value of the authentication context
+    const contextValue = useMemo(() => ({
+        token,
+        setToken,
+    }), [token]);
+
+    // const handleAuth = async (email, contrasena) => {
+    //   const tokenSession = localStorage.getItem('token')
+    //   console.log(tokenSession)
+    // };
 
     return (
-        <AuthContext.Provider value={{isAuthenticated}}>
-            {children}
-        </AuthContext.Provider>
-
-    )
+      <AuthContext.Provider value={{ contextValue }}>
+        {children}
+      </AuthContext.Provider>
+    );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext)
+};

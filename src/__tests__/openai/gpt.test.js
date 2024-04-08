@@ -1,4 +1,7 @@
+import { generateWordOnOpenAI } from '../../openai/gpt.js'
 
-test('Tests OpenAI Modulo', async () => {
-  
+describe('generateWordOnOpenAI', () => {
+  test('genera una palabra correctamente', async () => {
+    
+  })
 })

@@ -1,0 +1,47 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@id = 6
+@basePath = api/foro
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxMjMzMjA0NiwiZXhwIjoxNzEyMzM1NjQ2fQ.L_-ZkRpO7DypCpVETGtCGFNgjuEFqLOTRjjkw_XYh5Y
+
+### List Foros
+GET http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+### Get Foro by Id
+GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+### Create Foro
+POST http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "titulo_foro": "Foro Preguntas y Respuestas",
+    "descripcion_foro": "Foro para plantear preguntas y respuestas sobre la aplicación",
+}
+
+
+### Update Foro
+PUT http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}
+
+{
+    "nombre_usuario": "kevin",
+    "apellido_usuario": "alvarez",
+    "email": "estudiante2@correo.com",
+    "contrasena": "123456",
+    "tipo_usuario": "estudiante",
+    "escuela_id": 1,
+    "foto_usuario": ""
+}
+
+### Delete Foro
+DELETE http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
+content-type: application/json
+Authorization: {{token}}

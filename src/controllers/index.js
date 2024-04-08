@@ -1,5 +1,5 @@
 import { login } from './login.controller.js'
-
+import { signup } from './signup.controller.js'
 import { 
   getUsuarios,
   getUsuarioById, 
@@ -39,6 +39,7 @@ import {
 
 export {
   login,
+  signup,
   getUsuarios,
   getUsuarioById,
   createUsuario,

@@ -46,16 +46,14 @@ export const createTema = async (req, res, next) => {
       titulo_tema,
       usuario_id,
       foro_id,
-      descripcion_tema,
-      fechapub_tema // cuando el evento de creación se dispare ?
+      descripcion_tema
     } = req.body
 
     const temasData = {
       titulo_tema,
       usuario_id,
       foro_id,
-      descripcion_tema,
-      fechapub_tema
+      descripcion_tema
     }
 
     const newTema = await insertQuery(temasTabla, temasData)
@@ -75,16 +73,14 @@ export const updateTema = async (req, res, next) => {
       titulo_tema,
       usuario_id,
       foro_id,
-      descripcion_tema,
-      fechapub_tema
+      descripcion_tema
     } = req.body
 
     const foroData = {
       titulo_tema,
       usuario_id,
       foro_id,
-      descripcion_tema,
-      fechapub_tema
+      descripcion_tema
     }
 
     const putTema = await updateByIdQuery(temasTabla, foroData, id_tema)

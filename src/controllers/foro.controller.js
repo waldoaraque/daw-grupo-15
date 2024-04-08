@@ -45,15 +45,13 @@ export const createForo = async (req, res, next) => {
     const {
       titulo_foro,
       usuario_id,
-      descripcion_foro,
-      fechapub_foro // cuando el evento de creación se dispare ?
+      descripcion_foro
     } = req.body
 
     const foroData = {
       titulo_foro,
       usuario_id,
-      descripcion_foro,
-      fechapub_foro
+      descripcion_foro
     }
 
     const newForo = await insertQuery(foroTabla, foroData)
@@ -72,15 +70,13 @@ export const updateForo = async (req, res, next) => {
     const {
       titulo_foro,
       usuario_id,
-      descripcion_foro,
-      fechapub_foro
+      descripcion_foro
     } = req.body
 
     const foroData = {
       titulo_foro,
       usuario_id,
-      descripcion_foro,
-      fechapub_foro
+      descripcion_foro
     }
 
     const putForo = await updateByIdQuery(foroTabla, foroData, id_foro)

@@ -4,15 +4,15 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Signup from './routes/signup.jsx'
 import Login from './routes/Login.jsx'
-import Dashboard from './routes/Dashboard.jsx'
+import Contact from './routes/Contact.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import { AuthProvider } from './auth/AuthProvider.jsx'
-
+import Dashboard from './routes/Dashboard.jsx'
 import './index.css'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />
+      },
+      {
+        path: "/contact",
+        element: <Contact />
       },
     ],
   },
