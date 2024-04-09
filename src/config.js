@@ -6,5 +6,6 @@ export const db = {
   database: process.env.DB_DATABASE,
 }
 
-export const port = process.env.SERVER_PORT
+export const apiHost = process.env.APISERVER_HOST
+export const apiPort = process.env.APISERVER_PORT
 export const secretjwt = process.env.SECRET_JWT

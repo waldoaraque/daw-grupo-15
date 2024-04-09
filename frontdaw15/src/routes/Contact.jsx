@@ -1,9 +1,14 @@
 import DefaultLayout from "../layout/DefaultLayout";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../auth/AuthProvider";
 
 export default function Contact () {
     const {register, formState:{errors}, handleSubmit} = useForm();
-    
+    // const { user } = useAuth()
+
+    // if(!user) {
+    //     return <Navigate to="/login" />
+    // }
 
     function insertar (data) {
         // Aquí se enviará los datos al backend

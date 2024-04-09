@@ -1,25 +1,27 @@
 import { Children } from "react";
-import { Link } from "react-router-dom";
+import headerInLogin from "../components/headerInLogin";
+import { useAuth } from "../auth/AuthProvider";
+import headerInSession from "../components/headerInSession";
 
 export default function DefaultLayout({children}) {
+    const { user, logout } = useAuth()
+    let headerState = false
+
+    if(!user) {
+        headerState = true
+    }
+
+    const handleLogout = () => {
+        logout(); // Llamar a la función de cierre de sesión al hacer clic en el botón
+    }
+
     return(
         <>
-            <header>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/signup" >Signup</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard" >Dashboard</Link>
-                        </li>
-                        <li>
-                            <Link to="/contact" >Contactanos</Link>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
-
+        
+            { headerState 
+                ? headerInLogin() 
+                : headerInSession() 
+            }
             <main>
                 {children}
             </main>

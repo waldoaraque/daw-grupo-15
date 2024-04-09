@@ -1,8 +1,9 @@
 import DefaultLayout from "../layout/DefaultLayout"
 import { useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
+import { signupService } from "../services/signup.service"
 
 export default function Signup() {
     const [name, setName] = useState("")
@@ -10,33 +11,19 @@ export default function Signup() {
     const [email, setEmail] = useState("")
     const [contrasena, setContrasena] = useState("")
     const { handleSubmit, register } = useForm();
-    const {token} = useAuth();
-    const navigate = useNavigate()
 
-    async function singup(data) {
-        const API_HOST = 'http://localhost';
-        const API_PORT = '4000';
+    async function signup(data) {
         try {
-          console.log(data.name, data.apellido, data.email, data.contrasena);
-          const res = await fetch(`${API_HOST}:${API_PORT}/api/signup`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({"nombre_usuario": data.name, "apellido_usuario": data.apellido, "email": data.email, "contrasena": data.contrasena }),
-          });
-          if (res.ok) {
-            const data = await res.json();
-            const accessToken = data.access_token;
-            localStorage.setItem('token', accessToken);
-            navigate('/dashboard')
-          } else {
-            console.error('Signup Fallido');
-          }
+          const status = await signupService({ "email": data.email, "contrasena": data.contrasena })
+          //setUser(user)
+          //setEmail('')
+          //setContrasena('')
+          //navigate('/dashboard')
         } catch (error) {
-          console.error('Error al realizar la solicitud:', error);
+          
         }
-    }
+        
+      }
 
     return (
         <DefaultLayout>

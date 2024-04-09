@@ -7,8 +7,11 @@ import Login from './routes/Login.jsx'
 import Contact from './routes/Contact.jsx'
 import ProtectedRoute from './routes/ProtectedRoute.jsx'
 import { AuthProvider } from './auth/AuthProvider.jsx'
-import Dashboard from './routes/Dashboard.jsx'
+import Home from './routes/Home.jsx'
+import Diccionario from './routes/Diccionario.jsx'
+import Foro from './routes/Foro.jsx'
 import './index.css'
+import Logout from './routes/Logout.jsx'
 
 const router = createBrowserRouter([
   {
@@ -20,17 +23,33 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path: "/contact",
+    element: <Contact />
+  },
+  {
     path: "/",
     element: <ProtectedRoute />,
     children: [
       {
-        path: "/dashboard",
-        element: <Dashboard />
+        path: "/home",
+        element: <Home />
+      },
+      {
+        path: "/diccionario",
+        element: <Diccionario />
+      },
+      {
+        path: "/foro",
+        element: <Foro />
       },
       {
         path: "/contact",
         element: <Contact />
       },
+      {
+        path: "/logout",
+        element: <Logout />
+      }
     ],
   },
 ])
