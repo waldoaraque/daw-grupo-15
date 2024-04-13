@@ -12,22 +12,22 @@ export default function Signup() {
     const [contrasena, setContrasena] = useState("")
     const { handleSubmit, register } = useForm();
 
-    async function signup(data) {
+    async function handleSignup(data) {
         try {
-          const status = await signupService({ "email": data.email, "contrasena": data.contrasena })
+            const status = await signupService({ "email": data.email, "contrasena": data.contrasena })
           //setUser(user)
           //setEmail('')
           //setContrasena('')
           //navigate('/dashboard')
         } catch (error) {
-          
+
         }
-        
-      }
+
+    }
 
     return (
         <DefaultLayout>
-            <form className="form" onSubmit={handleSubmit(singup)}>
+            <form className="form" onSubmit={handleSubmit(handleSignup)}>
                 <h1>Signup</h1>
 
                 {/* <label>Name</label> */}

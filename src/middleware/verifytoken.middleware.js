@@ -2,11 +2,11 @@ import jwt from "jsonwebtoken"
 import { secretjwt } from "../config.js"
 
 export const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization']
-
-  if (!token) {
+  if (!req.headers.authorization) {
     return res.status(401).json({ message: 'Token no proporcionado' })
   }
+
+  const token = req.headers.authorization.split(' ')[1]
 
   jwt.verify(token, secretjwt, (error, decoded) => {
     if (error) {

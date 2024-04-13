@@ -86,19 +86,19 @@ export const getWordsByCategory = async (req, res, next) => {
   try {
     const { id } = req.params
 
-    const usuarioData = await selectByParamsConditionQuery(
+    const palabraByLetter = await selectByParamsConditionQuery(
       dicTabla, 
       ['categoria', 'palabra', 'definicion'],
       'palabra = $1 OR categoria = $1',
       [searchPattern]
     )
-    if (usuarioData.length === 0)
+    if (palabraByLetter.length === 0)
       return res
               .status(404)
-              .json({ message: "User not found" })
+              .json({ message: "Word not found" })
     res
       .status(200)
-      .json(usuarioData[0])
+      .json(palabraByLetter[0])
   } catch (error) {
     next(error)
   }

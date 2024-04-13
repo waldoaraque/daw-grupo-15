@@ -9,16 +9,16 @@
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 ### Get User by Id
 GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 ### Create User
 POST http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "nombre_usuario": "gregorio",
@@ -34,7 +34,7 @@ Authorization: {{token}}
 ### Update User
 PUT http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "nombre_usuario": "kevin",
@@ -49,4 +49,4 @@ Authorization: {{token}}
 ### Delete User
 DELETE http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}

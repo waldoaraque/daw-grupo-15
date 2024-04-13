@@ -9,16 +9,16 @@
 ### List Foros
 GET http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 ### Get Foro by Id
 GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 ### Create Foro
 POST http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "titulo_foro": "Foro Preguntas y Respuestas",
@@ -29,7 +29,7 @@ Authorization: {{token}}
 ### Update Foro
 PUT http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 {
     "nombre_usuario": "kevin",
@@ -44,4 +44,4 @@ Authorization: {{token}}
 ### Delete Foro
 DELETE http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}

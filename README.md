@@ -69,6 +69,25 @@ psql -U postgres -h localhost -d dbenvironeducationdev -f database/backup.sql
 
 ```
 
+### Instalación de dependencias (en local)
+
+(Primero asegurarse de tener las versiones de node y npm de los prerequisitos)
+
+Para el Apiserver:
+```shell
+npm install
+```
+
+Para el frontend:
+```shell
+cd frontdaw15/ && npm install
+```
+
+(Además es posible que sea necesario para el front instalar las dependencias de jest para los unit test)
+npm install --save-dev @testing-library/react @testing-library/jest-dom
+
+npm install --save-dev babel-jest @babel/core @babel/preset-env @babel/preset-react
+
 #### Testing Unitario con Jest
 - https://medium.com/@ben.dev.io/node-js-unit-testing-with-jest-b7042d7c2ad0
 

@@ -9,9 +9,9 @@
 ### Get Words
 GET http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
 
 ### Get Word
 GET http://{{host}}/{{basePath}}/{{palabra}} HTTP/1.1
 content-type: application/json
-Authorization: {{token}}
+Authorization: Bearer {{token}}
