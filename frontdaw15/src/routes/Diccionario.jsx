@@ -1,15 +1,26 @@
 import DefaultLayout from "../layout/DefaultLayout";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
+import Modal from "../components/modal";
 import { useState } from "react";
 import { diccionarioWordService } from "../services/diccionario.service";
 
 export default function Diccionario() {
     const { user } = useAuth()
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('')
+    //const [results, setResults] = useState(null)
     const [searchResult, setSearchResult] = useState(null); // Estado para almacenar el resultado de la búsqueda
 
     const {token} = user
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    }
+    
+    const closeModal = () => {
+        setIsModalOpen(false);
+    }
 
     const alphabet = Array.from(Array(26), (_, i) => String.fromCharCode(65 + i))
 
@@ -34,6 +45,8 @@ export default function Diccionario() {
           // Realizar la búsqueda utilizando el servicio del API backend
             const result = await diccionarioWordService(searchTerm, { token })
             setSearchResult(result)
+            setIsModalOpen(true)
+
         } catch (error) {
             console.error('Error al buscar la palabra:', error);
         }
@@ -56,12 +69,6 @@ export default function Diccionario() {
                         onChange={handleSearchChange}
                     />
                     <button onClick={handleSearchClick}>Buscar</button>
-                    {searchResult && (
-                        <div>
-                        <h2>Resultado:</h2>
-                        <p>{searchResult}</p>
-                        </div>
-                    )}
                 </div>
                 <div className="button-container">
                     {alphabet.map(letter => (
@@ -70,6 +77,19 @@ export default function Diccionario() {
                     </button>
                     ))}
                 </div>
+
+                <Modal isOpen={isModalOpen} onClose={closeModal}>
+                    
+                    { searchResult ? (
+                        <div>
+                            <h1>{searchResult.palabra.toUpperCase()}</h1>
+                            <p>{searchResult.definicion}</p>
+                        </div>
+                    ) : (
+                        <p>No hay resultados disponibles</p>
+                    )}
+                    
+                </Modal>
                 
             </div>
         </DefaultLayout>

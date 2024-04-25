@@ -17,9 +17,11 @@ export default function Login() {
     try {
       const user = await loginService({ "email": data.email, "contrasena": data.contrasena })
       setUser(user)
+      window.localStorage.setItem(
+        'userSession', JSON.stringify(user)
+      )
       setEmail('')
       setContrasena('')
-      //navigate('/dashboard')
     } catch (error) {
       
     }
