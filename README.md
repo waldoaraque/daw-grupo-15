@@ -73,14 +73,29 @@ psql -U postgres -h localhost -d dbenvironeducationdev -f database/backup.sql
 
 (Primero asegurarse de tener las versiones de node y npm de los prerequisitos)
 
-Para el Apiserver:
+#### Para el Apiserver:
+Instalamos dependencias de package json
 ```shell
 npm install
 ```
 
-Para el frontend:
+Para iniciar el apiserver requerimos las variables de entornos del env.sh
+```shell
+source env.sh
+```
+
+Para arrancar:
+```shell
+npm start
+```
+
+#### Para el frontend
 ```shell
 cd frontdaw15/ && npm install
+```
+
+```shell
+npm run dev
 ```
 
 (Además es posible que sea necesario para el front instalar las dependencias de jest para los unit test)
