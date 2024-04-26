@@ -33,8 +33,7 @@ import {
 } from './temas.controller.js'
 
 import { 
-  generateWord,
-  getWordsByCategory
+  generateWord
 } from './diccionario.controller.js'
 
 export {
@@ -60,6 +59,5 @@ export {
   createTema,
   updateTema,
   deleteTema,
-  generateWord,
-  getWordsByCategory
+  generateWord
 }

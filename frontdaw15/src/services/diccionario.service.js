@@ -25,3 +25,28 @@ export const diccionarioWordService = async (palabra, { token })  => {
   }
 
 }
+
+export const diccionarioCategoryService = async (category, { token })  => { 
+  let bearerToken = setToken(token)
+  const apiUrl = `http://${apiHost}:${apiPort}/api/palabras/${category}`
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': bearerToken
+      }
+    })
+    if (res.ok) {
+      const words = await res.json()
+      return words
+    } else {
+      console.error('Error en respuesta' + res.status + res.json())
+      return
+    }
+  } catch (error) {
+    console.error('Error al realizar la solicitud:', error)
+    return
+  }
+
+}

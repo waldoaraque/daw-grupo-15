@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 import Modal from "../components/modal";
 import { useState } from "react";
-import { diccionarioWordService } from "../services/diccionario.service";
+import { diccionarioCategoryService, diccionarioWordService } from "../services/diccionario.service";
 
 export default function Diccionario() {
     const { user } = useAuth()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState(null)
     //const [results, setResults] = useState(null)
-    const [searchResult, setSearchResult] = useState(null); // Estado para almacenar el resultado de la búsqueda
+    const [searchResult, setSearchResult] = useState(null) // Estado para almacenar el resultado de la búsqueda
 
     const {token} = user
 
@@ -34,7 +34,17 @@ export default function Diccionario() {
 
     const handleClick = async (letter) => {
         // Aquí puedes realizar alguna acción en función de la letra seleccionada
-        console.log(`Letra seleccionada: ${letter}`);
+        console.log(`Letra seleccionada: ${letter}`)
+        try {
+            // Realizar la búsqueda utilizando el servicio del API backend
+            const results = await diccionarioCategoryService(letter, { token })
+            console.log(results)
+            setSearchResult(results)
+            setIsModalOpen(true)
+            //console.log(results)
+        } catch (error) {
+            console.error('Error al buscar la palabra:', error);
+        }
         //const dicc = await diccionarioWordService(letter)
 
 
@@ -79,14 +89,22 @@ export default function Diccionario() {
                 </div>
 
                 <Modal isOpen={isModalOpen} onClose={closeModal}>
-                    
-                    { searchResult ? (
+                    {searchResult && !Array.isArray(searchResult) && (
                         <div>
                             <h1>{searchResult.palabra.toUpperCase()}</h1>
                             <p>{searchResult.definicion}</p>
                         </div>
-                    ) : (
-                        <p>No hay resultados disponibles</p>
+                    )}
+
+                    {searchResult && Array.isArray(searchResult) && searchResult.length > 1 && (
+                        <div>
+                            {searchResult.map((item, index) => (
+                                <div key={index}>
+                                    <h1>{item.palabra.toUpperCase()}</h1>
+                                    <p>{item.definicion}</p>
+                                </div>
+                            ))}
+                        </div>
                     )}
                     
                 </Modal>
