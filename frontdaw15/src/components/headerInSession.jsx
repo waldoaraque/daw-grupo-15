@@ -1,29 +1,30 @@
 import { Link } from "react-router-dom";
 
 export default function headerInSession() {
-
-
-
-
-  
   return(
     <header>
       <nav>
         <ul>
           <li>
-            <Link to="/home" >Home</Link>
+            <Link to="/home" >HOME</Link>
           </li>
           <li>
-            <Link to="/diccionario" >Diccionario</Link>
+            <Link to="/temario" >TEMARIO</Link>
           </li>
           <li>
-            <Link to="/foro" >Foro</Link>
+            <Link to="/diccionario" >ECO DICCIONARIO</Link>
           </li>
           <li>
-            <Link to="/contact" >Contacto</Link>
+            <Link to="/ranking" >RANKING</Link>
           </li>
           <li>
-            <Link to="/logout" >Cerrar Sesión</Link>
+            <Link to="/foro" >FORO</Link>
+          </li>
+          <li>
+            <Link to="/contact" >CONTACTO</Link>
+          </li>
+          <li>
+            <Link to="/logout" >CERRAR SESIÓN</Link>
           </li>
         </ul>
       </nav>

@@ -1,0 +1,25 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+    background-image: url(../assets/web-background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgb(197, 188, 176);
+  }
+  
+  /* .dashboard {
+    width: 500px;
+    margin: auto;
+  } */
+  
+  .errorMessage {
+    background-color: #f2dede;
+    color: #a94442;
+    padding: 10px;
+  }

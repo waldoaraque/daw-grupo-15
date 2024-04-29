@@ -1,6 +1,9 @@
+import './styles/index.css'
+import './styles/Nav.css'
+import './styles/Login.css'
+import './styles/Diccionario.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Signup from './routes/Signup.jsx'
 import Login from './routes/Login.jsx'
@@ -10,7 +13,6 @@ import { AuthProvider } from './auth/AuthProvider.jsx'
 import Home from './routes/Home.jsx'
 import Diccionario from './routes/Diccionario.jsx'
 import Foro from './routes/Foro.jsx'
-import './index.css'
 import Logout from './routes/Logout.jsx'
 
 const router = createBrowserRouter([

@@ -6,16 +6,13 @@ export default function headerInLogin() {
       <nav>
         <ul>
           <li>
-            <Link to="/login" >Login</Link>
+            <Link to="/login" >LOGIN</Link>
           </li>
           <li>
-            <Link to="/signup" >Signup</Link>
+            <Link to="/signup" >SIGNUP</Link>
           </li>
-          {/* <li>
-              <Link to="/dashboard" >Dashboard</Link>
-          </li> */}
           <li>
-            <Link to="/contact" >Contactanos</Link>
+            <Link to="/contact" >CONTACTO</Link>
           </li>
         </ul>
       </nav>

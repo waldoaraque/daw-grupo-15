@@ -1,0 +1,28 @@
+nav {
+  background: rgb(126,217,87);
+  background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);
+  margin-top: 340px;
+  display: ruby-text;
+}
+
+nav ul {
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+}
+
+nav ul :hover{
+  background-color: rgb(73, 167, 33);
+}
+
+a {
+  align-items: center;
+  color: whitesmoke;
+  padding: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-decoration: none;
+}
