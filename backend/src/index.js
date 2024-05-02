@@ -11,7 +11,7 @@ import {
   foroRouter,
   temasRouter
 } from "./routes/index.js"
-import { apiPort } from "./config.js"
+import { apiHost, apiPort } from "./config.js"
 
 const app = express()
 
@@ -40,7 +40,7 @@ app.use("/api", foroRouter)
 app.use("/api", temasRouter)
 
 const server = app.listen(apiPort, () => {
-  console.log(`API Server on port ${apiPort}`)
+  console.log(`API Server running in: ${apiHost}:${apiPort}`)
 })
 
 export default server

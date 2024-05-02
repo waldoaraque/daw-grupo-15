@@ -1,2 +1,2 @@
-export const apiHost = import.meta.env.APISERVER_HOST || 'localhost'
-export const apiPort = import.meta.env.APISERVER_PORT || 4000
+export const apiHost = import.meta.env.APISERVER_HOST
+export const apiPort = import.meta.env.APISERVER_PORT
