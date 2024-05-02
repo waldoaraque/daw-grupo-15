@@ -1,0 +1,37 @@
+# Usa la imagen base de Node.js con soporte para Vite
+FROM node:20
+
+# Establece el directorio de trabajo en /app
+WORKDIR /frontapp
+
+# Copia los archivos package.json (si existe)
+COPY package.json ./
+
+# Instala las dependencias del proyecto
+RUN npm install
+
+# Copia el resto de los archivos del proyecto
+COPY . .
+
+RUN npm run build
+
+EXPOSE 5000
+
+# Construye el proyecto React para producción
+CMD ["npm", "run", "preview"]
+
+# # Etapa de producción
+# FROM nginx:alpine
+
+# # Copia la configuración de nginx
+# COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY nginx/default.conf /etc/nginx/sites-enabled/default.conf
+
+# # Copia los archivos estáticos del front-end desde la etapa de compilación
+# COPY --from=builder /frontapp/dist /usr/share/nginx/html
+
+# # Expone el puerto 80
+# EXPOSE 80
+
+# # Comando por defecto para iniciar el servidor de Nginx
+# CMD ["nginx", "-g", "daemon off;"]

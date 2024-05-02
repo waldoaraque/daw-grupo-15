@@ -1,8 +1,14 @@
-.vscode
-package-lock.json
-node_modules
-src/config.js
+# root exclusions
 dataModel.html
-env.sh
+docker-compose.yaml
+.vscode
 
-frontend
+# backend exclusions
+backend/node_modules
+backend/env.sh
+backend/package-lock.json
+
+# frontend exclusions
+frontend/node_modules
+frontend/dist
+frontend/package-lock.json

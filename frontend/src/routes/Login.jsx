@@ -34,16 +34,16 @@ export default function Login() {
       <form className="form" onSubmit={handleSubmit(login)}>
         <h1>Login</h1>
         {/* <label>Email</label> */}
-        <input class="input-login-text" type="text" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" value={email} {...register('email')} onChange={(e) => setEmail(e.target.value)}/>
+        <input className="input-login-text" type="text" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" value={email} {...register('email')} onChange={(e) => setEmail(e.target.value)}/>
 
         {/* <label>Password</label> */}
         {/* <input type="password" placeholder="Contraseña" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}"  value={contrasena} {...register('contrasena')} onChange={(e) => setContrasena(e.target.value)}/> */}
-        <input class="input-login-password" type="password" placeholder="Contraseña"  value={contrasena} {...register('contrasena')} onChange={(e) => setContrasena(e.target.value)}/>
+        <input className="input-login-password" type="password" placeholder="Contraseña"  value={contrasena} {...register('contrasena')} onChange={(e) => setContrasena(e.target.value)}/>
         {/*
             bug con tecla Enter
         */}
 
-        <button class="button" >Login</button>
+        <button className="button" >Login</button>
       </form>
     </DefaultLayout>
   )

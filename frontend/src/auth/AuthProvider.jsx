@@ -7,14 +7,17 @@ export const AuthProvider = ({ children }) => {
 
   useEffect( () => {
     const loggedUserJSON = window.localStorage.getItem('userSession')
-    if (loggedUserJSON) {
+    if (loggedUserJSON && loggedUserJSON != undefined) {
         setUser(JSON.parse(loggedUserJSON))
     }
+    // REVISAR EN CASO DE QUE SEA DIFERNTE ??
+    // window.localStorage.removeItem('userSession')
+    // setUser(null)
   }, [])
 
   const logout = () => {
     window.localStorage.removeItem('userSession')
-    setUser(null);
+    setUser(null)
      // Limpiar el estado del usuario al cerrar sesión
   }
 

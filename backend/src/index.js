@@ -40,7 +40,7 @@ app.use("/api", foroRouter)
 app.use("/api", temasRouter)
 
 const server = app.listen(apiPort, () => {
-  console.log(`Server on port ${apiPort}`)  
+  console.log(`API Server on port ${apiPort}`)
 })
 
 export default server

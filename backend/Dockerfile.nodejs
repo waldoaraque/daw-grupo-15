@@ -1,0 +1,20 @@
+# Usa la imagen base de Node.js
+FROM node:20
+
+# Establece el directorio de trabajo en /apiserver
+WORKDIR /apiserver
+
+# Copia los archivos package.json y package-lock.json (si existe)
+COPY package*.json ./
+
+# Instala las dependencias del proyecto
+RUN npm install
+
+# Copia el resto de los archivos del proyecto
+COPY . .
+
+# Expone el puerto 4000
+EXPOSE 4000
+
+# Comando por defecto para iniciar el servidor
+CMD ["npm", "start"]
