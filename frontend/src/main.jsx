@@ -1,4 +1,5 @@
 import './styles/index.css'
+import './styles/Header.css'
 import './styles/Nav.css'
 import './styles/Login.css'
 import './styles/Diccionario.css'

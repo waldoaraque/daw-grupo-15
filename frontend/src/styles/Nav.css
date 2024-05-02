@@ -1,18 +1,20 @@
 nav {
   background: rgb(126,217,87);
   background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);
-  margin-top: 340px;
+  border-top: 2px solid black;
+  border-bottom: 2px solid rgb(84, 84, 84); 
   display: ruby-text;
 }
 
 nav ul {
   margin: 0;
+  list-style: none;
 }
 
 nav ul li {
   display: inline-block;
   padding: 10px;
-  text-align: center;
+  text-align: center; 
 }
 
 nav ul :hover{

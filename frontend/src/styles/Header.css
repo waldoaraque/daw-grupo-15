@@ -1,0 +1,52 @@
+*{
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+/* Estilos para dispositivos móviles */
+@media only screen and (max-width: 600px) {
+  .header-container {
+    flex-direction: column; /* Cambia la dirección del flexbox a columna para dispositivos móviles */
+    text-align: center; /* Centra el texto horizontalmente */
+  }
+
+  .image1-container, .logo-container {
+    width: 100%; /* Ajusta el ancho de los contenedores al 100% */
+    padding: 0 20px; /* Añade espaciado a los lados de los contenedores */
+    margin-bottom: 20px; /* Añade espaciado entre los contenedores */
+  }
+
+  .image1, .logo {
+    max-width: 100%; /* Ajusta el ancho máximo de las imágenes al 100% */
+  }
+}
+  
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);
+}
+
+.image1-container {
+  
+  padding-right: 20px;
+}
+
+.image1 {
+
+}
+
+.logo-container {
+ max-width: 100%;
+}
+
+.logo {
+    max-width: 100%;
+}
+
+.logo-message {
+    margin-top: 10px;
+}

@@ -12,3 +12,6 @@ backend/package-lock.json
 frontend/node_modules
 frontend/dist
 frontend/package-lock.json
+
+# nginx
+nginx
