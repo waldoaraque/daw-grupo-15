@@ -33,6 +33,7 @@ export default function Login() {
     <DefaultLayout>
       <form className="form" onSubmit={handleSubmit(login)}>
         <h1>Login</h1>
+        <div>Esto es producción!</div>
         {/* <label>Email</label> */}
         <input className="input-login-text" type="text" placeholder="Email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" value={email} {...register('email')} onChange={(e) => setEmail(e.target.value)}/>
 
