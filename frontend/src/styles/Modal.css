@@ -19,7 +19,7 @@
   padding: 20px;
   width: 80%;
   max-width: 500px;
-  /* max-height: 5000px; Elimina esta línea o ajusta el valor según sea necesario */
+  max-height: 500px;
   padding-bottom: 100px;
   overflow: scroll; /* Agrega esta línea para permitir el desplazamiento vertical */
 }
