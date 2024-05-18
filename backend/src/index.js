@@ -9,7 +9,8 @@ import {
   diccionarioRouter,
   escuelasRouter,
   foroRouter,
-  temasRouter
+  temasRouter,
+  mensajesRouter
 } from "./routes/index.js"
 import { apiHost, apiPort } from "./config.js"
 
@@ -38,6 +39,7 @@ app.use("/api", escuelasRouter)
 app.use("/api", diccionarioRouter)
 app.use("/api", foroRouter)
 app.use("/api", temasRouter)
+app.use("/api", mensajesRouter)
 
 const server = app.listen(apiPort, () => {
   console.log(`API Server running in: ${apiHost}:${apiPort}`)

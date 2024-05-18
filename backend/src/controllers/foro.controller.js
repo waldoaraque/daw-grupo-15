@@ -42,15 +42,20 @@ export const getForoById = async (req, res, next) => {
 
 export const createForo = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
+    if (userRol !== 'educador' || userRol !== 'director') {
+      return res
+                .status(401)
+                .json({ message: "Unauthorized" })
+    }
     const {
       titulo_foro,
-      usuario_id,
       descripcion_foro
     } = req.body
 
     const foroData = {
       titulo_foro,
-      usuario_id,
+      userId,
       descripcion_foro
     }
 
@@ -65,17 +70,22 @@ export const createForo = async (req, res, next) => {
 
 export const updateForo = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
+    if (userRol !== 'educador' || userRol !== 'director') {
+      return res
+                .status(401)
+                .json({ message: "Unauthorized" })
+    }
     const { id } = req.params
     let id_foro = parseInt(id)
     const {
       titulo_foro,
-      usuario_id,
       descripcion_foro
     } = req.body
 
     const foroData = {
       titulo_foro,
-      usuario_id,
+      userId,
       descripcion_foro
     }
 
@@ -91,6 +101,12 @@ export const updateForo = async (req, res, next) => {
 
 export const deleteForo = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
+    if (userRol !== 'educador' || userRol !== 'director') {
+      return res
+                .status(401)
+                .json({ message: "Unauthorized" })
+    }
     const { id } = req.params
 
     const delForo = await deleteByIdQuery(foroTabla, id)

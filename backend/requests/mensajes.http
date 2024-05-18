@@ -1,0 +1,11 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+@id = 2
+@basePath = api/mensajes
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxNjAzOTU4OCwiZXhwIjoxNzE2MDQzMTg4fQ.mOkDo_qOl6u-6QJXBDSu3U7mojSNg3Npq0O8WHqM8eM
+### List Mensajes
+GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{token}}

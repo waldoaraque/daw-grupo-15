@@ -12,7 +12,16 @@ GET http://{{host}}/api HTTP/1.1
 content-type: application/json
 
 
-### LogIn
+### LogIn Rol Director
+POST http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+
+{
+    "email": "test@correo.com",
+    "contrasena": "Gracia1122-"
+}
+
+### LogIn Rol Educador
 POST http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
 
@@ -21,3 +30,11 @@ content-type: application/json
     "contrasena": "1234"
 }
 
+### LogIn Rol Estudiante
+POST http://{{host}}/{{basePath}} HTTP/1.1
+content-type: application/json
+
+{
+    "email": "",
+    "contrasena": ""
+}

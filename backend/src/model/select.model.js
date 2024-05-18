@@ -24,3 +24,14 @@ export const selectByParamsConditionQuery = async (tableName, columns, condition
   const result = await pool.query(query, values)
   return result.rows;
 }
+
+export const selectByJoinConditionQuery = async (tableName, joinTable, columns, join_condition, where_condition, values) => {
+  const query = `
+    SELECT ${columns.join(', ')}
+    FROM ${tableName}
+    JOIN ${joinTable}
+    ON ${join_condition}
+    WHERE ${where_condition};`
+  const result = await pool.query(query, values)
+  return result.rows;
+}

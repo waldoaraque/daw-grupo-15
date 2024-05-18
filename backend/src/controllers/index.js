@@ -36,6 +36,10 @@ import {
   generateWord
 } from './diccionario.controller.js'
 
+import {
+  getMensajesByTema
+} from './mensajes.controller.js'
+
 export {
   login,
   signup,
@@ -59,5 +63,6 @@ export {
   createTema,
   updateTema,
   deleteTema,
-  generateWord
+  generateWord,
+  getMensajesByTema
 }

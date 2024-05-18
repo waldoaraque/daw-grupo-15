@@ -14,6 +14,8 @@ import { AuthProvider } from './auth/AuthProvider.jsx'
 import Home from './routes/Home.jsx'
 import Diccionario from './routes/Diccionario.jsx'
 import Foro from './routes/Foro.jsx'
+import Temas from './routes/Temas.jsx'
+import Temario from './routes/Temario.jsx'
 import Logout from './routes/Logout.jsx'
 
 const router = createBrowserRouter([
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
       {
         path: "/foro",
         element: <Foro />
+      },
+      {
+        path: "/temas/:id",
+        element: <Temas />
+      },
+      {
+        path: "/temario",
+        element: <Temario />
       },
       {
         path: "/contact",

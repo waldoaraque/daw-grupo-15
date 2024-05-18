@@ -52,8 +52,8 @@ const setDataOnDB = async (usuario_id, categoria, palabra, definicion) => {
 
 export const generateWord = async (req, res, next) => {
   try {
-    const userId = req.userId
-    //console.log(userId)
+    const { userId, userRol } = req
+
     let palabra = {}
     let resultAI = {}
     const { search } = req.params
@@ -82,10 +82,9 @@ export const generateWord = async (req, res, next) => {
       }
     } else if (identifySearchPattern(pattern) && pattern.length == 1) {
       palabra = await getDataFromDB(pattern.toUpperCase())
-      //console.log(palabra)
       res.status(200).json(palabra)
     }
-    // mandar error 
+    // mandar error
   } catch (error) {
     next(error)
   }

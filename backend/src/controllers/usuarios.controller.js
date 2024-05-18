@@ -11,6 +11,12 @@ const usuarioTabla = 'usuarios'
 
 export const getUsuarios = async (req, res, next) => {
   try {
+    const {userId, userRol } = req
+    if (userRol !== 'director') {
+      res
+      .status(401)
+      .json({ message: "Unauthorized" })
+    }
     const usuarios = await selectAllQuery(usuarioTabla)
     if (usuarios.length === 0)
       return res
@@ -43,6 +49,12 @@ export const getUsuarioById = async (req, res, next) => {
 
 export const createUsuario = async (req, res, next) => {
   try {
+    const {userId, userRol } = req
+    if (userRol !== 'director') {
+      return res
+      .status(401)
+      .json({ message: "Unauthorized" })
+    }
     const {
       nombre_usuario,
       apellido_usuario,
@@ -112,8 +124,13 @@ export const updateUsuario = async (req, res, next) => {
 
 export const deleteUsuario = async (req, res, next) => {
   try {
+    const {userId, userRol } = req
+    if (userRol !== 'director') {
+      res
+      .status(401)
+      .json({ message: "Unauthorized" })
+    }
     const { id } = req.params
-
     const delUsuario = await deleteByIdQuery(usuarioTabla, id)
     res
       .status(204)

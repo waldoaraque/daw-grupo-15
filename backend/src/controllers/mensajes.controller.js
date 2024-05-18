@@ -1,6 +1,8 @@
 import {
   selectAllQuery,
   selectByIdQuery,
+  selectByParamsConditionQuery,
+  selectByJoinConditionQuery,
   insertQuery,
   updateByIdQuery,
   deleteByIdQuery
@@ -97,6 +99,29 @@ export const deleteMensaje = async (req, res, next) => {
     res
       .status(204)
       .json(delMensaje)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getMensajesByTema = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const mensajesData = await selectByJoinConditionQuery(
+      mensajesTabla,
+      'usuarios',
+      ['contenido_mensaje', 'usuario_id', 'fechapub_mensaje', 'nombre_usuario'],
+      'usuario_id = id_usuario',
+      'tema_id = $1',
+      [id]
+    )
+    if (mensajesData.length === 0)
+      return res
+              .status(404)
+              .json({ message: "Mensajes not found" })
+    res
+      .status(200)
+      .json(mensajesData)
   } catch (error) {
     next(error)
   }

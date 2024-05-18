@@ -5,6 +5,7 @@ import loginRouter from "./login.routes.js"
 import foroRouter from "./foro.routes.js"
 import temasRouter from "./temas.routes.js"
 import signupRouter from "./singup.routes.js"
+import mensajesRouter from './mensajes.routes.js'
 
 export {
     loginRouter,
@@ -13,5 +14,6 @@ export {
     diccionarioRouter,
     escuelasRouter,
     foroRouter,
-    temasRouter
+    temasRouter,
+    mensajesRouter
 }

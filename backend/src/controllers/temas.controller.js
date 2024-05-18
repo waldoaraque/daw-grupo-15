@@ -42,16 +42,16 @@ export const getTemaById = async (req, res, next) => {
 
 export const createTema = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
     const {
       titulo_tema,
-      usuario_id,
       foro_id,
       descripcion_tema
     } = req.body
 
     const temasData = {
       titulo_tema,
-      usuario_id,
+      userId,
       foro_id,
       descripcion_tema
     }
@@ -67,18 +67,18 @@ export const createTema = async (req, res, next) => {
 
 export const updateTema = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
     const { id } = req.params
     let id_tema = parseInt(id)
     const {
       titulo_tema,
-      usuario_id,
       foro_id,
       descripcion_tema
     } = req.body
 
     const foroData = {
       titulo_tema,
-      usuario_id,
+      userId,
       foro_id,
       descripcion_tema
     }
@@ -95,8 +95,16 @@ export const updateTema = async (req, res, next) => {
 
 export const deleteTema = async (req, res, next) => {
   try {
+    const { userId, userRol } = req
+    
     const { id } = req.params
+    const temasData = await selectByIdQuery(temasTabla, id)
 
+    if (userId !== temasData[0].usuario_id) {
+      return res
+              .status(401)
+              .json({ message: "Unauthorized" })
+    }
     const delTema = await deleteByIdQuery(temasTabla, id)
     res
       .status(204)

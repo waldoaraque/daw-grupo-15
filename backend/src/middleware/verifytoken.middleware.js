@@ -13,6 +13,7 @@ export const verifyToken = (req, res, next) => {
       return res.status(401).json({ message: 'Token inválido' })
     }
     req.userId = decoded.user_id // Agregar el ID de usuario al objeto de solicitud
+    req.userRol = decoded.user_type // Agregar el Rol de usuario al objeto de solicitud
     next()
   })
 }

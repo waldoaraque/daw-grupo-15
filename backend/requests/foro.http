@@ -4,7 +4,7 @@
 @id = 6
 @basePath = api/foro
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxMjMzMjA0NiwiZXhwIjoxNzEyMzM1NjQ2fQ.L_-ZkRpO7DypCpVETGtCGFNgjuEFqLOTRjjkw_XYh5Y
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxNjAzMDE3MywiZXhwIjoxNzE2MDMzNzczfQ.OQQMTP1TQVUCC7PS9aAMZ6NjJh874-ZP703qM6v6Cfc
 
 ### List Foros
 GET http://{{host}}/{{basePath}} HTTP/1.1
@@ -32,13 +32,7 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre_usuario": "kevin",
-    "apellido_usuario": "alvarez",
-    "email": "estudiante2@correo.com",
-    "contrasena": "123456",
-    "tipo_usuario": "estudiante",
-    "escuela_id": 1,
-    "foto_usuario": ""
+
 }
 
 ### Delete Foro

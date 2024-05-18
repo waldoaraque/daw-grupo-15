@@ -4,12 +4,13 @@
 @id = 6
 @basePath = api/usuarios
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxMjI4MjU4NSwiZXhwIjoxNzEyMjg2MTg1fQ.1n62CTEOoed11Vwm7PLFEVYeP2yuYQWFu3bJU3E7_VE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxNTkzNTg0MywiZXhwIjoxNzE1OTM5NDQzfQ.QsdsnWZNCo8WrkKUDW5YIGMUnyNPJt1uAhJk1wuyuQI
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
 Authorization: Bearer {{token}}
+
 ### Get User by Id
 GET http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
 content-type: application/json
@@ -21,15 +22,14 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre_usuario": "gregorio",
-    "apellido_usuario": "araque",
-    "email": "educador@correo.com",
-    "contrasena": "1234",
-    "tipo_usuario": "educador",
+    "nombre_usuario": "elena",
+    "apellido_usuario": "rincon",
+    "email": "director3@correo.com",
+    "contrasena": "Gracia1122-",
+    "tipo_usuario": "director",
     "escuela_id": 1,
     "foto_usuario": null
 }
-
 
 ### Update User
 PUT http://{{host}}/{{basePath}}/{{id}} HTTP/1.1
@@ -39,9 +39,9 @@ Authorization: Bearer {{token}}
 {
     "nombre_usuario": "kevin",
     "apellido_usuario": "alvarez",
-    "email": "estudiante2@correo.com",
-    "contrasena": "123456",
-    "tipo_usuario": "estudiante",
+    "email": "director@correo.com",
+    "contrasena": "Gracia1122-",
+    "tipo_usuario": "director",
     "escuela_id": 1,
     "foto_usuario": ""
 }

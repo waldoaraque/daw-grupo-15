@@ -14,4 +14,3 @@ try {
 } catch (error) {
   console.error(`Error connection on DB, ${error}`)
 }
-
