@@ -21,51 +21,51 @@ import Logout from './routes/Logout.jsx'
 
 const router = createBrowserRouter([
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: '/signup',
     element: <Signup />,
   },
   {
-    path: "/contact",
+    path: '/contact',
     element: <Contact />
   },
   {
-    path: "/",
+    path: '/',
     element: <ProtectedRoute />,
     children: [
       {
-        path: "/home",
+        path: '/home',
         element: <Home />
       },
       {
-        path: "/diccionario",
+        path: '/diccionario',
         element: <Diccionario />
       },
       {
-        path: "/foro",
+        path: '/foro',
         element: <Foro />
       },
       {
-        path: "/temas/:id",
+        path: '/temas/:id',
         element: <Temas />
       },
       {
-        path: "/temario",
+        path: '/temario',
         element: <Temario />
       },
       {
-        path: "/ranking",
+        path: '/ranking',
         element: <Ranking />
       },
       {
-        path: "/contact",
+        path: '/contact',
         element: <Contact />
       },
       {
-        path: "/logout",
+        path: '/logout',
         element: <Logout />
       }
     ],

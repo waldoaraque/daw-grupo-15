@@ -4,6 +4,6 @@ import { useAuth } from '../auth/AuthProvider'
 export default function ProtectedRoute() {
     const { user } = useAuth()
 
-    return user ? <Outlet /> : <Navigate to="/login" />
+    return user ? <Outlet /> : <Navigate to='/login' />
 };
 

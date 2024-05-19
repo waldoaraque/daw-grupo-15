@@ -1,30 +1,29 @@
-import DefaultLayout from "../layout/DefaultLayout";
-import { Link } from "react-router-dom";
+import DefaultLayout from '../layout/DefaultLayout'
 import { useEffect, useState } from 'react'
-import { useAuth } from "../auth/AuthProvider";
-import { listPtsUsers } from "../services/ranking.service";
+import { useAuth } from '../auth/AuthProvider'
+import { listPtsUsers } from '../services/ranking.service'
 
 export default function Ranking() {
     const { user, token } = useAuth()
     const [listUsersDataPts, setListUsersDataPts] = useState(null)
     
     if(!user) {
-        return <Navigate to="/login" />
+        return <Navigate to='/login' />
     }
 
     useEffect(() => {
       if (!user) {
-          return; // No hacer nada si no hay usuario
+          return // No hacer nada si no hay usuario
       }
       const listPts = async () => {
           try {
-              const result = await listPtsUsers({ token });
-              setListUsersDataPts(result);
+              const result = await listPtsUsers({ token })
+              setListUsersDataPts(result)
           } catch (error) {
-              console.error('Error al extraer puntuaciones:', error);
+              console.error('Error al extraer puntuaciones:', error)
           }
-      };
-      listPts();
+      }
+      listPts()
   }, [user, token])
 
     return (

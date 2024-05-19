@@ -1,11 +1,10 @@
-import DefaultLayout from "../layout/DefaultLayout";
-import { Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthProvider";
-import Modal from "../components/modal";
+import DefaultLayout from '../layout/DefaultLayout'
+import { useAuth } from '../auth/AuthProvider'
+import Modal from '../components/modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { useState } from "react";
-import { diccionarioCategoryService, diccionarioWordService } from "../services/diccionario.service";
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
+import { diccionarioCategoryService, diccionarioWordService } from '../services/diccionario.service'
 
 export default function Diccionario() {
     const { user, token } = useAuth()
@@ -14,17 +13,17 @@ export default function Diccionario() {
     const [searchResult, setSearchResult] = useState(null) // Estado para almacenar la búsqueda por letra
 
     const openModal = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(true)
     }
     
     const closeModal = () => {
-        setIsModalOpen(false);
+        setIsModalOpen(false)
     }
 
     const alphabet = Array.from(Array(26), (_, i) => String.fromCharCode(65 + i))
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
+        setSearchTerm(e.target.value)
     }
 
     const getWordByLetter = async (letter) => {
@@ -37,7 +36,7 @@ export default function Diccionario() {
             setSearchResult(results)
             setIsModalOpen(true)
         } catch (error) {
-            console.error('Error al buscar la palabra:', error);
+            console.error('Error al buscar la palabra:', error)
         }
     }
 
@@ -49,23 +48,23 @@ export default function Diccionario() {
             setIsModalOpen(true)
 
         } catch (error) {
-            console.error('Error al buscar la palabra:', error);
+            console.error('Error al buscar la palabra:', error)
         }
     }
 
     if(!user) {
-        return <Navigate to="/login" />
+        return <Navigate to='/login' />
     }
 
     return (
         <DefaultLayout>
-            <div className="diccionario">
+            <div className='diccionario'>
                 <div className='search-container'>
                     <h1>ECO DICCIONARIO</h1>
                         <input
                             className='search-input'
-                            type="text"
-                            placeholder="Buscar palabra..."
+                            type='text'
+                            placeholder='Buscar palabra...'
                             value={searchTerm}
                             onChange={handleSearchChange}
                         />
@@ -75,11 +74,11 @@ export default function Diccionario() {
                         ><FontAwesomeIcon icon={faSearch} />
                         </button>
                 </div>
-                <div className="button-container">
+                <div className='button-container'>
                     {alphabet.map(letter => (
                     <button
                         key={letter} 
-                        className="button-list" 
+                        className='button-list' 
                         onClick={() => getWordByLetter(letter)}
                     >
                         {letter}

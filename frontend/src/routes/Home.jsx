@@ -1,12 +1,12 @@
-import DefaultLayout from "../layout/DefaultLayout";
-import { Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthProvider";
+import DefaultLayout from '../layout/DefaultLayout'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../auth/AuthProvider'
 
 export default function Home() {
     const { user } = useAuth()
 
     if(!user) {
-        return <Navigate to="/login" />
+        return <Navigate to='/login' />
     }
 
     return (
@@ -35,7 +35,7 @@ export default function Home() {
                 <section>
                     <h2>Únete a nosotros ahora:</h2>
                     <p>Regístrate para obtener acceso exclusivo.</p>
-                    <button><Link to="/contact">Contáctanos</Link></button>
+                    <button><Link to='/contact'>Contáctanos</Link></button>
                 </section>
                 <footer>
                     <p>&copy; 2024 EcoWise. Todos los derechos reservados. </p>

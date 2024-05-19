@@ -6,7 +6,7 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
-  const [token, setToken] = useState(window.localStorage.getItem('userSession') || "")
+  const [token, setToken] = useState(window.localStorage.getItem('userSession') || '')
 
   useEffect(() => {
     const storedSession = window.localStorage.getItem('userSession')
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
     try {
-      const authentication = await loginService({ "email": data.username, "contrasena": data.password })
+      const authentication = await loginService({ 'email': data.username, 'contrasena': data.password })
       setUser(authentication.username)
       setToken(authentication.token)
       window.localStorage.setItem(
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setUser(null)
-    setToken("")
+    setToken('')
     window.localStorage.removeItem('userSession')
   }
 

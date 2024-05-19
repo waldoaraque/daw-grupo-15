@@ -1,9 +1,9 @@
-//import Mensaje from "./mensaje"
-import { useParams, useLocation } from "react-router-dom"
+//import Mensaje from './mensaje'
+import { useParams, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useAuth } from "../auth/AuthProvider"
-import DefaultLayout from "../layout/DefaultLayout"
-import { listMensajesService } from "../services/mensajes.service"
+import { useAuth } from '../auth/AuthProvider'
+import DefaultLayout from '../layout/DefaultLayout'
+import { listMensajesService } from '../services/mensajes.service'
 
 export default function Temas () {
     const { id } = useParams()
@@ -15,22 +15,22 @@ export default function Temas () {
     
     useEffect(() => {
         if (!user) {
-            return; // No hacer nada si no hay usuario
+            return // No hacer nada si no hay usuario
         }
         const listMensajes = async () => {
             try {
                 // Realizar la búsqueda utilizando el servicio del API backend
-                const result = await listMensajesService(id, { token });
-                setListMensajes(result);
+                const result = await listMensajesService(id, { token })
+                setListMensajes(result)
             } catch (error) {
-                console.error('Error al extraer foros:', error);
+                console.error('Error al extraer foros:', error)
             }
-        };
-        listMensajes();
+        }
+        listMensajes()
     }, [user, token, id])
 
     if(!user) {
-        return <Navigate to="/login" />
+        return <Navigate to='/login' />
     }
 
     return (
@@ -56,5 +56,5 @@ export default function Temas () {
                 )}
             </div>
         </DefaultLayout>
-    );   
+    )   
 }

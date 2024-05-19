@@ -1,13 +1,12 @@
-import { useEffect } from 'react';
-import { useAuth } from '../auth/AuthProvider';
-import { Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useAuth } from '../auth/AuthProvider'
 
 export default function Logout() {
   const { logOut } = useAuth()
 
   useEffect(() => {
     logOut()
-  }, [logOut]);
+  }, [logOut])
   
   return null
 }
