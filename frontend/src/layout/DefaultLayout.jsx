@@ -4,7 +4,7 @@ import { useAuth } from "../auth/AuthProvider";
 import headerInSession from "../components/headerInSession";
 
 export default function DefaultLayout({children}) {
-    const { user, logout } = useAuth()
+    const { user, logOut } = useAuth()
     let headerState = false
 
     if(!user) {
@@ -12,7 +12,7 @@ export default function DefaultLayout({children}) {
     }
 
     const handleLogout = () => {
-        logout(); // Llamar a la función de cierre de sesión al hacer clic en el botón
+        logOut() // Llamar a la función de cierre de sesión al hacer clic en el botón
     }
 
     return(

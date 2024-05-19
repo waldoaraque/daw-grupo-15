@@ -5,12 +5,8 @@ import { useAuth } from "../auth/AuthProvider"
 import { listTemasService } from "../services/temas.service"
 
 export default function Foro() {
-    const { user } = useAuth()
-    
+    const { token, user } = useAuth()
     const [listTema, setListTema] = useState(null)
-
-    const {token} = user
-
     useEffect(() => {
         if (!user) {
             return; // No hacer nada si no hay usuario
@@ -47,23 +43,12 @@ export default function Foro() {
                                 >
                                     <p>{tema.titulo_tema}</p>
                                 </Link>
-                                
-                               {/* <p>{foro.description_foro}</p>*/}
-                                {/* Aquí puedes añadir más detalles del foro */}
-
-                                {/* 
-                                <Temas temas={tema} />
-                                
-                                */}
                             </div>
                         ))}
                     </div>
                 ) : (
                     <p>Cargando foros...</p>
                 )}
-                {/*  Temas <Tema /> */}
-                    {/* Mensajes dentro del tema <Mensaje /> */}
-
             </div>
         </DefaultLayout>
     )

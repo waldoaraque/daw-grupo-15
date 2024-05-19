@@ -3,11 +3,11 @@ import { useAuth } from '../auth/AuthProvider';
 import { Navigate } from 'react-router-dom'
 
 export default function Logout() {
-  const { logout } = useAuth()
+  const { logOut } = useAuth()
 
   useEffect(() => {
-    logout()
-  }, [logout]);
+    logOut()
+  }, [logOut]);
   
   return null
 }

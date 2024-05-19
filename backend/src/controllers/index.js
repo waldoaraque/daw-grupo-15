@@ -40,6 +40,10 @@ import {
   getMensajesByTema
 } from './mensajes.controller.js'
 
+import {
+  getPuntuacionesData
+} from './ranking.controller.js'
+
 export {
   login,
   signup,
@@ -64,5 +68,6 @@ export {
   updateTema,
   deleteTema,
   generateWord,
-  getMensajesByTema
+  getMensajesByTema,
+  getPuntuacionesData
 }

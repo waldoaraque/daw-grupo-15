@@ -8,12 +8,10 @@ import { useState } from "react";
 import { diccionarioCategoryService, diccionarioWordService } from "../services/diccionario.service";
 
 export default function Diccionario() {
-    const { user } = useAuth()
+    const { user, token } = useAuth()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState(null) // Estado para almacenar la búsqueda por palabra
     const [searchResult, setSearchResult] = useState(null) // Estado para almacenar la búsqueda por letra
-
-    const {token} = user
 
     const openModal = () => {
         setIsModalOpen(true);

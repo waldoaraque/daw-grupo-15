@@ -35,3 +35,14 @@ export const selectByJoinConditionQuery = async (tableName, joinTable, columns, 
   const result = await pool.query(query, values)
   return result.rows;
 }
+
+export const selectByJoinConditionOrder = async (tableName, joinTable, columns, join_condition, order_condition) => {
+  const query = `
+    SELECT ${columns.join(', ')}
+    FROM ${tableName}
+    JOIN ${joinTable}
+    ON ${join_condition}
+    ORDER BY ${order_condition} DESC;`
+  const result = await pool.query(query)
+  return result.rows;
+}

@@ -10,10 +10,9 @@ export default function Temas () {
     const location = useLocation()
     const [tema, setTema] = useState(location.state?.tema || null)
 
-    const { user } = useAuth()
+    const { user, token } = useAuth()
     const [listMensajes, setListMensajes] = useState(null)
-    const {token} = user
-
+    
     useEffect(() => {
         if (!user) {
             return; // No hacer nada si no hay usuario

@@ -31,6 +31,24 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
+-- Name: actualizar_total_pts(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.actualizar_total_pts() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    -- Calcular la nueva suma de puntos y actualizar el campo total_pts
+    NEW.total_pts := COALESCE(NEW.quests_pts, 0) + COALESCE(NEW.mensajes_pts, 0) + COALESCE(NEW.diccionario_pts, 0);
+
+    RETURN NEW;
+END;
+$$;
+
+
+ALTER FUNCTION public.actualizar_total_pts() OWNER TO postgres;
+
+--
 -- Name: calcular_fecha_publicacion_foro(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -93,6 +111,67 @@ $$;
 
 
 ALTER FUNCTION public.calcular_fecha_publicacion_temas() OWNER TO postgres;
+
+--
+-- Name: validar_e_insertar_puntuacion(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.validar_e_insertar_puntuacion() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    usuario_tipo TEXT;
+    puntos INTEGER;
+BEGIN
+    -- Obtener el tipo de usuario desde la tabla 'usuarios'
+    SELECT tipo_usuario INTO usuario_tipo
+    FROM usuarios
+    WHERE id_usuario = NEW.usuario_id;
+
+    -- Verificar si el usuario es de tipo 'estudiante'
+    IF usuario_tipo = 'estudiante' THEN
+        -- Asignar puntos según la tabla de origen
+        IF TG_TABLE_NAME = 'quests' THEN
+            puntos := 10;
+            -- Actualizar en la tabla puntuaciones
+	        UPDATE puntuaciones SET quests_pts = quests_pts + puntos
+	        WHERE usuario_id = NEW.usuario_id;
+            -- Si no se encontró una fila para actualizar, insertar una nueva
+            IF NOT FOUND THEN
+                INSERT INTO puntuaciones (usuario_id, quests_pts)
+                VALUES (NEW.usuario_id, puntos);
+            END IF;
+        ELSIF TG_TABLE_NAME = 'diccionarioeco' THEN
+            puntos := 5;
+            -- Actualizar en la tabla puntuaciones
+	        UPDATE puntuaciones SET diccionario_pts = diccionario_pts + puntos
+	        WHERE usuario_id = NEW.usuario_id;
+            -- Si no se encontró una fila para actualizar, insertar una nueva
+            IF NOT FOUND THEN
+                INSERT INTO puntuaciones (usuario_id, diccionario_pts)
+                VALUES (NEW.usuario_id, puntos);
+            END IF;
+        ELSIF TG_TABLE_NAME = 'mensajes' THEN
+            puntos := 2;
+            -- Actualizar en la tabla puntuaciones
+	        UPDATE puntuaciones SET mensajes_pts = mensajes_pts + puntos
+	        WHERE usuario_id = NEW.usuario_id;
+            -- Si no se encontró una fila para actualizar, insertar una nueva
+            IF NOT FOUND THEN
+                INSERT INTO puntuaciones (usuario_id, mensajes_pts)
+                VALUES (NEW.usuario_id, puntos);
+            END IF;
+        ELSE
+            puntos := 0; -- Valor por defecto
+        END IF;
+    END IF;
+
+    RETURN NEW; -- Continuar con la inserción original
+END;
+$$;
+
+
+ALTER FUNCTION public.validar_e_insertar_puntuacion() OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -490,12 +569,11 @@ ALTER SEQUENCE public.modulos_id_modulo_seq OWNED BY public.modulos.id_modulo;
 --
 
 CREATE TABLE public.puntuaciones (
-    puntuaciontotal double precision NOT NULL,
     usuario_id integer NOT NULL,
-    quest_realizados double precision,
-    interacciones_tema double precision,
-    interacciones_mensaje double precision,
-    puntuaciones_foro double precision
+    quests_pts integer,
+    diccionario_pts integer,
+    mensajes_pts integer,
+    total_pts integer
 );
 
 
@@ -1087,6 +1165,21 @@ Hola mucho gusto, me encantaría hacer una propuesta de un proyecto interesante 
 Hola genial, me encantan los planes en la naturaleza! :)	2	31	2024-04-05 18:19:26.199019	2
 Evento en la naturaleza??? me encanta, me apunto!	2	23	2024-04-05 18:20:11.153641	4
 Hola gente, me gustaría apuntarme al plan de la naturaleza, me mola!!	2	15	2024-04-05 18:20:47.152317	5
+mensaje del director! Atención chicos, pueden tener en cuenta los siguientes aspectos	2	60	2024-05-18 20:57:34.461261	9
+hola chicos, aquí comentando para sumar puntos!	2	53	2024-05-18 20:59:27.993545	10
+hola quería sumar más puntos xD	2	53	2024-05-18 21:13:28.422688	12
+hola quería sumar más puntos xD	2	53	2024-05-18 21:45:03.852481	17
+hola mensaje nuevo	2	60	2024-05-19 13:07:00.053265	6
+hola que tal? me gustaría saber más sobre esto!	2	60	2024-05-19 13:07:20.391758	7
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:09:34.763971	8
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:16:37.19522	11
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:26:40.900749	13
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:34:12.262781	14
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:37:17.045855	15
+hola que tal? me gustaría saber más sobre esto!	2	32	2024-05-19 13:37:50.152323	16
+hola que tal? me gustaría saber más sobre esto!	2	32	2024-05-19 13:48:37.569321	18
+hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:49:32.056488	19
+hola que tal? me gustaría saber más sobre esto!	2	53	2024-05-19 13:49:59.94162	20
 \.
 
 
@@ -1102,7 +1195,10 @@ COPY public.modulos (id_modulo, descipcion, nombre_modulo) FROM stdin;
 -- Data for Name: puntuaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.puntuaciones (puntuaciontotal, usuario_id, quest_realizados, interacciones_tema, interacciones_mensaje, puntuaciones_foro) FROM stdin;
+COPY public.puntuaciones (usuario_id, quests_pts, diccionario_pts, mensajes_pts, total_pts) FROM stdin;
+32	\N	\N	4	4
+35	\N	\N	12	12
+53	\N	\N	6	6
 \.
 
 
@@ -1167,15 +1263,18 @@ COPY public.usuarios (id_usuario, nombre_usuario, apellido_usuario, email, contr
 30	francisco	ibarra	jguevara@midominio.com	$2b$10$98C3MK1pqfQkeEf3vN9SX.sdwvhxhMrM3kaqMQaSvOCfXnJ21DrsO	estudiante	1	\N
 31	francisco	ibarra	jguevara@midominio.com	$2b$10$t66y1bmTMhE2.E8xPVl5n.suct4Q.67vP3jcWjRSTqzhZmPoDq45i	estudiante	1	\N
 32	francisco	ibarra	jguevara@midominio.com	$2b$10$L./isJzj.gdZSvT451c7leU.15ivcr6lAbacbYUZF6Zr.OolE1UWa	estudiante	1	\N
+59	kevin	alvarez	director2@correo.com	$2b$10$s1LQGN4qTID/EmwQN5wXCuMG7WOPQb4.ZcVDOtFDl1/oAf3hILROu	director	1	\N
 33	francisco	ibarra	jguevara@midominio.com	$2b$10$7aZStm8q9KQ4a2W1cwBJ5OpBaQGnB1928uDaHDy.XT2Aps0V/oMLm	estudiante	1	\N
 43	francisco	ibarra	jguevara@midominio.com	$2b$10$bsN0NAhugHxHEioSj0gqAO5Vxy7ze4k/Sdvgl996sY8NXhQcit/x2	estudiante	1	\N
 34	francisco	ibarra	jguevara@midominio.com	$2b$10$/ilO1OZyVDxv.k60rnDAhOaJuAeCmcDUDqZKWOv2KkK.7KYnxZo8q	estudiante	1	\N
 50	francisco	ibarra	jguevara@midominio.com	$2b$10$Jb45yIrh5.eBVPsKiWpsSuz7wAe.bQ./RvlTWUo4vPlLJGh61Pvse	estudiante	1	\N
 35	francisco	ibarra	jguevara@midominio.com	$2b$10$vxQ9i0TwZlCGeAWERWWle.qzSIq/rpY5a6tfhjaBRbyfTELebNYZi	estudiante	1	\N
+60	Vito	Corleone	director4@correo.com	$2b$10$YX/a9Ov0hePgfTTSu25rwuQI24TLSLEaq67pCQfwJB6qtoLOvFjYy	director	1	\N
 51	usertest	testuser	estudiante12@correo.com	$2b$10$n.cXFO0tOoT4jBz9P/RClucLfwYzRXrc9zjTm/pCFH/YqkfM9ndRO	estudiante	1	\N
 53	Pedrito	Gonzalez	pgzl@correo.com	$2b$10$4P9V0HMxFliqIxCq2tx/6O/CgC/xsFwzP2pRlqgJJYHEVTuWGNujW	estudiante	1	\N
 2	francisco	ibarra	jguevara@midominio.com	$2b$10$kOrc0SCEzDD66aJ/LGjMyulS.fzeNm0tMHUegVE6YdNHKfE7zZS5u	estudiante	1	\N
 57	Gonzalo	Perez	gperez19@correo.com	$2b$10$OqwXZVQ2FhX/W6nJ07qdNOqfxxck6Vw1g2o7v4zwvAvdAm4Jo1Qgq	estudiante	1	\N
+58	malcom	habibi	test@correo.com	$2b$10$aafZjDDKKM57SGnQmad9cuama94HRmCjnUi8MNXLS60TEsLrPkCdy	director	1	\N
 \.
 
 
@@ -1246,7 +1345,7 @@ SELECT pg_catalog.setval('public.foro_id_foro_seq', 3, true);
 -- Name: mensajes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mensajes_id_seq', 5, true);
+SELECT pg_catalog.setval('public.mensajes_id_seq', 20, true);
 
 
 --
@@ -1451,6 +1550,13 @@ ALTER TABLE ONLY public.usuarios
 
 
 --
+-- Name: puntuaciones actualizar_total_pts_insert_update; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER actualizar_total_pts_insert_update BEFORE INSERT OR UPDATE ON public.puntuaciones FOR EACH ROW EXECUTE FUNCTION public.actualizar_total_pts();
+
+
+--
 -- Name: foro trigger_fecha_publicacion_foro; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -1469,6 +1575,27 @@ CREATE TRIGGER trigger_fecha_publicacion_mensajes BEFORE INSERT ON public.mensaj
 --
 
 CREATE TRIGGER trigger_fecha_publicacion_temas BEFORE INSERT ON public.temas FOR EACH ROW EXECUTE FUNCTION public.calcular_fecha_publicacion_temas();
+
+
+--
+-- Name: diccionarioeco validar_usuario_diccionarioeco; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER validar_usuario_diccionarioeco AFTER INSERT ON public.diccionarioeco FOR EACH ROW EXECUTE FUNCTION public.validar_e_insertar_puntuacion();
+
+
+--
+-- Name: mensajes validar_usuario_mensajes; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER validar_usuario_mensajes AFTER INSERT ON public.mensajes FOR EACH ROW EXECUTE FUNCTION public.validar_e_insertar_puntuacion();
+
+
+--
+-- Name: quests validar_usuario_quests; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER validar_usuario_quests AFTER INSERT ON public.quests FOR EACH ROW EXECUTE FUNCTION public.validar_e_insertar_puntuacion();
 
 
 --
