@@ -13,10 +13,10 @@ usuariosRouter.get("/usuarios", getUsuarios)
 
 usuariosRouter.get("/usuarios/:id", getUsuarioById)
 
-usuariosRouter.post("/usuarios", createUsuario);
+usuariosRouter.post("/usuarios", createUsuario)
 
-usuariosRouter.put("/usuarios/:id", updateUsuario);
+usuariosRouter.put("/usuarios/:id", updateUsuario)
 
-usuariosRouter.delete("/usuarios/:id", deleteUsuario);
+usuariosRouter.delete("/usuarios/:id", deleteUsuario)
 
 export default usuariosRouter

@@ -1,4 +1,4 @@
-import pg from 'pg'
+import pg from "pg"
 import { db } from "../config.js"
 
 export const pool = new pg.Pool({
@@ -10,7 +10,7 @@ export const pool = new pg.Pool({
 })
 
 try {
-  pool.on('connect', () => console.log('DB connected!'))  
+  pool.on("connect", () => console.log("DB connected!"))  
 } catch (error) {
   console.error(`Error connection on DB, ${error}`)
 }

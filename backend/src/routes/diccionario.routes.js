@@ -9,6 +9,6 @@ diccionarioRouter.get("/palabras", (req, res) => {
   res.json({ message: "you are in path /api/palabras/" })
 })
 
-diccionarioRouter.get(`/palabras/:search`, generateWord)
+diccionarioRouter.get("/palabras/:search", generateWord)
 
 export default diccionarioRouter

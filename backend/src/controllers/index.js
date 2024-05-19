@@ -1,12 +1,12 @@
-import { login } from './login.controller.js'
-import { signup } from './signup.controller.js'
+import { login } from "./login.controller.js"
+import { signup } from "./signup.controller.js"
 import { 
   getUsuarios,
   getUsuarioById, 
   createUsuario,
   updateUsuario,
   deleteUsuario
-} from './usuarios.controller.js'
+} from "./usuarios.controller.js"
 
 import {
   getEscuelas,
@@ -14,7 +14,7 @@ import {
   createEscuela,
   updateEscuela,
   deleteEscuela
-} from './escuelas.controller.js'
+} from "./escuelas.controller.js"
 
 import {
   getForos,
@@ -22,7 +22,7 @@ import {
   createForo,
   updateForo,
   deleteForo
-} from './foro.controller.js'
+} from "./foro.controller.js"
 
 import {
   getTemas,
@@ -30,19 +30,19 @@ import {
   createTema,
   updateTema,
   deleteTema
-} from './temas.controller.js'
+} from "./temas.controller.js"
 
 import { 
   generateWord
-} from './diccionario.controller.js'
+} from "./diccionario.controller.js"
 
 import {
   getMensajesByTema
-} from './mensajes.controller.js'
+} from "./mensajes.controller.js"
 
 import {
   getPuntuacionesData
-} from './ranking.controller.js'
+} from "./ranking.controller.js"
 
 export {
   login,

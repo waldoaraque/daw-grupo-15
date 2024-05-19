@@ -5,6 +5,6 @@ import {
 
 const signupRouter = Router()
 
-signupRouter.post("/signup", signup);
+signupRouter.post("/signup", signup)
 
 export default signupRouter

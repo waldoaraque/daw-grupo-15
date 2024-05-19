@@ -6,7 +6,7 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const puntuacionesTabla = 'puntuaciones'
+const puntuacionesTabla = "puntuaciones"
 
 export const getPuntuaciones = async (req, res, next) => {
   try {

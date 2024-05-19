@@ -1,25 +1,18 @@
 import {
-  selectAllQuery,
-  selectByIdQuery,
-  selectByParamsConditionQuery,
-  selectByJoinConditionQuery,
   selectByJoinConditionOrder,
-  insertQuery,
-  updateByIdQuery,
-  deleteByIdQuery
 } from "../model/index.js"
 
-const puntuacionesTabla = 'puntuaciones'
+const puntuacionesTabla = "puntuaciones"
 
 export const getPuntuacionesData = async (req, res, next) => {
   try {
     //const { id } = req.params
     const puntuacionesData = await selectByJoinConditionOrder(
       `${puntuacionesTabla} p`,
-      'usuarios u',
-      ['p.*', 'u.nombre_usuario', 'u.apellido_usuario', 'u.email'],
-      'p.usuario_id = u.id_usuario',
-      'p.total_pts'
+      "usuarios u",
+      ["p.*", "u.nombre_usuario", "u.apellido_usuario", "u.email"],
+      "p.usuario_id = u.id_usuario",
+      "p.total_pts"
     )
     if (puntuacionesData.length === 0)
       return res

@@ -13,10 +13,10 @@ escuelasRouter.get("/escuelas", getEscuelas)
 
 escuelasRouter.get("/escuelas/:id", getEscuelaById)
 
-escuelasRouter.post("/escuelas", createEscuela);
+escuelasRouter.post("/escuelas", createEscuela)
 
-escuelasRouter.put("/escuelas/:id", updateEscuela);
+escuelasRouter.put("/escuelas/:id", updateEscuela)
 
-escuelasRouter.delete("/escuelas/:id", deleteEscuela);
+escuelasRouter.delete("/escuelas/:id", deleteEscuela)
 
 export default escuelasRouter

@@ -10,5 +10,5 @@ export const insertQuery = async (tableName, data) => {
     RETURNING *;`
   
   const result = await pool.query(query, values)
-  return result.rows[0];
+  return result.rows[0]
 }

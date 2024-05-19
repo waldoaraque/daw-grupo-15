@@ -7,15 +7,15 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const usuarioTabla = 'usuarios'
+const usuarioTabla = "usuarios"
 
 export const getUsuarios = async (req, res, next) => {
   try {
     const {userId, userRol } = req
-    if (userRol !== 'director') {
+    if (userRol !== "director") {
       res
-      .status(401)
-      .json({ message: "Unauthorized" })
+      .status(403)
+      .json({ message: "Forbidden" })
     }
     const usuarios = await selectAllQuery(usuarioTabla)
     if (usuarios.length === 0)
@@ -50,10 +50,10 @@ export const getUsuarioById = async (req, res, next) => {
 export const createUsuario = async (req, res, next) => {
   try {
     const {userId, userRol } = req
-    if (userRol !== 'director') {
+    if (userRol !== "director") {
       return res
-      .status(401)
-      .json({ message: "Unauthorized" })
+      .status(403)
+      .json({ message: "Forbidden" })
     }
     const {
       nombre_usuario,
@@ -125,10 +125,10 @@ export const updateUsuario = async (req, res, next) => {
 export const deleteUsuario = async (req, res, next) => {
   try {
     const {userId, userRol } = req
-    if (userRol !== 'director') {
+    if (userRol !== "director") {
       res
-      .status(401)
-      .json({ message: "Unauthorized" })
+      .status(403)
+      .json({ message: "Forbidden" })
     }
     const { id } = req.params
     const delUsuario = await deleteByIdQuery(usuarioTabla, id)

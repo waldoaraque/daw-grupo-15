@@ -8,7 +8,7 @@ import {
 const usuarioTabla = "usuarios"
 
 const generateToken = (userData) => {
-  const token = jwt.sign(userData, secretjwt, {expiresIn: '1h'})
+  const token = jwt.sign(userData, secretjwt, {expiresIn: "1h"})
   return token
 }
 
@@ -21,8 +21,8 @@ export const login = async (req, res, next) => {
     // Verificar las credenciales
     const validateCredentials = await selectByParamsConditionQuery(
       usuarioTabla,
-      ['id_usuario', 'email', 'contrasena', 'tipo_usuario'],
-      'email = $1',
+      ["id_usuario", "email", "contrasena", "tipo_usuario"],
+      "email = $1",
       [email]
     )
     if (validateCredentials.length === 1) {

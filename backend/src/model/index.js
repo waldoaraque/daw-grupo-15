@@ -1,6 +1,6 @@
 import { 
   insertQuery 
-} from './insert.model.js'
+} from "./insert.model.js"
 
 import {
   selectAllQuery,
@@ -8,15 +8,15 @@ import {
   selectByParamsConditionQuery,
   selectByJoinConditionQuery,
   selectByJoinConditionOrder
-} from './select.model.js'
+} from "./select.model.js"
 
 import {
   updateByIdQuery
-} from './update.model.js'
+} from "./update.model.js"
 
 import {
   deleteByIdQuery
-} from './delete.model.js'
+} from "./delete.model.js"
 
 export {
   selectAllQuery,

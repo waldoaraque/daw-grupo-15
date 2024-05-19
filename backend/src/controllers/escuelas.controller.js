@@ -6,7 +6,7 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const escuelaTabla = 'escuelas'
+const escuelaTabla = "escuelas"
 
 export const getEscuelas = async (req, res, next) => {
   try {

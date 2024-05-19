@@ -1,11 +1,10 @@
 import { 
   insertQuery,
-  selectByIdQuery,
   selectByParamsConditionQuery
 } from "../model/index.js"
 import { generateWordOnOpenAI } from "../openai/gpt.js"
 
-const dicTabla = 'diccionarioeco'
+const dicTabla = "diccionarioeco"
 
 const identifySearchPattern = (searchPattern) => {
   // if (/^[a-zA-Z]$/.test(searchPattern)) {
@@ -24,8 +23,8 @@ const identifySearchPattern = (searchPattern) => {
 const getDataFromDB = async (searchPattern) => {
   let resSelectpalabra = await selectByParamsConditionQuery(
     dicTabla,
-    ['categoria', 'palabra', 'definicion'],
-    'palabra = $1 OR categoria = $1',
+    ["categoria", "palabra", "definicion"],
+    "palabra = $1 OR categoria = $1",
     [searchPattern]
   )
   if (resSelectpalabra.length === 0) {

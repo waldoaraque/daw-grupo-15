@@ -6,7 +6,7 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const foroTabla = 'foro'
+const foroTabla = "foro"
 
 export const getForos = async (req, res, next) => {
   try {
@@ -43,10 +43,10 @@ export const getForoById = async (req, res, next) => {
 export const createForo = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== "educador" || userRol !== "director") {
       return res
-                .status(401)
-                .json({ message: "Unauthorized" })
+                .status(403)
+                .json({ message: "Forbidden" })
     }
     const {
       titulo_foro,
@@ -71,10 +71,10 @@ export const createForo = async (req, res, next) => {
 export const updateForo = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== "educador" || userRol !== "director") {
       return res
-                .status(401)
-                .json({ message: "Unauthorized" })
+                .status(403)
+                .json({ message: "Forbidden" })
     }
     const { id } = req.params
     let id_foro = parseInt(id)
@@ -102,10 +102,10 @@ export const updateForo = async (req, res, next) => {
 export const deleteForo = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== "educador" || userRol !== "director") {
       return res
-                .status(401)
-                .json({ message: "Unauthorized" })
+                .status(403)
+                .json({ message: "Forbidden" })
     }
     const { id } = req.params
 

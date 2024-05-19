@@ -6,7 +6,7 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const temasTabla = 'temas'
+const temasTabla = "temas"
 
 export const getTemas = async (req, res, next) => {
   try {
@@ -102,8 +102,8 @@ export const deleteTema = async (req, res, next) => {
 
     if (userId !== temasData[0].usuario_id) {
       return res
-              .status(401)
-              .json({ message: "Unauthorized" })
+              .status(403)
+              .json({ message: "Forbidden" })
     }
     const delTema = await deleteByIdQuery(temasTabla, id)
     res

@@ -13,10 +13,10 @@ temasRouter.get("/temas", getTemas)
 
 temasRouter.get("/temas/:id", getTemaById)
 
-temasRouter.post("/temas", createTema);
+temasRouter.post("/temas", createTema)
 
-temasRouter.put("/temas/:id", updateTema);
+temasRouter.put("/temas/:id", updateTema)
 
-temasRouter.delete("/temas/:id", deleteTema);
+temasRouter.delete("/temas/:id", deleteTema)
 
 export default temasRouter

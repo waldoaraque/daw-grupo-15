@@ -7,5 +7,5 @@ export const deleteByIdQuery = async (tableName, id) => {
     WHERE ${idField} = $1
     RETURNING *;`
   const result = await pool.query(query, [id])
-  return result.rows;
+  return result.rows
 }

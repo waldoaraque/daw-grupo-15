@@ -8,7 +8,7 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const mensajesTabla = 'mensajes'
+const mensajesTabla = "mensajes"
 
 export const getMensajes = async (req, res, next) => {
   try {
@@ -109,10 +109,10 @@ export const getMensajesByTema = async (req, res, next) => {
     const { id } = req.params
     const mensajesData = await selectByJoinConditionQuery(
       mensajesTabla,
-      'usuarios',
-      ['contenido_mensaje', 'usuario_id', 'fechapub_mensaje', 'nombre_usuario'],
-      'usuario_id = id_usuario',
-      'tema_id = $1',
+      "usuarios",
+      ["contenido_mensaje", "usuario_id", "fechapub_mensaje", "nombre_usuario"],
+      "usuario_id = id_usuario",
+      "tema_id = $1",
       [id]
     )
     if (mensajesData.length === 0)

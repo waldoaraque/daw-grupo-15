@@ -5,6 +5,6 @@ import {
 
 const loginRouter = Router()
 
-loginRouter.post("/login", login);
+loginRouter.post("/login", login)
 
 export default loginRouter

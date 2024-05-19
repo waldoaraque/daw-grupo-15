@@ -13,10 +13,10 @@ foroRouter.get("/foro", getForos)
 
 foroRouter.get("/foro/:id", getForoById)
 
-foroRouter.post("/foro", createForo);
+foroRouter.post("/foro", createForo)
 
-foroRouter.put("/foro/:id", updateForo);
+foroRouter.put("/foro/:id", updateForo)
 
-foroRouter.delete("/foro/:id", deleteForo);
+foroRouter.delete("/foro/:id", deleteForo)
 
 export default foroRouter
