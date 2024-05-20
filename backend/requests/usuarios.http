@@ -4,7 +4,7 @@
 @id = 6
 @basePath = api/usuarios
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvcjRAY29ycmVvLmNvbSIsInVzZXJfdHlwZSI6ImRpcmVjdG9yIiwiaWF0IjoxNzE2MDU4MTg2LCJleHAiOjE3MTYwNjE3ODZ9.7z6XFhHAa_v4FDl4W4QU4k98u60o_dScmQ2MQNqpuxg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvcjRAY29ycmVvLmNvbSIsInVzZXJfdHlwZSI6ImRpcmVjdG9yIiwiaWF0IjoxNzE2MjM3NzA3LCJleHAiOjE3MTYyNDEzMDd9.ImuW2Qf7nM93_i59JL7OtyubuUg6hsZ4VmSMJ0Hvbys
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
@@ -22,11 +22,11 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre_usuario": "Vito",
-    "apellido_usuario": "Corleone",
-    "email": "director4@correo.com",
+    "nombre_usuario": "Xokas",
+    "apellido_usuario": "Sorolla",
+    "email": "estudiante2000@correo.com",
     "contrasena": "Gracia1122",
-    "tipo_usuario": "director",
+    "tipo_usuario": "estudiante",
     "escuela_id": 1,
     "foto_usuario": null
 }
