@@ -21,7 +21,7 @@ export default function Login() {
       type: 'text',
       name: 'username',
       className: 'input-login-text',
-      //pattern: '',//'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
+      //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
       placeholder: 'Email',
       required: true 
     },
@@ -29,7 +29,7 @@ export default function Login() {
       type: 'password',
       name: 'password',
       className: 'input-login-password',
-      //pattern: '',//'(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
+      //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
       placeholder: 'Contraseña',
       required: true 
     }
@@ -41,12 +41,14 @@ export default function Login() {
 
   return (
     <DefaultLayout>
+       <div className="center-container">
       <DynamicForm 
         formTitle='LogIn'
         fields={loginFields}
         onSubmit={handleSubmitLogin}
         buttonText='LogIn'
       />
+      </div>
     </DefaultLayout>
   )
 }

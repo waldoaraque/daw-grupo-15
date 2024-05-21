@@ -6,7 +6,12 @@ import Modal from '../components/modal'
 import DynamicForm from '../components/form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { listTemasService } from '../services/temas.service'
+import { 
+    createTemaService,
+    deleteTemaService,
+    listTemasService,
+    updateTemaService 
+} from '../services/temas.service'
 
 export default function Foro() {
     const { token, user, tokenPayload } = useAuth()
@@ -14,6 +19,7 @@ export default function Foro() {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [listTema, setListTema] = useState(null)
+    const [selectedTema, setSelectedTema] = useState(null)
 
     useEffect(() => {
         if (!user && !tokenPayload) {
@@ -33,50 +39,62 @@ export default function Foro() {
         listTemas()
     }, [user, token])
 
-    const openCreateModal = () => {
-        setIsCreateModalOpen(true)
-    }
+    const openCreateModal = () => setIsCreateModalOpen(true)
 
-    const closeCreateModal = () => {
-        setIsCreateModalOpen(false)
-    }
+    const closeCreateModal = () => setIsCreateModalOpen(false)
 
-    const openEditModal = () => {
+    const openEditModal = (tema) => {
+        setSelectedTema(tema)
         setIsEditModalOpen(true)
     }
 
-    const closeEditModal = () => {
-        setIsEditModalOpen(false)
-    }
+    const closeEditModal = () => setIsEditModalOpen(false)
 
-    const openDeleteModal = () => {
+    const openDeleteModal = (tema) => {
+        setSelectedTema(tema)
         setIsDeleteModalOpen(true)
     }
 
-    const closeDeleteModal = () => {
-        setIsDeleteModalOpen(false)
-    }
+    const closeDeleteModal = () => setIsDeleteModalOpen(false)
 
-    const handleSubmitTema = (input) => {
+    const handleSubmitTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
           // servicio para crear temas
+          let result = await createTemaService({'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema}, { token })
+          setListTema(prevTemas => [result, ...prevTemas])
+          resetForm()
+          closeCreateModal()
+          alert('tu tema ha sido publicado!')
           return
         }
         alert('No se están enviando los datos, por favor verifique los datos.')
     }
 
-    const handleUpdateTema = (input) => {
+    const handleUpdateTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
-          // servicio para actualizar temas
-          return
+            // servicio para actualizar temas
+            let result = await updateTemaService(selectedTema.id_tema, {'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema}, { token })
+            setListTema(prevTemas => prevTemas.map(tema =>
+                tema.id_tema === selectedTema.id_tema ? result : tema
+            ))
+            resetForm()
+            closeEditModal()
+            alert('tu tema ha sido publicado!')
+            return
         }
         alert('No se están enviando los datos, por favor verifique los datos.')
     }
 
-    const handleDeleteTema = (input) => {
-        if (input.tituloTema !== '') {
-          // servicio para actualizar temas
-          return
+    const handleDeleteTema = async (input, resetForm) => {
+        if (input.tituloTema === 'Eliminar') {
+            // servicio para eliminar temas
+            console.log(selectedTema)
+            let result = await deleteTemaService(selectedTema.id_tema, { token })
+            setListTema(result)
+            resetForm()
+            closeDeleteModal()
+            alert('tu tema ha sido eliminado!')
+            return
         }
         alert('No se están enviando los datos, por favor verifique los datos.')
     }
@@ -86,7 +104,7 @@ export default function Foro() {
             type: 'text',
             name: 'tituloTema',
             className: '',
-            //pattern: '',//'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
+            //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
             placeholder: 'Título del tema',
             required: true 
         },
@@ -94,7 +112,7 @@ export default function Foro() {
             type: 'text',
             name: 'descripcionTema',
             className: '',
-            //pattern: '',//'(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
+            //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
             placeholder: 'Descripción del tema',
             required: true 
         }
@@ -105,8 +123,8 @@ export default function Foro() {
             type: 'text',
             name: 'tituloTema',
             className: '',
-            //pattern: '',//'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
-            placeholder: 'Título del tema',
+            pattern: 'Eliminar',
+            placeholder: 'Eliminar',
             required: true 
         }
     ]
@@ -152,7 +170,7 @@ export default function Foro() {
                                         </Link>
                                         { (tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
                                             <>
-                                                <FontAwesomeIcon icon={faPen} onClick={openEditModal} />
+                                                <FontAwesomeIcon icon={faPen} onClick={() => openEditModal(tema)} />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
                                                     <div>
                                                     <DynamicForm
@@ -167,12 +185,12 @@ export default function Foro() {
                                         )}
                                         { (tokenPayload.user_type === 'director') && (
                                             <>
-                                                <FontAwesomeIcon icon={faTrash} onClick={openDeleteModal}/>
+                                                <FontAwesomeIcon icon={faTrash} onClick={() => openDeleteModal(tema)}/>
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
                                                     <div>
                                                     <DynamicForm
                                                         formTitle='Se va a eliminar el tema seleccionado'
-                                                        formSubtitle='Por favor escribir el título del Tema para confirmar'
+                                                        formSubtitle='Por favor escribir `Eliminar` para confirmar'
                                                         fields={foroDeleteFields}
                                                         onSubmit={handleDeleteTema}
                                                         buttonText='Eliminar Tema'

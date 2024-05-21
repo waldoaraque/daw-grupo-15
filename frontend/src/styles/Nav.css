@@ -1,30 +1,128 @@
+
+.header-container {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.image1-container, .logo-container {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  padding-bottom: 30px;
+}
+
+.image1, .logo {
+  height: 100px;
+  margin-right: 10px;
+  justify-content: center; 
+}
+
+.logo-message {
+  position: absolute;
+  color: #000;
+  margin-top: 95px;
+  display: flex;
+  font-size: 18px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 nav {
   background: rgb(126,217,87);
   background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);
   border-top: 2px solid black;
-  border-bottom: 2px solid rgb(84, 84, 84); 
-  display: ruby-text;
+  border-bottom: 2px solid rgb(84, 84, 84);
+  justify-content: center;
 }
 
-nav ul {
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+.hamburger .line {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: all 0.3s;
+}
+
+.nav-menu {
   margin: 0;
   list-style: none;
+  display: flex;
+  padding: 0;
+  justify-content: center; 
 }
 
-nav ul li {
+.nav-menu li {
   display: inline-block;
   padding: 10px;
-  text-align: center; 
+  text-align: center;
 }
 
-nav ul :hover{
+.nav-menu li:hover {
   background-color: rgb(73, 167, 33);
 }
 
-a {
+.nav-menu a {
   align-items: center;
   color: whitesmoke;
   padding: 10px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+
+  .image1, .logo {
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    /* top: 12rem; */
+    left: 0;
+    background-color: #333;
+    width: calc(100% - 40px); /* Ajuste el ancho para dejar espacios laterales */
+    padding: 0 20px; /* Añadir padding en los lados */
+    position: absolute;
+  }
+
+  .nav-menu li {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .nav-menu a {
+    padding: 10px 0;
+  }
+
+  .nav-menu.active {
+    display: flex;
+    z-index: 9;
+  }
+}
+
+.hamburger.open .line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }

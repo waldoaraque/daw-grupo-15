@@ -16,6 +16,7 @@ export default function Contact () {
     
     return (
         <DefaultLayout>
+           
             <form className='form' onSubmit={handleSubmit(insertar)}>
                 <h1>Contáctanos</h1>
                 <label>Name</label>
@@ -70,6 +71,7 @@ export default function Contact () {
                 }    
                 <button>Enviar</button>
             </form>
+       
         </DefaultLayout>
     )
 }

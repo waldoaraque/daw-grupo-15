@@ -4,13 +4,6 @@ const DynamicForm = ({ fields, onSubmit, buttonText, formTitle, formSubtitle }) 
     const [input, setInput] = useState(
         fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
     )
-    // const handleInput = (e) => {
-    //     const { name, value } = e.target
-    //     setInput({
-    //         ...input,
-    //         [name]: value
-    //     })
-    // }
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -23,6 +16,7 @@ const DynamicForm = ({ fields, onSubmit, buttonText, formTitle, formSubtitle }) 
     }
 
     return (
+      <div className="center-container">
         <form onSubmit={handleSubmit}>
             { formTitle || formSubtitle ? (
               <>
@@ -33,7 +27,7 @@ const DynamicForm = ({ fields, onSubmit, buttonText, formTitle, formSubtitle }) 
               <></>
             )}
             {fields.map((field, index) => (
-                <div key={field}>
+                <div key={field.id_field || index}>
                     {field.type === 'textarea' ? (
                         <textarea
                             name={field.name}
@@ -57,6 +51,7 @@ const DynamicForm = ({ fields, onSubmit, buttonText, formTitle, formSubtitle }) 
             ))}
             <button type="submit">{buttonText}</button>
         </form>
+      </div>
     )
 }
 

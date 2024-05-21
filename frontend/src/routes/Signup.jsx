@@ -27,6 +27,7 @@ export default function Signup() {
     return (
         <DefaultLayout>
             <form className='form' onSubmit={handleSubmit(handleSignup)}>
+                
                 <h1>Signup</h1>
 
                 {/* <label>Name</label> */}

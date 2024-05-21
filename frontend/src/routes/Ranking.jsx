@@ -1,3 +1,4 @@
+import '../styles/Ranking.css'
 import DefaultLayout from '../layout/DefaultLayout'
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
@@ -28,26 +29,25 @@ export default function Ranking() {
 
     return (
         <DefaultLayout>
-            <div>
-                <h1>Ranking</h1>
+            <div className="ranking-container">
+                <h1 className="ranking-title">Ranking</h1>
                 <section>
-                    <p>
+                    <p className="ranking-description">
                         ¡Aquí puedes ver el listado de los estudiantes más comprometidos! 🤓
-                        <br></br>
+                        <br />
                         Los puntajes se componen de la siguiente manera:
-                        <br></br>
+                        <br />
                         - Las quest de los temarios suman 10pts.
-                        <br></br>
+                        <br />
                         - Las búsquedas o consultas en el diccionario ecológico suman 5pts.
-                        <br></br>
+                        <br />
                         - Los mensajes en el foro suman 2pts.
-                        <br></br>
-                    </p>    
+                        <br />
+                    </p>
                 </section>
                 <div>
-                    <br />
                     {listUsersDataPts && Array.isArray(listUsersDataPts) ? (
-                        <table>
+                        <table className="ranking-table">
                             <thead>
                                 <tr>
                                     <th>Usuario</th>
@@ -66,7 +66,7 @@ export default function Ranking() {
                             </tbody>
                         </table>
                     ) : (
-                        <p>Cargando usuarios...</p>
+                        <p className="loading-message">Cargando usuarios...</p>
                     )}
                 </div>
             </div>

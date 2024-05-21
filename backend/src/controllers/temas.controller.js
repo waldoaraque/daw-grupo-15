@@ -45,14 +45,13 @@ export const createTema = async (req, res, next) => {
     const { userId, userRol } = req
     const {
       titulo_tema,
-      foro_id,
       descripcion_tema
     } = req.body
 
     const temasData = {
       titulo_tema,
-      userId,
-      foro_id,
+      usuario_id: userId,
+      foro_id: 3,
       descripcion_tema
     }
 
@@ -72,14 +71,13 @@ export const updateTema = async (req, res, next) => {
     let id_tema = parseInt(id)
     const {
       titulo_tema,
-      foro_id,
       descripcion_tema
     } = req.body
 
     const foroData = {
       titulo_tema,
-      userId,
-      foro_id,
+      usuario_id: userId,
+      foro_id: 3,
       descripcion_tema
     }
 

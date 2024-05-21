@@ -43,6 +43,10 @@ export default function Diccionario() {
     const getWordBySearch = async () => {
         try {
           // Realizar la búsqueda utilizando el servicio del API backend
+            if (!searchTerm) {
+                alert('No hay terminos de consulta!')
+                return
+            }
             const result = await diccionarioWordService(searchTerm, { token })
             setSearchResult(result)
             setIsModalOpen(true)
@@ -61,18 +65,20 @@ export default function Diccionario() {
             <div className='diccionario'>
                 <div className='search-container'>
                     <h1>ECO DICCIONARIO</h1>
-                        <input
-                            className='search-input'
-                            type='text'
-                            placeholder='Buscar palabra...'
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                        />
-                        <button 
-                            onClick={getWordBySearch}
-                            className='search-button'
-                        ><FontAwesomeIcon icon={faSearch} />
-                        </button>
+                        <div className='search-engine'>
+                            <input
+                                className=''
+                                type='text'
+                                placeholder='Buscar palabra...'
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                            />
+                            <button 
+                                onClick={getWordBySearch}
+                                className=''
+                            ><FontAwesomeIcon icon={faSearch} />
+                            </button>
+                        </div>
                 </div>
                 <div className='button-container'>
                     {alphabet.map(letter => (

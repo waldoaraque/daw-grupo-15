@@ -49,7 +49,7 @@ export default function Temas () {
             type: 'textarea',
             name: 'contenidoMensaje',
             className: '',
-            //pattern: '',//'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
+            //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
             placeholder: 'Escribe tu mensaje...',
             required: false
         }
@@ -71,7 +71,7 @@ export default function Temas () {
                 {listMensajes && Array.isArray(listMensajes) ? (
                     listMensajes.map((mensaje, index) => (
 
-                        <div key={mensaje.id_mensaje}>
+                        <div key={mensaje.id_mensaje || index}>
                             <p > {mensaje.nombre_usuario} </p>
                             <p >{mensaje.contenido_mensaje}</p>
                             <p >{mensaje.fechapub_mensaje}</p>

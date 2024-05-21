@@ -14,7 +14,6 @@ export const listMensajesService = async (id, { token }) => {
     })
     if (res.ok) {
       const mensajes = await res.json()
-      console.log(mensajes)
       return mensajes
     } else {
       console.error('Error en respuesta' + res.status + res.json())

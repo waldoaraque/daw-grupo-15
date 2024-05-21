@@ -1,6 +1,6 @@
 .search-container {
   margin: auto;/*    Ajusta el margen según sea necesario */
-  width: 90%; /* Utiliza el ancho completo del contenedor padre */
+  /*width: 90%;  Utiliza el ancho completo del contenedor padre */
   display: flex;
 }
 
@@ -11,14 +11,16 @@ h1 {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+.search-engine {
+  display: flex;
+  position: absolute;
+  margin-top: 150px;
+  margin-left: 15px;
+  z-index: 0;
+}
+
 .search-input {
    /*flex: 1; Haz que el campo de entrada ocupe todo el espacio disponible */
-  background-color: beige;
-  padding: 15px;
-  margin-top: 70PX;
-  margin-bottom: 70PX;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px; /* Ajusta los radios de la esquina */
 }
 
 .search-input:hover {
@@ -26,17 +28,11 @@ h1 {
 }
 
 .search-button {
-  padding: 5px;
-  border: 1px solid #ccc;
-  margin-top: 70PX;
-  margin-bottom: 70PX;
-  color: black;
-  background-color: beige;
-  border-radius: 0 5px 5px 0; /* Ajusta los radios de la esquina */
+  
 }
 
 .search-button:hover {
-  background-color: rgb(73, 167, 33);
+  
 }
 
 .button-list {
@@ -46,6 +42,7 @@ h1 {
   color: black;
   padding: 15px;
   margin: 10px 0px 0px 10px;
+  cursor: pointer;
 }
 
 .button-list:hover {

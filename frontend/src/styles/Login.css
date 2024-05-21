@@ -1,3 +1,17 @@
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+  min-height: 20vh;
+  text-align: center; 
+}
+
+.center-container h1 {
+  margin-bottom: 20px; 
+}
+
+
 label {
   display: block;
 }
@@ -9,11 +23,12 @@ label {
 
 .input-login-text, 
 .input-login-password {
-  display: block;
-  padding: 10px;
-  box-sizing: border-box;
   width: 100%;
-  margin: 5px 0 10px 0;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 .button,
@@ -24,6 +39,7 @@ button {
   min-width: 100px;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 button:hover {
