@@ -37,7 +37,8 @@ import {
 } from "./diccionario.controller.js"
 
 import {
-  getMensajesByTema
+  getMensajesByTema,
+  createMensaje
 } from "./mensajes.controller.js"
 
 import {
@@ -69,5 +70,6 @@ export {
   deleteTema,
   generateWord,
   getMensajesByTema,
+  createMensaje,
   getPuntuacionesData
 }

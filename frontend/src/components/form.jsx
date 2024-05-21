@@ -1,35 +1,58 @@
 import React, { useState } from 'react'
 
-const DynamicForm = ({ fields, onSubmit, buttonText, formTitle }) => {
-    const [input, setInput] = useState({})
+const DynamicForm = ({ fields, onSubmit, buttonText, formTitle, formSubtitle }) => {
+    const [input, setInput] = useState(
+        fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
+    )
+    // const handleInput = (e) => {
+    //     const { name, value } = e.target
+    //     setInput({
+    //         ...input,
+    //         [name]: value
+    //     })
+    // }
 
-    const handleInput = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target
-        setInput({
-            ...input,
-            [name]: value
-        })
+        setInput({ ...input, [name]: value })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        onSubmit(input)
+        onSubmit(input, () => setInput(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})))
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <h1>{formTitle}</h1>
+            { formTitle || formSubtitle ? (
+              <>
+                <h1>{formTitle}</h1>
+                <p>{formSubtitle}</p>
+              </>
+            ): (
+              <></>
+            )}
             {fields.map((field, index) => (
-                <div key={index}>
-                    <input
-                        type={field.type}
-                        name={field.name}
-                        className={field.className}
-                        //pattern={field.pattern}
-                        placeholder={field.placeholder}
-                        onChange={handleInput}
-                        required={field.required}
-                    />
+                <div key={field}>
+                    {field.type === 'textarea' ? (
+                        <textarea
+                            name={field.name}
+                            value={input[field.name]}
+                            className={field.className}
+                            placeholder={field.placeholder}
+                            onChange={handleChange}
+                            required={field.required}
+                        />
+                    ) : (
+                        <input
+                            type={field.type}
+                            name={field.name}
+                            className={field.className}
+                            placeholder={field.placeholder}
+                            onChange={handleChange}
+                            required={field.required}
+                        />
+                    )}
                 </div>
             ))}
             <button type="submit">{buttonText}</button>

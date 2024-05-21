@@ -9,7 +9,7 @@ import { diccionarioCategoryService, diccionarioWordService } from '../services/
 export default function Diccionario() {
     const { user, token } = useAuth()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [searchTerm, setSearchTerm] = useState(null) // Estado para almacenar la búsqueda por palabra
+    const [searchTerm, setSearchTerm] = useState('') // Estado para almacenar la búsqueda por palabra
     const [searchResult, setSearchResult] = useState(null) // Estado para almacenar la búsqueda por letra
 
     const openModal = () => {

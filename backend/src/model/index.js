@@ -7,7 +7,8 @@ import {
   selectByIdQuery,
   selectByParamsConditionQuery,
   selectByJoinConditionQuery,
-  selectByJoinConditionOrder
+  selectByJoinConditionOrder,
+  selectByJoinWhereConditionOrder
 } from "./select.model.js"
 
 import {
@@ -24,6 +25,7 @@ export {
   selectByParamsConditionQuery,
   selectByJoinConditionQuery,
   selectByJoinConditionOrder,
+  selectByJoinWhereConditionOrder,
   insertQuery,
   updateByIdQuery,
   deleteByIdQuery

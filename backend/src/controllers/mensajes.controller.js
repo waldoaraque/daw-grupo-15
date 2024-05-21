@@ -5,7 +5,9 @@ import {
   selectByJoinConditionQuery,
   insertQuery,
   updateByIdQuery,
-  deleteByIdQuery
+  deleteByIdQuery,
+  selectByJoinConditionOrder,
+  selectByJoinWhereConditionOrder
 } from "../model/index.js"
 
 const mensajesTabla = "mensajes"
@@ -44,15 +46,15 @@ export const getMensajeById = async (req, res, next) => {
 
 export const createMensaje = async (req, res, next) => {
   try {
+    const { userId } = req
     const {
       contenido_mensaje,
-      usuario_id,
       tema_id,
     } = req.body
 
     const mensajesData = {
       contenido_mensaje,
-      usuario_id,
+      usuario_id: userId,
       tema_id
     }
 
@@ -107,12 +109,13 @@ export const deleteMensaje = async (req, res, next) => {
 export const getMensajesByTema = async (req, res, next) => {
   try {
     const { id } = req.params
-    const mensajesData = await selectByJoinConditionQuery(
+    const mensajesData = await selectByJoinWhereConditionOrder(
       mensajesTabla,
       "usuarios",
       ["contenido_mensaje", "usuario_id", "fechapub_mensaje", "nombre_usuario"],
       "usuario_id = id_usuario",
       "tema_id = $1",
+      "fechapub_mensaje",
       [id]
     )
     if (mensajesData.length === 0)
