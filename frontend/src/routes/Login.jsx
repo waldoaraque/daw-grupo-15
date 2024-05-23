@@ -41,14 +41,12 @@ export default function Login() {
 
   return (
     <DefaultLayout>
-       <div className="center-container">
       <DynamicForm 
         formTitle='LogIn'
         fields={loginFields}
         onSubmit={handleSubmitLogin}
         buttonText='LogIn'
       />
-      </div>
     </DefaultLayout>
   )
 }

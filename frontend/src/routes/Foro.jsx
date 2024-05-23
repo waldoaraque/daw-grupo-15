@@ -1,17 +1,18 @@
-import DefaultLayout from '../layout/DefaultLayout'
+import '../styles/Foro.css'
+import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import Modal from '../components/modal'
 import DynamicForm from '../components/form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { 
+import {
     createTemaService,
     deleteTemaService,
     listTemasService,
-    updateTemaService 
+    updateTemaService
 } from '../services/temas.service'
+import DefaultLayout from '../layout/DefaultLayout'
 
 export default function Foro() {
     const { token, user, tokenPayload } = useAuth()
@@ -20,15 +21,16 @@ export default function Foro() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [listTema, setListTema] = useState(null)
     const [selectedTema, setSelectedTema] = useState(null)
+    const [messageModalSuccess, setMessageModalSuccess] = useState(false)
+    const [messageModalError, setMessageModalError] = useState(false)
 
     useEffect(() => {
         if (!user && !tokenPayload) {
-            return 
+            return
         }
 
         const listTemas = async () => {
             try {
-                // Realizar la búsqueda utilizando el servicio del API backend
                 const result = await listTemasService({ token })
                 setListTema(result)
             } catch (error) {
@@ -40,7 +42,6 @@ export default function Foro() {
     }, [user, token])
 
     const openCreateModal = () => setIsCreateModalOpen(true)
-
     const closeCreateModal = () => setIsCreateModalOpen(false)
 
     const openEditModal = (tema) => {
@@ -57,93 +58,94 @@ export default function Foro() {
 
     const closeDeleteModal = () => setIsDeleteModalOpen(false)
 
+    const closeModalSuccess = () => setMessageModalSuccess(false)
+    const closeModalError  = () => setMessageModalError(false)
+
     const handleSubmitTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
-          // servicio para crear temas
-          let result = await createTemaService({'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema}, { token })
-          setListTema(prevTemas => [result, ...prevTemas])
-          resetForm()
-          closeCreateModal()
-          alert('tu tema ha sido publicado!')
-          return
+            let result = await createTemaService({ 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, { token })
+            setListTema(prevTemas => [result, ...prevTemas])
+            resetForm()
+            closeCreateModal()
+            setMessageModalSuccess('Tu tema ha sido publicado!')
+            return
         }
-        alert('No se están enviando los datos, por favor verifique los datos.')
+        setMessageModalError('No se están enviando los datos, por favor verifique los datos.')
+        return
     }
 
     const handleUpdateTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
-            // servicio para actualizar temas
-            let result = await updateTemaService(selectedTema.id_tema, {'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema}, { token })
+            let result = await updateTemaService(selectedTema.id_tema, { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, { token })
             setListTema(prevTemas => prevTemas.map(tema =>
                 tema.id_tema === selectedTema.id_tema ? result : tema
             ))
             resetForm()
             closeEditModal()
-            alert('tu tema ha sido publicado!')
+            setMessageModalSuccess('Tu tema ha sido actualizado!')
             return
         }
-        alert('No se están enviando los datos, por favor verifique los datos.')
+        setMessageModalError('No se están enviando los datos, por favor verifique los datos.')
+        return
     }
 
     const handleDeleteTema = async (input, resetForm) => {
         if (input.tituloTema === 'Eliminar') {
-            // servicio para eliminar temas
-            console.log(selectedTema)
             let result = await deleteTemaService(selectedTema.id_tema, { token })
             setListTema(result)
             resetForm()
             closeDeleteModal()
-            alert('tu tema ha sido eliminado!')
+            setMessageModalSuccess('Tu tema ha sido eliminado!')
             return
         }
-        alert('No se están enviando los datos, por favor verifique los datos.')
+        setMessageModalError('No se están enviando los datos, por favor verifique los datos.')
+        return
     }
 
     const foroFields = [
-        { 
+        {
             type: 'text',
             name: 'tituloTema',
             className: '',
-            //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
             placeholder: 'Título del tema',
-            required: true 
+            required: true
         },
         {
             type: 'text',
             name: 'descripcionTema',
             className: '',
-            //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
             placeholder: 'Descripción del tema',
-            required: true 
+            required: true
         }
     ]
 
     const foroDeleteFields = [
-        { 
+        {
             type: 'text',
             name: 'tituloTema',
             className: '',
             pattern: 'Eliminar',
             placeholder: 'Eliminar',
-            required: true 
+            required: true
         }
     ]
 
-    if(!user) {
+    if (!user) {
         return <Navigate to='/login' />
     }
 
     return (
         <DefaultLayout>
-            <div>
-                { tokenPayload ? (
-                    <>       
-                        <h1>Foro</h1>
-                        { (tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
+            <div className="foro-container">
+                <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
+                <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
+                {tokenPayload ? (
+                    <>
+                        <h1 className="foro-title">Foro</h1>
+                        {(tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
                             <>
-                                <button
-                                    onClick={openCreateModal}
-                                >Crear Tema
+                                <button className="foro-button" onClick={openCreateModal}>
+                                    Crear Tema
                                 </button>
                                 <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal}>
                                     <div>
@@ -151,50 +153,47 @@ export default function Foro() {
                                             formTitle='Crea un tema en el Foro'
                                             fields={foroFields}
                                             onSubmit={handleSubmitTema}
-                                            buttonText='Crear Tema' 
+                                            buttonText='Crear Tema'
                                         />
                                     </div>
                                 </Modal>
                             </>
                         )}
-                        
+
                         {listTema ? (
-                            <div>
+                            <div className="foro-list">
                                 {listTema.map((tema, index) => (
-                                    <div key={tema.id_tema}>
-                                        <Link 
-                                            to={`/temas/${tema.id_tema}`}
-                                            state={{ tema }}
-                                        >
+                                    <div className="foro-item" key={tema.id_tema}>
+                                        <Link to={`/temas/${tema.id_tema}`} state={{ tema }}>
                                             <p>{tema.titulo_tema}</p>
                                         </Link>
-                                        { (tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
+                                        {(tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
                                             <>
-                                                <FontAwesomeIcon icon={faPen} onClick={() => openEditModal(tema)} />
+                                                <FontAwesomeIcon icon={faPen} className="foro-icon" onClick={() => openEditModal(tema)} />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
                                                     <div>
-                                                    <DynamicForm
-                                                        formTitle='Edita el tema'
-                                                        fields={foroFields}
-                                                        onSubmit={handleUpdateTema}
-                                                        buttonText='Actualizar Tema'
-                                                    />
+                                                        <DynamicForm
+                                                            formTitle='Edita el tema'
+                                                            fields={foroFields}
+                                                            onSubmit={handleUpdateTema}
+                                                            buttonText='Actualizar Tema'
+                                                        />
                                                     </div>
                                                 </Modal>
                                             </>
                                         )}
-                                        { (tokenPayload.user_type === 'director') && (
+                                        {tokenPayload.user_type === 'director' && (
                                             <>
-                                                <FontAwesomeIcon icon={faTrash} onClick={() => openDeleteModal(tema)}/>
+                                                <FontAwesomeIcon icon={faTrash} className="foro-icon" onClick={() => openDeleteModal(tema)} />
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
                                                     <div>
-                                                    <DynamicForm
-                                                        formTitle='Se va a eliminar el tema seleccionado'
-                                                        formSubtitle='Por favor escribir `Eliminar` para confirmar'
-                                                        fields={foroDeleteFields}
-                                                        onSubmit={handleDeleteTema}
-                                                        buttonText='Eliminar Tema'
-                                                    />
+                                                        <DynamicForm
+                                                            formTitle='Se va a eliminar el tema seleccionado'
+                                                            formSubtitle='Por favor escribir `Eliminar` para confirmar'
+                                                            fields={foroDeleteFields}
+                                                            onSubmit={handleDeleteTema}
+                                                            buttonText='Eliminar Tema'
+                                                        />
                                                     </div>
                                                 </Modal>
                                             </>
@@ -203,11 +202,11 @@ export default function Foro() {
                                 ))}
                             </div>
                         ) : (
-                            <p>Cargando foros...</p>
+                            <p className="loading-message">Cargando foros...</p>
                         )}
                     </>
-                ): (
-                    <p>Cargando...</p>
+                ) : (
+                    <p className="loading-message">Cargando...</p>
                 )}
             </div>
         </DefaultLayout>

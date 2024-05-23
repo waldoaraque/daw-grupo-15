@@ -1,26 +1,28 @@
-//import Mensaje from './mensaje'
-import { useParams, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import '../styles/Temas.css'
+import React, { useState, useEffect } from 'react'
+import { useParams, useLocation, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
+import Modal from '../components/modal'
 import { listMensajesService, postMensajesService } from '../services/mensajes.service'
 
-export default function Temas () {
+export default function Temas() {
     const { id } = useParams()
     const location = useLocation()
     const [tema, setTema] = useState(location.state?.tema || null)
+    const [messageModalSuccess, setMessageModalSuccess] = useState(false)
+    const [messageModalError, setMessageModalError] = useState(false)
 
     const { user, token, tokenPayload } = useAuth()
     const [listMensajes, setListMensajes] = useState(null)
-    
+
     useEffect(() => {
         if (!user) {
             return // No hacer nada si no hay usuario
         }
         const listMensajes = async () => {
             try {
-                // Realizar la búsqueda utilizando el servicio del API backend
                 const result = await listMensajesService(id, { token })
                 setListMensajes(result)
             } catch (error) {
@@ -32,62 +34,86 @@ export default function Temas () {
 
     const handleSubmitMensaje = async (input, resetForm) => {
         if (input.contenidoMensaje !== '') {
-            // id , input.contenidoMensaje , 
-            // servicio para crear temas
-            let result = await postMensajesService({'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
+            let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
+            //result = 
+            console.log(result)
+            console.log(tokenPayload)
+            console.log(user)
             setListMensajes(prevMensajes => [result, ...prevMensajes])
             resetForm()
-            
-            alert('tu mensaje ha sido publicado!')
+            setMessageModalSuccess('Se ha publicado tu mensaje!')
             return
         }
-        alert('No se está publicando el mensaje, por favor verifique los datos.')
+        setMessageModalError('No se está pasando texto, por favor verifique.')
+        return
     }
 
+    const closeModalSuccess = () => setMessageModalSuccess(false)
+    const closeModalError  = () => setMessageModalError(false)
+
     const mensajeFields = [
-        { 
+        {
             type: 'textarea',
             name: 'contenidoMensaje',
             className: '',
-            //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
             placeholder: 'Escribe tu mensaje...',
             required: false
         }
     ]
 
-    if(!user) {
+    const formatDate = (dateString) => {
+        const date = new Date(dateString)
+        const options = { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit', 
+          second: '2-digit', 
+          hour12: true 
+        }
+        return date.toLocaleDateString('es-ES', options)
+    }
+
+    if (!user) {
         return <Navigate to='/login' />
     }
 
     return (
         <DefaultLayout>
-            <div>
-                <div>
-                    <h1>{tema.titulo_tema}</h1>
-                    <p>{tema.descripcion_tema}</p>
+            <div className="tema-container">
+                <div className="tema-header">
+                    <h1 className="tema-title">{tema.titulo_tema}</h1>
+                    <p className="tema-description">{tema.descripcion_tema}</p>
                 </div>
                 <br />
 
+                <div className="form-container">
+                    <DynamicForm
+                        fields={mensajeFields}
+                        onSubmit={handleSubmitMensaje}
+                        buttonText='Publicar Mensaje'
+                    />
+                    <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
+                    <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
+                </div>
+
                 {listMensajes && Array.isArray(listMensajes) ? (
-                    listMensajes.map((mensaje, index) => (
-
-                        <div key={mensaje.id_mensaje || index}>
-                            <p > {mensaje.nombre_usuario} </p>
-                            <p >{mensaje.contenido_mensaje}</p>
-                            <p >{mensaje.fechapub_mensaje}</p>
-                        </div>
-                        
-                    ))
+                    <div className="mensaje-container">
+                        {listMensajes.map((mensaje, index) => (
+                            <div className="mensaje-item" key={mensaje.id_mensaje || index}>
+                                <div className="mensaje-header">
+                                    <p className="mensaje-usuario">{mensaje.nombre_usuario} {mensaje.apellido_usuario}</p>
+                                    <p className="mensaje-fecha">{formatDate(mensaje.fechapub_mensaje)}</p>
+                                </div>
+                                <p className="mensaje-contenido">{mensaje.contenido_mensaje}</p>
+                            </div>
+                        ))}
+                    </div>
                 ) : (
-                    <p>Cargando mensajes...</p>
+                    <p className="loading-message">Cargando mensajes...</p>
                 )}
-
-                <DynamicForm
-                    fields={mensajeFields}
-                    onSubmit={handleSubmitMensaje}
-                    buttonText='Publicar Mensaje'
-                />
             </div>
         </DefaultLayout>
-    )   
+    )
 }

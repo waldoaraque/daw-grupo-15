@@ -17,7 +17,9 @@ export const listMensajesService = async (id, { token }) => {
       return mensajes
     } else {
       console.error('Error en respuesta' + res.status + res.json())
-      return
+      return {
+        "status": res.status
+      }
     }
   } catch (error) {
     console.error('Error al realizar la solicitud:', error)

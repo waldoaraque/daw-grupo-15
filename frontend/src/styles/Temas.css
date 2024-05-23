@@ -1,0 +1,69 @@
+/* Temas.css */
+.tema-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #dff0d6;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tema-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tema-title {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.tema-description {
+  color: #555;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
+
+.mensaje-container {
+  margin-top: 20px;
+}
+
+.mensaje-item {
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.mensaje-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mensaje-usuario {
+  font-weight: bold;
+  color: #333;
+}
+
+.mensaje-fecha {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.mensaje-contenido {
+  color: #555;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.form-container {
+  margin-top: 20px;
+}

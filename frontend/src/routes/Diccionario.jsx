@@ -11,6 +11,8 @@ export default function Diccionario() {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('') // Estado para almacenar la búsqueda por palabra
     const [searchResult, setSearchResult] = useState(null) // Estado para almacenar la búsqueda por letra
+    const [messageModalSuccess, setMessageModalSuccess] = useState(false)
+    const [messageModalError, setMessageModalError] = useState(false)
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -27,8 +29,6 @@ export default function Diccionario() {
     }
 
     const getWordByLetter = async (letter) => {
-        // Aquí puedes realizar alguna acción en función de la letra seleccionada
-        console.log(`Letra seleccionada: ${letter}`)
         try {
             // Realizar la búsqueda utilizando el servicio del API backend
             const results = await diccionarioCategoryService(letter, { token })
@@ -36,15 +36,15 @@ export default function Diccionario() {
             setSearchResult(results)
             setIsModalOpen(true)
         } catch (error) {
-            console.error('Error al buscar la palabra:', error)
+            setMessageModalError(`Error al buscar la palabra: ${error}`)
+            return
         }
     }
 
     const getWordBySearch = async () => {
         try {
-          // Realizar la búsqueda utilizando el servicio del API backend
             if (!searchTerm) {
-                alert('No hay terminos de consulta!')
+                setMessageModalError('No hay terminos de consulta!')
                 return
             }
             const result = await diccionarioWordService(searchTerm, { token })
@@ -52,9 +52,13 @@ export default function Diccionario() {
             setIsModalOpen(true)
 
         } catch (error) {
-            console.error('Error al buscar la palabra:', error)
+            setMessageModalError(`Error al buscar la palabra: ${error}`)
+            return
         }
     }
+
+    const closeModalSuccess = () => setMessageModalSuccess(false)
+    const closeModalError  = () => setMessageModalError(false)
 
     if(!user) {
         return <Navigate to='/login' />
@@ -62,9 +66,11 @@ export default function Diccionario() {
 
     return (
         <DefaultLayout>
-            <div className='diccionario'>
+            <div className='diccionario-container'>
+                <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
+                <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
                 <div className='search-container'>
-                    <h1>ECO DICCIONARIO</h1>
+                    <h1>Eco Diccionario</h1>
                         <div className='search-engine'>
                             <input
                                 className=''

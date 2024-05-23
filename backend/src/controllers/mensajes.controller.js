@@ -112,7 +112,7 @@ export const getMensajesByTema = async (req, res, next) => {
     const mensajesData = await selectByJoinWhereConditionOrder(
       mensajesTabla,
       "usuarios",
-      ["contenido_mensaje", "usuario_id", "fechapub_mensaje", "nombre_usuario"],
+      ["contenido_mensaje", "usuario_id", "fechapub_mensaje", "nombre_usuario", "apellido_usuario"],
       "usuario_id = id_usuario",
       "tema_id = $1",
       "fechapub_mensaje",
