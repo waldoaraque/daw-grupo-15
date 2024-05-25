@@ -55,10 +55,18 @@
   text-decoration: underline;
 }
 
-.foro-icon {
+.foro-icon-edit {
+  margin-left: 50px;
+  cursor: pointer;
+  color: #555;
+  display: inline-block;
+}
+
+.foro-icon-delete {
   margin-left: 10px;
   cursor: pointer;
   color: #555;
+  display: inline-block;
 }
 
 .foro-icon:hover {

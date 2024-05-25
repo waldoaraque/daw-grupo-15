@@ -15,3 +15,6 @@ frontend/package-lock.json
 
 # nginx exclusions
 nginx/
+
+# keystone exclusions
+keystone/

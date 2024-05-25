@@ -45,6 +45,22 @@ import {
   getPuntuacionesData
 } from "./ranking.controller.js"
 
+import {
+  getContenidoById,
+  getContenidos,
+  createContenido,
+  updateContenido,
+  deleteContenido
+} from "./contenidos.controller.js"
+
+import {
+  getQuests,
+  getQuestById,
+  createQuest,
+  updateQuest,
+  deleteQuest
+} from "./quests.controller.js"
+
 export {
   login,
   signup,
@@ -71,5 +87,15 @@ export {
   generateWord,
   getMensajesByTema,
   createMensaje,
-  getPuntuacionesData
+  getPuntuacionesData,
+  getContenidos,
+  getContenidoById,
+  createContenido,
+  updateContenido,
+  deleteContenido,
+  getQuests,
+  getQuestById,
+  createQuest,
+  updateQuest,
+  deleteQuest
 }

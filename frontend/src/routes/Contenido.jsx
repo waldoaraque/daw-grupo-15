@@ -1,93 +1,73 @@
-import '../styles/Temas.css'
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
 import Modal from '../components/modal'
-import { listMensajesService, postMensajesService } from '../services/mensajes.service'
+import { getContentService } from '../services/contenidos.service'
+import { createQuestService, postQuestService } from '../services/quests.service'
 
-export default function Temas() {
+export default function Contenido () {
     const { id } = useParams()
     const location = useLocation()
-    const [tema, setTema] = useState(location.state?.tema || null)
+    const [contenido, setContenido] = useState(location.state?.contenido || null)
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
 
     const { user, token, tokenPayload, logOut } = useAuth()
-    const [listMensajes, setListMensajes] = useState(null)
+    // const [listMensajes, setListMensajes] = useState(null)
 
     if (!user) {
         logOut()
-        //return <Navigate to='/login' />
     }
 
-    useEffect(() => {
-        if (!user) {
-            logOut()
-        }
-        const listMensajes = async () => {
-            try {
-                const result = await listMensajesService(id, { token })
-                setListMensajes(result)
-            } catch (error) {
-                console.error('Error al extraer foros:', error)
-            }
-        }
-        listMensajes()
-    }, [user, token, id, logOut])
+    // useEffect(() => {
+    //     if (!user) {
+    //         return // No hacer nada si no hay usuario
+    //     }
+    //     const listMensajes = async () => {
+    //         try {
+    //             const result = await listMensajesService(id, { token })
+    //             setListMensajes(result)
+    //         } catch (error) {
+    //             console.error('Error al extraer foros:', error)
+    //         }
+    //     }
+    //     listMensajes()
+    // }, [user, token, id])
 
     const handleSubmitMensaje = async (input, resetForm) => {
-        if (input.contenidoMensaje !== '') {
-            let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
-            //result =
-            setListMensajes(prevMensajes => [result, ...prevMensajes])
-            /*
-                falta por agregar el nombre y apellido del usuario en tiempo real...
-            */
-            resetForm()
-            setMessageModalSuccess('Se ha publicado tu mensaje!')
-            return
-        }
-        setMessageModalError('No se está pasando texto, por favor verifique.')
-        return
+        // if (input.contenidoMensaje !== '') {
+        //     let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
+        //     //result =
+        //     setListMensajes(prevMensajes => [result, ...prevMensajes])
+        //     /*
+        //         falta por agregar el nombre y apellido del usuario en tiempo real...
+        //     */
+        //     resetForm()
+        //     setMessageModalSuccess('Se ha publicado tu mensaje!')
+        //     return
+        // }
+        // setMessageModalError('No se está pasando texto, por favor verifique.')
+        // return
     }
 
     const closeModalSuccess = () => setMessageModalSuccess(false)
     const closeModalError  = () => setMessageModalError(false)
 
-    const mensajeFields = [
-        {
-            type: 'textarea',
-            name: 'contenidoMensaje',
-            className: '',
-            placeholder: 'Escribe tu mensaje...',
-            required: false
-        }
-    ]
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString)
-        const options = { 
-          year: 'numeric', 
-          month: 'long', 
-          day: 'numeric', 
-          hour: '2-digit', 
-          minute: '2-digit', 
-          second: '2-digit', 
-          hour12: true 
-        }
-        return date.toLocaleDateString('es-ES', options)
-    }
-
     return (
         <DefaultLayout>
             <div className="tema-container">
                 <div className="tema-header">
-                    <h1 className="tema-title">{tema.titulo_tema}</h1>
-                    <p className="tema-description">{tema.descripcion_tema}</p>
+                    <h1 className="tema-title">{contenido.titulo_tema}</h1>
+                    <p className="tema-description">{contenido.descripcion_tema}</p>
                 </div>
                 <br />
+
+                {/* AGREGAR CONTENIDO ... */}
+
+
+                {/* AGREGAR QUEST EN EL MODAL ... */}
 
                 <div className="form-container">
                     <DynamicForm

@@ -1,17 +1,17 @@
 import DefaultLayout from '../layout/DefaultLayout'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 
 export default function Home() {
-    const { user } = useAuth()
+    const { user, logOut } = useAuth()
 
     if(!user) {
-        return <Navigate to='/login' />
+        logOut()
     }
 
     return (
         <DefaultLayout>
-            <div>
+            <div className='login-container'>
                 <header>
                     <h1>Bienvenido Mi Aplicación</h1>
                 </header>

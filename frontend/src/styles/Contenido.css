@@ -1,0 +1,68 @@
+/* DynamicForm.css */
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-title {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.form-subtitle {
+  font-size: 1.2em;
+  color: #777;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  color: #333;
+}
+
+.form-field textarea {
+  resize: vertical;
+  height: 150px;
+}
+
+.form-button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  font-size: 1.2em;
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-button:hover {
+  background-color: #45a049;
+}

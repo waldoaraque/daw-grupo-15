@@ -6,60 +6,59 @@ import {
   deleteByIdQuery
 } from "../model/index.js"
 
-const temasTabla = "temas"
+const questsTabla = "quests"
 
-export const getTemas = async (req, res, next) => {
+export const getQuests = async (req, res, next) => {
   try {
-    const temas = await selectAllQuery(temasTabla)
-    if (temas.length === 0)
+    const quests = await selectAllQuery(questsTabla)
+    if (quests.length === 0)
       return res
               .status(404)
-              .json({ message: "Temas not found" })
+              .json({ message: "Quests not found" })
     res
       .status(200)
-      .json(temas)
+      .json(quests)
   } catch (error) {
     next(error)
   }
 }
 
-export const getTemaById = async (req, res, next) => {
+export const getQuestById = async (req, res, next) => {
   try {
     const { id } = req.params
 
-    const temasData = await selectByIdQuery(temasTabla, id)
-    if (temasData.length === 0)
+    const questsData = await selectByIdQuery(questsTabla, id)
+    if (questsData.length === 0)
       return res
               .status(404)
-              .json({ message: "Tema not found" })
+              .json({ message: "Quests not found" })
     res
       .status(200)
-      .json(temasData[0])
+      .json(questsData[0])
   } catch (error) {
     next(error)
   }
 }
 
-export const createTema = async (req, res, next) => {
+export const createQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol === 'educador' || userRol === 'director') {
+    if (userRol === 'educador') {
       const {
-        titulo_tema,
-        descripcion_tema
+        contenido_id,
+        pregunta
       } = req.body
   
-      const temasData = {
-        titulo_tema,
+      const questsData = {
         usuario_id: userId,
-        foro_id: 3,
-        descripcion_tema
+        contenido_id,
+        pregunta
       }
   
-      const newTema = await insertQuery(temasTabla, temasData)
+      const newQuest = await insertQuery(questsTabla, questsData)
       res
         .status(201)
-        .json(newTema)
+        .json(newQuest)
     }
     return res
             .status(403)
@@ -69,52 +68,56 @@ export const createTema = async (req, res, next) => {
   }
 }
 
-export const updateTema = async (req, res, next) => {
+export const updateQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
     const { id } = req.params
     let id_tema = parseInt(id)
-    if (userRol === 'educador' || userRol === 'director') {
+    if (userRol === 'educador') {
       const {
         titulo_tema,
         descripcion_tema
       } = req.body
   
-      const foroData = {
+      const questsData = {
         titulo_tema,
         usuario_id: userId,
         foro_id: 3,
         descripcion_tema
       }
-      const putTema = await updateByIdQuery(temasTabla, foroData, id_tema)
+  
+      const putQuest = await updateByIdQuery(questsTabla, questsData, id_tema)
+  
       res
         .status(200)
-        .json(putTema)
+        .json(putQuest)
     }
     return res
             .status(403)
             .json({ message: "Forbidden" })
+    
   } catch (error) {
     next(error)
   }
 }
 
-export const deleteTema = async (req, res, next) => {
+export const deleteQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol === 'educador' || userRol === 'director') {
-      const { id } = req.params
-      const temasData = await selectByIdQuery(temasTabla, id)
 
-      if (userId !== temasData[0].usuario_id) {
+    if (userRol === 'educador') {
+      const { id } = req.params
+      const questsData = await selectByIdQuery(questsTabla, id)
+
+      if (userId !== questsData[0].usuario_id) {
         return res
                 .status(403)
                 .json({ message: "Forbidden" })
       }
-      const delTema = await deleteByIdQuery(temasTabla, id)
+      const delQuest = await deleteByIdQuery(questsTabla, id)
       res
         .status(204)
-        .json(delTema)
+        .json(delQuest)
     }
     return res
             .status(403)

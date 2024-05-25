@@ -15,6 +15,7 @@ import Home from './routes/Home.jsx'
 import Diccionario from './routes/Diccionario.jsx'
 import Foro from './routes/Foro.jsx'
 import Temas from './routes/Temas.jsx'
+import Contenido from './routes/Contenido.jsx'
 import Ranking from './routes/Ranking.jsx'
 import Temario from './routes/Temario.jsx'
 import Logout from './routes/Logout.jsx'
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/temario',
         element: <Temario />
+      },
+      {
+        path: '/contenidos/:id',
+        element: <Contenido />
       },
       {
         path: '/ranking',

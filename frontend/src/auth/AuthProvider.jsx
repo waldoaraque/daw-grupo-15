@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { loginService } from '../services/login.service'
 import { jwtDecode } from 'jwt-decode'
+import Modal from '../components/modal'
+import { Navigate } from 'react-router-dom'
 
 const AuthContext = createContext()
 
@@ -8,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(window.localStorage.getItem('userSession') || '')
   const [tokenPayload, setTokenPayload] = useState(null)
+  const [messageModalSuccess, setMessageModalSuccess] = useState(false)
+  const [messageModalError, setMessageModalError] = useState(false)
 
   useEffect(() => {
     const storedSession = window.localStorage.getItem('userSession')
@@ -36,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         'userSession', JSON.stringify(authentication)
       )
     } catch (error) {
-      
+      setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.')
     }
   }
 
@@ -45,7 +49,11 @@ export const AuthProvider = ({ children }) => {
     setToken('')
     setTokenPayload('')
     window.localStorage.removeItem('userSession')
+    return <Navigate to='/login' />
   }
+
+  const closeModalSuccess = () => setMessageModalSuccess(false)
+  const closeModalError  = () => setMessageModalError(false)
 
   const isTokenExpired = (token) => {
     if (!token) {
@@ -63,6 +71,8 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ token, user, tokenPayload, loginAction, logOut }}>
+      <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
+      <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
       {children}
     </AuthContext.Provider>
   )

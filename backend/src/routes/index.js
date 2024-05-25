@@ -7,6 +7,8 @@ import temasRouter from "./temas.routes.js"
 import signupRouter from "./singup.routes.js"
 import mensajesRouter from './mensajes.routes.js'
 import ptsRouter from "./ranking.route.js"
+import contenidosRouter from "./contenidos.routes.js"
+import questsRouter from "./quests.routes.js"
 
 export {
     loginRouter,
@@ -17,5 +19,7 @@ export {
     foroRouter,
     temasRouter,
     mensajesRouter,
-    ptsRouter
+    ptsRouter,
+    contenidosRouter,
+    questsRouter
 }

@@ -5,11 +5,11 @@ import { useAuth } from '../auth/AuthProvider'
 import { listPtsUsers } from '../services/ranking.service'
 
 export default function Ranking() {
-    const { user, token } = useAuth()
+    const { user, token, logOut } = useAuth()
     const [listUsersDataPts, setListUsersDataPts] = useState(null)
     
     if(!user) {
-        return <Navigate to='/login' />
+        logOut()
     }
 
     useEffect(() => {

@@ -15,7 +15,7 @@ import {
 import DefaultLayout from '../layout/DefaultLayout'
 
 export default function Foro() {
-    const { token, user, tokenPayload } = useAuth()
+    const { token, user, tokenPayload, logOut } = useAuth()
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -24,9 +24,13 @@ export default function Foro() {
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
 
+    if (!user) {
+        logOut()
+    }
+
     useEffect(() => {
         if (!user && !tokenPayload) {
-            return
+            logOut()
         }
 
         const listTemas = async () => {
@@ -39,7 +43,7 @@ export default function Foro() {
         }
 
         listTemas()
-    }, [user, token])
+    }, [user, token, logOut])
 
     const openCreateModal = () => setIsCreateModalOpen(true)
     const closeCreateModal = () => setIsCreateModalOpen(false)
@@ -63,7 +67,10 @@ export default function Foro() {
 
     const handleSubmitTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
-            let result = await createTemaService({ 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, { token })
+            let result = await createTemaService(
+                { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
+                { token }
+            )
             setListTema(prevTemas => [result, ...prevTemas])
             resetForm()
             closeCreateModal()
@@ -76,7 +83,11 @@ export default function Foro() {
 
     const handleUpdateTema = async (input, resetForm) => {
         if (input.tituloTema !== '' && input.descripcionTema !== '') {
-            let result = await updateTemaService(selectedTema.id_tema, { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, { token })
+            let result = await updateTemaService(
+                selectedTema.id_tema, 
+                { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
+                { token }
+            )
             setListTema(prevTemas => prevTemas.map(tema =>
                 tema.id_tema === selectedTema.id_tema ? result : tema
             ))
@@ -130,15 +141,21 @@ export default function Foro() {
         }
     ]
 
-    if (!user) {
-        return <Navigate to='/login' />
-    }
-
     return (
         <DefaultLayout>
             <div className="foro-container">
-                <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
-                <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
+                <Modal 
+                    isOpen={messageModalSuccess}
+                    message={messageModalSuccess}
+                    type='success'
+                    onClose={closeModalSuccess} 
+                />
+                <Modal 
+                    isOpen={messageModalError} 
+                    message={messageModalError} 
+                    type='error' 
+                    onClose={closeModalError} 
+                />
                 {tokenPayload ? (
                     <>
                         <h1 className="foro-title">Foro</h1>
@@ -169,7 +186,11 @@ export default function Foro() {
                                         </Link>
                                         {(tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
                                             <>
-                                                <FontAwesomeIcon icon={faPen} className="foro-icon" onClick={() => openEditModal(tema)} />
+                                                <FontAwesomeIcon 
+                                                    icon={faPen} 
+                                                    className="foro-icon-edit" 
+                                                    onClick={() => openEditModal(tema)} 
+                                                />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
                                                     <div>
                                                         <DynamicForm
@@ -184,7 +205,11 @@ export default function Foro() {
                                         )}
                                         {tokenPayload.user_type === 'director' && (
                                             <>
-                                                <FontAwesomeIcon icon={faTrash} className="foro-icon" onClick={() => openDeleteModal(tema)} />
+                                                <FontAwesomeIcon 
+                                                    icon={faTrash} 
+                                                    className="foro-icon-delete" 
+                                                    onClick={() => openDeleteModal(tema)} 
+                                                />
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
                                                     <div>
                                                         <DynamicForm

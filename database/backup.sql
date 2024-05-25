@@ -127,11 +127,10 @@ BEGIN
     SELECT tipo_usuario INTO usuario_tipo
     FROM usuarios
     WHERE id_usuario = NEW.usuario_id;
-
     -- Verificar si el usuario es de tipo 'estudiante'
     IF usuario_tipo = 'estudiante' THEN
         -- Asignar puntos según la tabla de origen
-        IF TG_TABLE_NAME = 'quests' THEN
+        IF TG_TABLE_NAME = 'respuestas_quest' THEN
             puntos := 10;
             -- Actualizar en la tabla puntuaciones
 	        UPDATE puntuaciones SET quests_pts = quests_pts + puntos
@@ -165,7 +164,6 @@ BEGIN
             puntos := 0; -- Valor por defecto
         END IF;
     END IF;
-
     RETURN NEW; -- Continuar con la inserción original
 END;
 $$;
@@ -185,9 +183,9 @@ CREATE TABLE public.contenidos (
     id_contenido integer NOT NULL,
     descripcion_contenido text NOT NULL,
     titulo_contenido character varying(255) NOT NULL,
-    archivo_contenido bytea,
-    curso_id integer,
-    usuario_id integer NOT NULL
+    imagen_contenido bytea,
+    usuario_id integer NOT NULL,
+    video_contenido bytea
 );
 
 
@@ -216,28 +214,6 @@ ALTER SEQUENCE public.contenidos_id_contenido_seq OWNED BY public.contenidos.id_
 
 
 --
--- Name: contenidos_modulo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.contenidos_modulo_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.contenidos_modulo_id_seq OWNER TO postgres;
-
---
--- Name: contenidos_modulo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.contenidos_modulo_id_seq OWNED BY public.contenidos.curso_id;
-
-
---
 -- Name: contenidos_usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -257,64 +233,6 @@ ALTER SEQUENCE public.contenidos_usuario_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.contenidos_usuario_id_seq OWNED BY public.contenidos.usuario_id;
-
-
---
--- Name: cursos; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.cursos (
-    id_curso integer NOT NULL,
-    descripcion_curso text,
-    nombre_curso character varying(100),
-    modulo_id integer NOT NULL
-);
-
-
-ALTER TABLE public.cursos OWNER TO postgres;
-
---
--- Name: cursos_id_curso_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.cursos_id_curso_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.cursos_id_curso_seq OWNER TO postgres;
-
---
--- Name: cursos_id_curso_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.cursos_id_curso_seq OWNED BY public.cursos.id_curso;
-
-
---
--- Name: cursos_modulo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.cursos_modulo_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.cursos_modulo_id_seq OWNER TO postgres;
-
---
--- Name: cursos_modulo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.cursos_modulo_id_seq OWNED BY public.cursos.modulo_id;
 
 
 --
@@ -530,41 +448,6 @@ ALTER SEQUENCE public.mensajes_usuario_id_seq OWNED BY public.mensajes.usuario_i
 
 
 --
--- Name: modulos; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.modulos (
-    id_modulo integer NOT NULL,
-    descipcion text NOT NULL,
-    nombre_modulo character varying(100)
-);
-
-
-ALTER TABLE public.modulos OWNER TO postgres;
-
---
--- Name: modulos_id_modulo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.modulos_id_modulo_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.modulos_id_modulo_seq OWNER TO postgres;
-
---
--- Name: modulos_id_modulo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.modulos_id_modulo_seq OWNED BY public.modulos.id_modulo;
-
-
---
 -- Name: puntuaciones; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -607,13 +490,9 @@ ALTER SEQUENCE public.puntuaciones_usuario_id_seq OWNED BY public.puntuaciones.u
 
 CREATE TABLE public.quests (
     id_quest integer NOT NULL,
-    titulo_quest character varying(100) NOT NULL,
-    descripcion_quest text NOT NULL,
-    modulo_id integer NOT NULL,
+    contenido_id integer NOT NULL,
     usuario_id integer NOT NULL,
-    preguntas text NOT NULL,
-    respuestas text NOT NULL,
-    archivo_quest bytea
+    pregunta text NOT NULL
 );
 
 
@@ -660,7 +539,7 @@ ALTER SEQUENCE public.quests_modulo_id_seq OWNER TO postgres;
 -- Name: quests_modulo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.quests_modulo_id_seq OWNED BY public.quests.modulo_id;
+ALTER SEQUENCE public.quests_modulo_id_seq OWNED BY public.quests.contenido_id;
 
 
 --
@@ -686,18 +565,18 @@ ALTER SEQUENCE public.quests_usuario_id_seq OWNED BY public.quests.usuario_id;
 
 
 --
--- Name: resultados_quest; Type: TABLE; Schema: public; Owner: postgres
+-- Name: respuestas_quest; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.resultados_quest (
-    id_resultados_quest integer NOT NULL,
+CREATE TABLE public.respuestas_quest (
+    id_respuestas_quest integer NOT NULL,
     usuario_id integer NOT NULL,
-    puntuacion double precision NOT NULL,
-    quest_id integer NOT NULL
+    quest_id integer NOT NULL,
+    respuesta text NOT NULL
 );
 
 
-ALTER TABLE public.resultados_quest OWNER TO postgres;
+ALTER TABLE public.respuestas_quest OWNER TO postgres;
 
 --
 -- Name: resultados_quest_id_resultados_quest_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -718,7 +597,7 @@ ALTER SEQUENCE public.resultados_quest_id_resultados_quest_seq OWNER TO postgres
 -- Name: resultados_quest_id_resultados_quest_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.resultados_quest_id_resultados_quest_seq OWNED BY public.resultados_quest.id_resultados_quest;
+ALTER SEQUENCE public.resultados_quest_id_resultados_quest_seq OWNED BY public.respuestas_quest.id_respuestas_quest;
 
 
 --
@@ -740,7 +619,7 @@ ALTER SEQUENCE public.resultados_quest_quest_id_seq OWNER TO postgres;
 -- Name: resultados_quest_quest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.resultados_quest_quest_id_seq OWNED BY public.resultados_quest.quest_id;
+ALTER SEQUENCE public.resultados_quest_quest_id_seq OWNED BY public.respuestas_quest.quest_id;
 
 
 --
@@ -762,7 +641,7 @@ ALTER SEQUENCE public.resultados_quest_usuario_id_seq OWNER TO postgres;
 -- Name: resultados_quest_usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.resultados_quest_usuario_id_seq OWNED BY public.resultados_quest.usuario_id;
+ALTER SEQUENCE public.resultados_quest_usuario_id_seq OWNED BY public.respuestas_quest.usuario_id;
 
 
 --
@@ -917,31 +796,10 @@ ALTER TABLE ONLY public.contenidos ALTER COLUMN id_contenido SET DEFAULT nextval
 
 
 --
--- Name: contenidos curso_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.contenidos ALTER COLUMN curso_id SET DEFAULT nextval('public.contenidos_modulo_id_seq'::regclass);
-
-
---
 -- Name: contenidos usuario_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.contenidos ALTER COLUMN usuario_id SET DEFAULT nextval('public.contenidos_usuario_id_seq'::regclass);
-
-
---
--- Name: cursos id_curso; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cursos ALTER COLUMN id_curso SET DEFAULT nextval('public.cursos_id_curso_seq'::regclass);
-
-
---
--- Name: cursos modulo_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cursos ALTER COLUMN modulo_id SET DEFAULT nextval('public.cursos_modulo_id_seq'::regclass);
 
 
 --
@@ -994,13 +852,6 @@ ALTER TABLE ONLY public.mensajes ALTER COLUMN id_mensajes SET DEFAULT nextval('p
 
 
 --
--- Name: modulos id_modulo; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.modulos ALTER COLUMN id_modulo SET DEFAULT nextval('public.modulos_id_modulo_seq'::regclass);
-
-
---
 -- Name: puntuaciones usuario_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1015,10 +866,10 @@ ALTER TABLE ONLY public.quests ALTER COLUMN id_quest SET DEFAULT nextval('public
 
 
 --
--- Name: quests modulo_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: quests contenido_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.quests ALTER COLUMN modulo_id SET DEFAULT nextval('public.quests_modulo_id_seq'::regclass);
+ALTER TABLE ONLY public.quests ALTER COLUMN contenido_id SET DEFAULT nextval('public.quests_modulo_id_seq'::regclass);
 
 
 --
@@ -1029,24 +880,24 @@ ALTER TABLE ONLY public.quests ALTER COLUMN usuario_id SET DEFAULT nextval('publ
 
 
 --
--- Name: resultados_quest id_resultados_quest; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: respuestas_quest id_respuestas_quest; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.resultados_quest ALTER COLUMN id_resultados_quest SET DEFAULT nextval('public.resultados_quest_id_resultados_quest_seq'::regclass);
-
-
---
--- Name: resultados_quest usuario_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.resultados_quest ALTER COLUMN usuario_id SET DEFAULT nextval('public.resultados_quest_usuario_id_seq'::regclass);
+ALTER TABLE ONLY public.respuestas_quest ALTER COLUMN id_respuestas_quest SET DEFAULT nextval('public.resultados_quest_id_resultados_quest_seq'::regclass);
 
 
 --
--- Name: resultados_quest quest_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: respuestas_quest usuario_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.resultados_quest ALTER COLUMN quest_id SET DEFAULT nextval('public.resultados_quest_quest_id_seq'::regclass);
+ALTER TABLE ONLY public.respuestas_quest ALTER COLUMN usuario_id SET DEFAULT nextval('public.resultados_quest_usuario_id_seq'::regclass);
+
+
+--
+-- Name: respuestas_quest quest_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.respuestas_quest ALTER COLUMN quest_id SET DEFAULT nextval('public.resultados_quest_quest_id_seq'::regclass);
 
 
 --
@@ -1088,15 +939,7 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN escuela_id SET DEFAULT nextval('pu
 -- Data for Name: contenidos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.contenidos (id_contenido, descripcion_contenido, titulo_contenido, archivo_contenido, curso_id, usuario_id) FROM stdin;
-\.
-
-
---
--- Data for Name: cursos; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.cursos (id_curso, descripcion_curso, nombre_curso, modulo_id) FROM stdin;
+COPY public.contenidos (id_contenido, descripcion_contenido, titulo_contenido, imagen_contenido, usuario_id, video_contenido) FROM stdin;
 \.
 
 
@@ -1180,14 +1023,35 @@ hola que tal? me gustaría saber más sobre esto!	2	32	2024-05-19 13:37:50.15232
 hola que tal? me gustaría saber más sobre esto!	2	32	2024-05-19 13:48:37.569321	18
 hola que tal? me gustaría saber más sobre esto!	2	35	2024-05-19 13:49:32.056488	19
 hola que tal? me gustaría saber más sobre esto!	2	53	2024-05-19 13:49:59.94162	20
-\.
-
-
---
--- Data for Name: modulos; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.modulos (id_modulo, descipcion, nombre_modulo) FROM stdin;
+hola probando mensaje desde front	2	60	2024-05-21 13:23:44.8314	21
+Hola quería confirmar una cosa	2	60	2024-05-21 13:25:49.961973	22
+estan disponibles para el día 06/0/1024 ?	2	60	2024-05-21 13:36:36.249961	23
+por favor chicos, responder cuando podais	2	60	2024-05-21 13:39:54.710496	24
+probando mensaje	2	60	2024-05-21 13:45:23.374809	25
+test	2	60	2024-05-21 13:46:58.055011	26
+test2	2	60	2024-05-21 13:47:51.257391	27
+test3	2	60	2024-05-21 13:53:19.016495	28
+test4	2	60	2024-05-21 13:55:02.578309	29
+test5	2	60	2024-05-21 13:58:02.193002	30
+test6	2	60	2024-05-21 13:59:02.491371	31
+yo creo que si podré estar disponible!	2	61	2024-05-21 14:06:35.523922	32
+por favor notificarme, quien más se apunta	2	61	2024-05-21 14:10:32.392858	33
+estoy atento, gracias!	2	61	2024-05-21 14:12:48.441541	34
+test7	2	61	2024-05-21 14:14:10.219898	35
+hola publicando mensaje	2	61	2024-05-21 17:42:10.153311	36
+perfecto Francisco, te agradezco la propuesta!	3	60	2024-05-23 00:23:47.104378	37
+me gustaría, que los estudiantes pudieran acceder, puedes dar un poco más de contexto?\n	3	60	2024-05-23 00:24:51.440983	38
+y ya añadido nos preparas una presentación por fa	3	60	2024-05-23 00:27:11.544888	39
+si, a mi me gustaría apuntarme! Saludos	3	61	2024-05-23 00:30:59.476036	40
+probando mensaje\n	2	7	2024-05-23 01:40:07.277228	41
+testeando el modal 	2	7	2024-05-23 01:49:17.904521	42
+probando otra vez!	2	7	2024-05-23 01:50:00.634578	43
+probando autocerrado	2	7	2024-05-23 01:50:45.285713	44
+test	2	7	2024-05-23 01:51:43.972315	45
+otra prueba	2	7	2024-05-23 01:56:12.790765	46
+test	2	7	2024-05-23 02:02:56.64904	47
+mi mensaje\n	2	7	2024-05-24 18:18:33.749194	48
+gracias!\n	2	61	2024-05-24 18:19:13.467522	49
 \.
 
 
@@ -1199,6 +1063,7 @@ COPY public.puntuaciones (usuario_id, quests_pts, diccionario_pts, mensajes_pts,
 32	\N	\N	4	4
 35	\N	\N	12	12
 53	\N	\N	6	6
+61	\N	\N	14	14
 \.
 
 
@@ -1206,15 +1071,15 @@ COPY public.puntuaciones (usuario_id, quests_pts, diccionario_pts, mensajes_pts,
 -- Data for Name: quests; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.quests (id_quest, titulo_quest, descripcion_quest, modulo_id, usuario_id, preguntas, respuestas, archivo_quest) FROM stdin;
+COPY public.quests (id_quest, contenido_id, usuario_id, pregunta) FROM stdin;
 \.
 
 
 --
--- Data for Name: resultados_quest; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: respuestas_quest; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.resultados_quest (id_resultados_quest, usuario_id, puntuacion, quest_id) FROM stdin;
+COPY public.respuestas_quest (id_respuestas_quest, usuario_id, quest_id, respuesta) FROM stdin;
 \.
 
 
@@ -1225,6 +1090,7 @@ COPY public.resultados_quest (id_resultados_quest, usuario_id, puntuacion, quest
 COPY public.temas (id_tema, titulo_tema, descripcion_tema, foro_id, usuario_id, fechapub_tema) FROM stdin;
 2	Evento de paseo por la naturaleza	A continuación, quería ver quien estaba interesado en ir de paseito por la naturaleza	3	10	2024-04-05 18:08:47.451762
 3	Grupo de Iniciativas con Biodiversidad 	Bienvenidos!!, en este tema quería plantear un grupo para hacer iniciativas basadas en biodiversidad, espero que se animen	3	24	2024-04-05 18:10:46.795191
+6	Excursión al Bosque	foro para organización de excursión al Bosque	3	7	2024-05-23 12:42:20.390456
 \.
 
 
@@ -1239,6 +1105,7 @@ COPY public.usuarios (id_usuario, nombre_usuario, apellido_usuario, email, contr
 7	gregorio	araque	educador@correo.com	$2b$10$So0xpv7fuHv1fxaqZiYgCOblfvcOVWkj4mM3wQQHWMbrK1g4d1PUq	educador	1	\N
 41	francisco	ibarra	jguevara@midominio.com	$2b$10$qqZBX.MnunzYRTf0sbtRmuMzEEDzs5uT1cE7iwzKkXFN7yrdsNXwC	estudiante	1	\N
 42	francisco	ibarra	jguevara@midominio.com	$2b$10$QYtyie.pcxPLp8MEen5ybe3gLPbZd22rJbTBuH5pLP7izPXC.os5O	estudiante	1	\N
+61	Xokas	Sorolla	estudiante2000@correo.com	$2b$10$u2IKJapnSAHUrdeU9f1D4emn5kyIlLGQ6oEB1cLW4QY.4hL62Txuy	estudiante	1	\N
 9	John	Doe	john.doe@example.com	$2b$10$vqrediaXTxH5N/vFDDGwhe3DH5xK5qfEAsbelhgjSye2bYOrbCkzu	estudiante	1	\\x696d6167656e5f64655f70657266696c2e6a7067
 10	John	Doe	john.doe@example.com	$2b$10$D0F9O7ONKs/MWtu2DxZRBeHFl/kdt2ecF42ZzTTvmOmA3JsV4gpuu	estudiante	1	\\x696d6167656e5f64655f70657266696c2e6a7067
 11	John	Doe	john.doe@example.com	$2b$10$cnLK5EYY2iygc1Okd2PgaeXWeSnnFSI5czZwT4deNat.2N6GO93Ye	estudiante	1	\N
@@ -1286,31 +1153,10 @@ SELECT pg_catalog.setval('public.contenidos_id_contenido_seq', 1, false);
 
 
 --
--- Name: contenidos_modulo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.contenidos_modulo_id_seq', 1, false);
-
-
---
 -- Name: contenidos_usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.contenidos_usuario_id_seq', 1, false);
-
-
---
--- Name: cursos_id_curso_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, false);
-
-
---
--- Name: cursos_modulo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.cursos_modulo_id_seq', 1, false);
 
 
 --
@@ -1345,7 +1191,7 @@ SELECT pg_catalog.setval('public.foro_id_foro_seq', 3, true);
 -- Name: mensajes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.mensajes_id_seq', 20, true);
+SELECT pg_catalog.setval('public.mensajes_id_seq', 49, true);
 
 
 --
@@ -1360,13 +1206,6 @@ SELECT pg_catalog.setval('public.mensajes_tema_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.mensajes_usuario_id_seq', 1, false);
-
-
---
--- Name: modulos_id_modulo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.modulos_id_modulo_seq', 1, false);
 
 
 --
@@ -1429,7 +1268,7 @@ SELECT pg_catalog.setval('public.temas_foro_id_seq', 1, false);
 -- Name: temas_id_tema_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.temas_id_tema_seq', 3, true);
+SELECT pg_catalog.setval('public.temas_id_tema_seq', 6, true);
 
 
 --
@@ -1450,7 +1289,7 @@ SELECT pg_catalog.setval('public.usuarios_escuela_id_seq', 1, false);
 -- Name: usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 57, true);
+SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 61, true);
 
 
 --
@@ -1459,14 +1298,6 @@ SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 57, true);
 
 ALTER TABLE ONLY public.contenidos
     ADD CONSTRAINT pk_contenidos PRIMARY KEY (id_contenido);
-
-
---
--- Name: cursos pk_cursos; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cursos
-    ADD CONSTRAINT pk_cursos PRIMARY KEY (id_curso);
 
 
 --
@@ -1502,14 +1333,6 @@ ALTER TABLE ONLY public.mensajes
 
 
 --
--- Name: modulos pk_modulos; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.modulos
-    ADD CONSTRAINT pk_modulos PRIMARY KEY (id_modulo);
-
-
---
 -- Name: puntuaciones pk_puntuaciones; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1526,11 +1349,11 @@ ALTER TABLE ONLY public.quests
 
 
 --
--- Name: resultados_quest pk_resultados_quest; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: respuestas_quest pk_resultados_quest; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.resultados_quest
-    ADD CONSTRAINT pk_resultados_quest PRIMARY KEY (id_resultados_quest);
+ALTER TABLE ONLY public.respuestas_quest
+    ADD CONSTRAINT pk_resultados_quest PRIMARY KEY (id_respuestas_quest);
 
 
 --
@@ -1599,27 +1422,11 @@ CREATE TRIGGER validar_usuario_quests AFTER INSERT ON public.quests FOR EACH ROW
 
 
 --
--- Name: contenidos fk_contenidos_cursos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.contenidos
-    ADD CONSTRAINT fk_contenidos_cursos FOREIGN KEY (curso_id) REFERENCES public.cursos(id_curso);
-
-
---
 -- Name: contenidos fk_contenidos_usuarios; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.contenidos
     ADD CONSTRAINT fk_contenidos_usuarios FOREIGN KEY (usuario_id) REFERENCES public.usuarios(id_usuario);
-
-
---
--- Name: cursos fk_cursos_modulos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cursos
-    ADD CONSTRAINT fk_cursos_modulos FOREIGN KEY (modulo_id) REFERENCES public.modulos(id_modulo);
 
 
 --
@@ -1663,11 +1470,11 @@ ALTER TABLE ONLY public.puntuaciones
 
 
 --
--- Name: quests fk_quests_modulos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: quests fk_quests_contenidos; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.quests
-    ADD CONSTRAINT fk_quests_modulos FOREIGN KEY (modulo_id) REFERENCES public.modulos(id_modulo);
+    ADD CONSTRAINT fk_quests_contenidos FOREIGN KEY (contenido_id) REFERENCES public.contenidos(id_contenido);
 
 
 --
@@ -1679,18 +1486,18 @@ ALTER TABLE ONLY public.quests
 
 
 --
--- Name: resultados_quest fk_resultados_quest_quests; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: respuestas_quest fk_resultados_quest_quests; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.resultados_quest
+ALTER TABLE ONLY public.respuestas_quest
     ADD CONSTRAINT fk_resultados_quest_quests FOREIGN KEY (quest_id) REFERENCES public.quests(id_quest);
 
 
 --
--- Name: resultados_quest fk_resultados_quest_usuarios; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: respuestas_quest fk_resultados_quest_usuarios; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.resultados_quest
+ALTER TABLE ONLY public.respuestas_quest
     ADD CONSTRAINT fk_resultados_quest_usuarios FOREIGN KEY (usuario_id) REFERENCES public.usuarios(id_usuario);
 
 

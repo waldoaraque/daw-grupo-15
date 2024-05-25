@@ -7,12 +7,16 @@ import { useState } from 'react'
 import { diccionarioCategoryService, diccionarioWordService } from '../services/diccionario.service'
 
 export default function Diccionario() {
-    const { user, token } = useAuth()
+    const { user, token, logOut } = useAuth()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [searchTerm, setSearchTerm] = useState('') // Estado para almacenar la búsqueda por palabra
     const [searchResult, setSearchResult] = useState(null) // Estado para almacenar la búsqueda por letra
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
+
+    if(!user) {
+        logOut()
+    }
 
     const openModal = () => {
         setIsModalOpen(true)
@@ -59,10 +63,6 @@ export default function Diccionario() {
 
     const closeModalSuccess = () => setMessageModalSuccess(false)
     const closeModalError  = () => setMessageModalError(false)
-
-    if(!user) {
-        return <Navigate to='/login' />
-    }
 
     return (
         <DefaultLayout>

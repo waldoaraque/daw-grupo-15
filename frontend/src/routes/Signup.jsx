@@ -1,4 +1,6 @@
 import DefaultLayout from '../layout/DefaultLayout'
+import DynamicForm from '../components/form'
+import Modal from '../components/modal'
 import { useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import { Navigate } from 'react-router-dom'
@@ -11,6 +13,8 @@ export default function Signup() {
     const [email, setEmail] = useState('')
     const [contrasena, setContrasena] = useState('')
     const { handleSubmit, register } = useForm()
+    const [messageModalSuccess, setMessageModalSuccess] = useState(false)
+    const [messageModalError, setMessageModalError] = useState(false)
 
     const handleSignup = async (data) => {
         try {
@@ -24,50 +28,74 @@ export default function Signup() {
         }
     }
 
+    const closeModalSuccess = () => setMessageModalSuccess(false)
+    const closeModalError  = () => setMessageModalError(false)
+
+    const signupFields = [
+        {
+            type: 'text',
+            name: 'nombre',
+            className: '',
+            //pattern: '',
+            placeholder: 'Nombre',
+            required: true
+        },
+        {
+            type: 'text',
+            name: 'apellido',
+            className: '',
+            //pattern: '',
+            placeholder: 'Apellido',
+            required: true
+        },
+        {
+            type: 'text',
+            name: 'email',
+            className: '',
+            //pattern: '',
+            placeholder: 'Email',
+            required: true
+        },
+        {
+            type: 'password',
+            name: 'password',
+            className: '',
+            //pattern: '',
+            placeholder: 'Contraseña',
+            required: true
+        },
+        {
+            type: 'password',
+            name: 'password',
+            className: '',
+            //pattern: '',
+            placeholder: 'Repetir Contraseña',
+            required: true
+        }
+    ]
+
     return (
         <DefaultLayout>
-            <form className='form' onSubmit={handleSubmit(handleSignup)}>
-                
-                <h1>Signup</h1>
-
-                {/* <label>Name</label> */}
-                <input 
-                    type='text'
-                    placeholder='Nombre'
-                    pattern='[A-Za-z]+'
-                    value={name} {...register('name')}
-                    onChange={(e) => setName(e.target.value)}
+            <div className='login-container'>
+                <Modal 
+                    isOpen={messageModalSuccess}
+                    message={messageModalSuccess}
+                    type='success'
+                    onClose={closeModalSuccess} 
                 />
-
-                {/* <label>Apellido</label> */}
-                <input
-                    type='text'
-                    placeholder='Apellido'
-                    pattern='[A-Za-z]+'
-                    value={apellido} {...register('apellido')}
-                    onChange={(e) => setApellido(e.target.value)}
+                <Modal 
+                    isOpen={messageModalError}
+                    message={messageModalError}
+                    type='error'
+                    onClose={closeModalError}
                 />
-
-                {/* <label>Email</label> */}
-                <input 
-                    type='email'
-                    placeholder='Email'
-                    pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
-                    value={email} {...register('email')}
-                    onChange={(e) => setEmail(e.target.value)} 
+                <DynamicForm 
+                    formTitle='SignUp'
+                    fields={signupFields}
+                    onSubmit={handleSignup}
+                    buttonText='Registrarme'
                 />
-
-                {/* <label>Password</label> */}
-                <input 
-                    type='password'
-                    placeholder='Contraseña'
-                    pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}'
-                    value={contrasena} {...register('contrasena')}
-                    onChange={(e) => setContrasena(e.target.value)} 
-                />
-
-                <button>Register</button>
-            </form>
+            </div>
         </DefaultLayout>
     )
 }

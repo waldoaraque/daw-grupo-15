@@ -11,7 +11,9 @@ import {
   foroRouter,
   temasRouter,
   mensajesRouter,
-  ptsRouter
+  ptsRouter,
+  contenidosRouter,
+  questsRouter
 } from "./routes/index.js"
 import { apiHost, apiPort } from "./config.js"
 
@@ -42,6 +44,8 @@ app.use("/api", foroRouter)
 app.use("/api", temasRouter)
 app.use("/api", mensajesRouter)
 app.use("/api", ptsRouter)
+app.use("/api", contenidosRouter)
+app.use("/api", questsRouter)
 
 const server = app.listen(apiPort, () => {
   console.log(`API Server running in: ${apiHost}:${apiPort}`)
