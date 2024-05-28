@@ -3,10 +3,10 @@ import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 
 export default function Home() {
-    const { user, logOut } = useAuth()
+    const { user, token, logOut } = useAuth()
 
     if(!user) {
-        logOut()
+        return <Navigate to='/login' />
     }
 
     return (
@@ -25,7 +25,8 @@ export default function Home() {
                     </p>    
                 </section>
                 <section>
-                    <h2>Características destacadaas:</h2>
+                <input type="text" name="" id="" defaultValue='test'/>
+                    <h2>Características destacadas:</h2>
                     <ul>
                         <li>Funcionalidad 1</li>
                         <li>Funcionalidad 2</li>

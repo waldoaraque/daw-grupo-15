@@ -29,3 +29,11 @@ export const createQuestService = async (quest, { token }) => {
 export const postQuestService = async ({ token }) => { 
 
 }
+
+export const updateQuestService = async ({ token }) => { 
+
+}
+
+export const getQuestService = async ({ token }) => { 
+
+}

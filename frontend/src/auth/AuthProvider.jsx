@@ -1,81 +1,100 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { loginService } from '../services/login.service'
-import { jwtDecode } from 'jwt-decode'
-import Modal from '../components/modal'
-import { Navigate } from 'react-router-dom'
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loginService } from '../services/login.service';
+import { jwtDecode } from 'jwt-decode';
+import Modal from '../components/modal';
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [token, setToken] = useState(window.localStorage.getItem('userSession') || '')
-  const [tokenPayload, setTokenPayload] = useState(null)
-  const [messageModalSuccess, setMessageModalSuccess] = useState(false)
-  const [messageModalError, setMessageModalError] = useState(false)
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(window.localStorage.getItem('userSession') || '');
+    const [tokenPayload, setTokenPayload] = useState(null);
+    const [messageModalSuccess, setMessageModalSuccess] = useState(false);
+    const [messageModalError, setMessageModalError] = useState(false);
 
-  useEffect(() => {
-    const storedSession = window.localStorage.getItem('userSession')
-    if (storedSession) {
-      const { username, token } = JSON.parse(storedSession)
-      const payloadToken = jwtDecode(token)
-      if (username && token && !isTokenExpired(token)) {
-          setUser(username)
-          setToken(token)
-          setTokenPayload(payloadToken)
-      } else {
-          logOut()
-      }
+    useEffect(() => {
+        const storedSession = window.localStorage.getItem('userSession');
+        if (storedSession) {
+            const { username, token } = JSON.parse(storedSession);
+            const payloadToken = jwtDecode(token);
 
-    }
-  }, [])
+            if (isTokenExpired(payloadToken)) {
+                logOut();
+            } else {
+                setUser(username);
+                setToken(token);
+                setTokenPayload(payloadToken);
+            }
+        }
+    }, []);
 
-  const loginAction = async (data) => {
-    try {
-      const authentication = await loginService({ 'email': data.username, 'contrasena': data.password })
-      const payloadToken = jwtDecode(authentication.token)
-      setUser(authentication.username)
-      setToken(authentication.token)
-      setTokenPayload(payloadToken)
-      window.localStorage.setItem(
-        'userSession', JSON.stringify(authentication)
-      )
-    } catch (error) {
-      setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.')
-    }
-  }
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (token && isTokenExpired(tokenPayload)) {
+                console.log("Token expired. Logging out...");
+                logOut();
+            }
+        }, 30000); // Verificar cada minuto
 
-  const logOut = () => {
-    setUser(null)
-    setToken('')
-    setTokenPayload('')
-    window.localStorage.removeItem('userSession')
-    return <Navigate to='/login' />
-  }
+        return () => clearInterval(interval);
+    }, [token, tokenPayload]);
 
-  const closeModalSuccess = () => setMessageModalSuccess(false)
-  const closeModalError  = () => setMessageModalError(false)
+    const loginAction = async (data) => {
+        try {
+            const authentication = await loginService({ email: data.username, contrasena: data.password });
+            const payloadToken = jwtDecode(authentication.token);
+            setUser(authentication.username);
+            setToken(authentication.token);
+            setTokenPayload(payloadToken);
+            window.localStorage.setItem('userSession', JSON.stringify(authentication));
+        } catch (error) {
+            setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.');
+        }
+    };
 
-  const isTokenExpired = (token) => {
-    if (!token) {
-        return true
-    }
+    const logOut = () => {
+        setUser(null);
+        setToken('');
+        setTokenPayload(null);
+        window.localStorage.removeItem('userSession');
+        console.log("Logged out successfully.");
+    };
 
-    try {
-        const decoded = jwtDecode(token)
-        const now = Date.now() / 1000
-        return decoded.exp < now
-    } catch (error) {
-        return true
-    }
-  }
+    const closeModalSuccess = () => setMessageModalSuccess(false);
+    const closeModalError = () => setMessageModalError(false);
 
-  return (
-    <AuthContext.Provider value={{ token, user, tokenPayload, loginAction, logOut }}>
-      <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
-      <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
-      {children}
-    </AuthContext.Provider>
-  )
-}
+    const isTokenExpired = (tokenPayload) => {
+        if (!token) {
+            return true;
+        }
 
-export const useAuth = () => useContext(AuthContext)
+        try {
+            const now = Date.now() / 1000;
+            console.log(`Checking token expiration: ${tokenPayload.exp < now}`);
+            return tokenPayload.exp < now;
+        } catch (error) {
+            console.log("Error decoding token:", error);
+            return true;
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{ token, user, tokenPayload, loginAction, logOut }}>
+            <Modal
+                isOpen={messageModalSuccess}
+                message={messageModalSuccess}
+                type='success'
+                onClose={closeModalSuccess}
+            />
+            <Modal
+                isOpen={messageModalError}
+                message={messageModalError}
+                type='error'
+                onClose={closeModalError}
+            />
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => useContext(AuthContext);

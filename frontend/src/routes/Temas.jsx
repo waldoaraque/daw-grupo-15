@@ -17,14 +17,13 @@ export default function Temas() {
     const { user, token, tokenPayload, logOut } = useAuth()
     const [listMensajes, setListMensajes] = useState(null)
 
-    if (!user) {
-        logOut()
-        //return <Navigate to='/login' />
+    if (!user && !token) {
+        return <Navigate to='/login' />
     }
 
     useEffect(() => {
         if (!user) {
-            logOut()
+            return <Navigate to='/login' />
         }
         const listMensajes = async () => {
             try {

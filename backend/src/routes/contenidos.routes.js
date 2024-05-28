@@ -9,7 +9,16 @@ import {
 
 import multer from 'multer'
 
-const upload = multer({ dest: 'uploads/' })
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 const contenidosRouter = Router()
 
@@ -17,10 +26,7 @@ contenidosRouter.get("/contenidos", getContenidos)
 
 contenidosRouter.get("/contenidos/:id", getContenidoById)
 
-contenidosRouter.post("/contenidos", upload.single('video'), async (req, res) => {
-  const {file} = req.body
-  console.log(req)
-} )
+contenidosRouter.post("/contenidos", upload.single('video'), createContenido)
 
 contenidosRouter.put("/contenidos/:id", updateContenido)
 

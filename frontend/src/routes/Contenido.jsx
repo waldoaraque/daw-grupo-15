@@ -4,8 +4,7 @@ import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
 import Modal from '../components/modal'
-import { getContentService } from '../services/contenidos.service'
-import { createQuestService, postQuestService } from '../services/quests.service'
+import { updateQuestService, postQuestService, getQuestService } from '../services/quests.service'
 
 export default function Contenido () {
     const { id } = useParams()
@@ -14,29 +13,37 @@ export default function Contenido () {
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
 
-    const { user, token, tokenPayload, logOut } = useAuth()
-    // const [listMensajes, setListMensajes] = useState(null)
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
-    if (!user) {
-        logOut()
+    const [video, setVideo] = useState(null)
+
+    const { user, token, tokenPayload, logOut } = useAuth()
+
+    if (!user && !token) {
+        return <Navigate to='/login' />
     }
 
-    // useEffect(() => {
-    //     if (!user) {
-    //         return // No hacer nada si no hay usuario
-    //     }
-    //     const listMensajes = async () => {
-    //         try {
-    //             const result = await listMensajesService(id, { token })
-    //             setListMensajes(result)
-    //         } catch (error) {
-    //             console.error('Error al extraer foros:', error)
-    //         }
-    //     }
-    //     listMensajes()
-    // }, [user, token, id])
+    useEffect(() => {
 
-    const handleSubmitMensaje = async (input, resetForm) => {
+    const fetchVideo = async () => {
+        const buffer = new Uint8Array(contenido.video_contenido.data)
+        const blob = new Blob([buffer], { type: 'video/mp4' })
+        const url = URL.createObjectURL(blob)
+        setVideo(url)
+    }
+    
+    fetchVideo()
+    
+    // Limpieza de la URL creada cuando el componente se desmonta
+    return () => {
+        if (video) {
+            URL.revokeObjectURL(video)
+        }
+    }
+    }, [contenido])
+
+    const handleSubmitQuest = async (input, resetForm) => {
         // if (input.contenidoMensaje !== '') {
         //     let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
         //     //result =
@@ -52,57 +59,110 @@ export default function Contenido () {
         // return
     }
 
+    const handleUpdateQuest = async (input, resetForm) => {
+        for (const key in input) {
+            if (input.hasOwnProperty(key)) {
+                if (key.startsWith('question_')) {
+                    let questResult = await updateQuestService(
+                        // contenido_id, pregunta
+                        {
+                            'contenido_id': id,
+                            // necesito el id de la quest también
+                            'pregunta': input[key]
+                        },
+                        { token }
+                    )
+                }
+            }
+        }
+    }
+
     const closeModalSuccess = () => setMessageModalSuccess(false)
     const closeModalError  = () => setMessageModalError(false)
 
+    const openEditModal = (quest) => {
+        //setSelectedContent(quest)
+        setIsEditModalOpen(true)
+    }
+
+    const closeEditModal = () => setIsEditModalOpen(false)
+    const openCreateModal = () => setIsCreateModalOpen(true)
+    const closeCreateModal = () => setIsCreateModalOpen(false)
+
+    const responsesFields = [
+        // requiero utilizar la lista de preguntas (quests) para rellenar los fields con los label
+        {}
+    ]
+
     return (
         <DefaultLayout>
+            <Modal 
+                isOpen={messageModalSuccess} 
+                message={messageModalSuccess} 
+                type='success' 
+                onClose={closeModalSuccess} 
+            />
+            <Modal 
+                isOpen={messageModalError}
+                message={messageModalError}
+                type='error'
+                onClose={closeModalError} 
+            />
             <div className="tema-container">
+                {/* AGREGAR CONTENIDO ... */}
                 <div className="tema-header">
-                    <h1 className="tema-title">{contenido.titulo_tema}</h1>
-                    <p className="tema-description">{contenido.descripcion_tema}</p>
+                    <h1 className="tema-title">{contenido.titulo_contenido}</h1>
+                    <p className="tema-description">{contenido.descripcion_contenido}</p>
+                </div>
+                <div>
+                    {video ? (
+                        
+                        <video width="600" controls preload='auto' muted >
+                            <source src={video}  type="video/mp4" />
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    ) : (
+                        <p>Cargando video...</p>
+                    )}
                 </div>
                 <br />
-
-                {/* AGREGAR CONTENIDO ... */}
-
-
                 {/* AGREGAR QUEST EN EL MODAL ... */}
 
-                <div className="form-container">
-                    <DynamicForm
-                        fields={mensajeFields}
-                        onSubmit={handleSubmitMensaje}
-                        buttonText='Publicar Mensaje'
-                    />
-                    <Modal 
-                        isOpen={messageModalSuccess} 
-                        message={messageModalSuccess} 
-                        type='success' 
-                        onClose={closeModalSuccess} 
-                    />
-                    <Modal 
-                        isOpen={messageModalError}
-                        message={messageModalError}
-                        type='error'
-                        onClose={closeModalError} 
-                    />
-                </div>
-
-                {listMensajes && Array.isArray(listMensajes) ? (
-                    <div className="mensaje-container">
-                        {listMensajes.map((mensaje, index) => (
-                            <div className="mensaje-item" key={mensaje.id_mensaje || index}>
-                                <div className="mensaje-header">
-                                    <p className="mensaje-usuario">{mensaje.nombre_usuario} {mensaje.apellido_usuario}</p>
-                                    <p className="mensaje-fecha">{formatDate(mensaje.fechapub_mensaje)}</p>
-                                </div>
-                                <p className="mensaje-contenido">{mensaje.contenido_mensaje}</p>
+                
+                {(tokenPayload.user_type === 'estudiante') && (
+                    <>
+                        <button className="foro-button" onClick={openCreateModal}>
+                            Responder Quest
+                        </button>
+                        <Modal isOpen={isCreateModalOpen} onClose={closeCreateModal}>
+                            <div>
+                                <DynamicForm
+                                    formTitle='Quest'
+                                    fields={responsesFields}
+                                    onSubmit={handleSubmitQuest}
+                                    buttonText='Enviar Respuestas'
+                                />
                             </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="loading-message">Cargando mensajes...</p>
+                        </Modal>
+                    </>
+                )}
+                {tokenPayload.user_type === 'educador' && (
+                    <>
+                        <button className="foro-button" onClick={openEditModal}>
+                            Editar Quest
+                        </button>
+                    
+                        <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
+                            <div>
+                                <DynamicForm
+                                    formTitle='Edita la Quest'
+                                    onSubmit={handleUpdateQuest}
+                                    buttonText='Actualizar Quest'
+                                    buttonAdd={true}
+                                />
+                            </div>
+                        </Modal>
+                    </>
                 )}
             </div>
         </DefaultLayout>

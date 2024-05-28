@@ -12,7 +12,7 @@ export default function headerInLogin() {
     <div>
       <div className='header-container'>
         <div className='logo-container'>
-          <img className='logo' src='/ecoWiseLogo.png' alt='' />
+          <img className='logo' src='/logo_v3.png' alt='' />
           <p className='logo-message'> Tu aplicación de aprendizaje amigable con el medio ambiente  </p>
         </div>
       </div>

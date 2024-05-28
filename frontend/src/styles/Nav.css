@@ -20,16 +20,18 @@
 
 .logo-message {
   position: absolute;
-  color: #000;
-  margin-top: 95px;
+  color: #2b8528;
+  margin-top: 100px;
   display: flex;
-  font-size: 18px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 22px;
+  align-content: center;
+  
 }
 
 nav {
-  background: rgb(126,217,87);
-  background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);
+  background-color: #333;
+  /*background: rgb(126,217,87);*/
+  /*background: linear-gradient(90deg, rgba(126,217,87,1) 0%, rgba(0,126,80,1) 35%, rgba(0,151,178,1) 100%);*/
   border-top: 2px solid black;
   border-bottom: 2px solid rgb(84, 84, 84);
   justify-content: center;
@@ -65,7 +67,7 @@ nav {
 }
 
 .nav-menu li:hover {
-  background-color: rgb(73, 167, 33);
+  background-color: #40B93C;
 }
 
 .nav-menu a {

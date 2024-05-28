@@ -4,10 +4,11 @@ import DynamicForm from '../components/form'
 import DynamicFormContent from '../components/formContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import {
+    getContentService,
     createContentService,
     updateContentService,
     deleteContentService
@@ -28,8 +29,25 @@ export default function Foro() {
     const [messageModalError, setMessageModalError] = useState(false)
 
     if(!user) {
-        logOut()
+        <Navigate to='/login' />
     }
+
+    useEffect(() => {
+        if (!user && !tokenPayload) {
+            logOut()
+        }
+
+        const __listContent = async () => {
+            try {
+                const result = await getContentService({ token })
+                setListContent(result)
+            } catch (error) {
+                console.error('Error al extraer foros:', error)
+            }
+        }
+
+        __listContent()
+    }, [user, token, logOut])
 
     const openCreateModal = () => setIsCreateModalOpen(true)
     const closeCreateModal = () => setIsCreateModalOpen(false)
@@ -54,12 +72,10 @@ export default function Foro() {
     const handleSubmitContent = async (input, resetForm) => {
         if (input.title !== '' && input.content !== '') {
             const data = new FormData()
-            data.append('titulo', input.title)
-            data.append('descripcion', input.content)
+            data.append('titulo_contenido', input.title)
+            data.append('descripcion_contenido', input.content)
             data.append('video', input.video)
             
-            //data.forEach((value, key) => console.log(key, value))
-
             let contentResult = await createContentService(
             // descripcion_contenido, titulo_contenido, imagen_contenido, video_contenido
                 data,
@@ -77,7 +93,6 @@ export default function Foro() {
                             },
                             { token }
                         )
-                        //console.log(`${key}: ${input[key]}`)
                     }
                 }
             }
@@ -112,9 +127,9 @@ export default function Foro() {
     }
 
     const handleDeleteContent = async (input, resetForm) => {
-        if (input.tituloTema === 'Eliminar') {
-            let result = await deleteContentService(selectedTema.id_tema, { token })
-            setListTema(result)
+        if (input.titulo === 'Eliminar') {
+            let result = await deleteContentService(selectedContent.id_contenido, { token })
+            setListContent(result)
             resetForm()
             closeDeleteModal()
             setMessageModalSuccess('Tu contenido ha sido eliminado!')
@@ -125,10 +140,38 @@ export default function Foro() {
     }
 
     const temarioFields = [
-        { type: 'text', name: 'title', label: 'Título', placeholder: 'Ingresa el título', required: true },
-        { type: 'textarea', name: 'content', label: 'Contenido', placeholder: 'Descripción...', required: true },
-        //{ type: 'file', name: 'image', label: 'Subir Imagen', accept: ".jpg, .jpeg, .png", required: false },
-        { type: 'file', name: 'video', label: 'Subir Video', accept: 'videos/*',  required: false }
+        { 
+            type: 'text', 
+            name: 'title', 
+            label: 'Título', 
+            placeholder: 'Ingresa el título', 
+            required: true 
+        },
+        { 
+            type: 'textarea', 
+            name: 'content', 
+            label: 'Contenido', 
+            placeholder: 'Descripción...', 
+            required: true 
+        },
+        { 
+            type: 'file', 
+            name: 'video', 
+            label: 'Subir Video', 
+            accept: 'videos/*',  
+            required: false 
+        }
+    ]
+    
+    const contenidoDeleteFields = [
+        {
+            type: 'text',
+            name: 'titulo',
+            className: '',
+            pattern: 'Eliminar',
+            placeholder: 'Eliminar',
+            required: true
+        }
     ]
 
     return (
@@ -180,7 +223,7 @@ export default function Foro() {
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faPen} 
-                                                    className="" 
+                                                    className=""
                                                     onClick={() => openEditModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
@@ -190,6 +233,7 @@ export default function Foro() {
                                                             fields={temarioFields}
                                                             onSubmit={handleUpdateContent}
                                                             buttonText='Actualizar Contenido'
+                                                            buttonAdd={true}
                                                         />
                                                     </div>
                                                 </Modal>
@@ -200,7 +244,7 @@ export default function Foro() {
                                                 <FontAwesomeIcon 
                                                     icon={faTrash} 
                                                     className="" 
-                                                    onClick={() => openDeleteModal(tema)} 
+                                                    onClick={() => openDeleteModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>
                                                     <div>

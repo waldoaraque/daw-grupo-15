@@ -1,0 +1,20 @@
+@hostname = localhost
+@port = 4000
+@host = {{hostname}}:{{port}}
+#@id = 6
+@basePath = api/contenidos
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6ImVkdWNhZG9yQGNvcnJlby5jb20iLCJ1c2VyX3R5cGUiOiJlZHVjYWRvciIsImlhdCI6MTcxNjc5OTUxNSwiZXhwIjoxNzE2ODAzMTE1fQ.MAm1fmmJw8uHRFvl3oANtGyhmMu2L1_5h7zuN2m39jE
+
+### Post Video
+POST http://{{host}}/{{basePath}} HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary123
+Authorization: Bearer {{token}}
+
+--boundary123
+Content-Disposition: form-data; name="video"; filename="elMedioAmbiente.mp4"
+Content-Type: video/mp4
+
+< ../../elMedioAmbiente.mp4
+--boundary123--
+

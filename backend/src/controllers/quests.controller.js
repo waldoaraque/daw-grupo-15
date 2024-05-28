@@ -43,26 +43,26 @@ export const getQuestById = async (req, res, next) => {
 export const createQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol === 'educador') {
-      const {
-        contenido_id,
-        pregunta
-      } = req.body
-  
-      const questsData = {
-        usuario_id: userId,
-        contenido_id,
-        pregunta
-      }
-  
-      const newQuest = await insertQuery(questsTabla, questsData)
-      res
-        .status(201)
-        .json(newQuest)
-    }
-    return res
+    if (userRol !== 'educador') {
+      return res
             .status(403)
             .json({ message: "Forbidden" })
+    }
+    const {
+      contenido_id,
+      pregunta
+    } = req.body
+
+    const questsData = {
+      usuario_id: userId,
+      contenido_id,
+      pregunta
+    }
+
+    const newQuest = await insertQuery(questsTabla, questsData)
+    res
+      .status(201)
+      .json(newQuest)
   } catch (error) {
     next(error)
   }
@@ -73,28 +73,28 @@ export const updateQuest = async (req, res, next) => {
     const { userId, userRol } = req
     const { id } = req.params
     let id_tema = parseInt(id)
-    if (userRol === 'educador') {
-      const {
-        titulo_tema,
-        descripcion_tema
-      } = req.body
-  
-      const questsData = {
-        titulo_tema,
-        usuario_id: userId,
-        foro_id: 3,
-        descripcion_tema
-      }
-  
-      const putQuest = await updateByIdQuery(questsTabla, questsData, id_tema)
-  
-      res
-        .status(200)
-        .json(putQuest)
-    }
-    return res
+    if (userRol !== 'educador') {
+      return res
             .status(403)
             .json({ message: "Forbidden" })
+    }
+    const {
+      titulo_tema,
+      descripcion_tema
+    } = req.body
+
+    const questsData = {
+      titulo_tema,
+      usuario_id: userId,
+      foro_id: 3,
+      descripcion_tema
+    }
+
+    const putQuest = await updateByIdQuery(questsTabla, questsData, id_tema)
+
+    res
+      .status(200)
+      .json(putQuest)
     
   } catch (error) {
     next(error)
@@ -105,23 +105,23 @@ export const deleteQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
 
-    if (userRol === 'educador') {
-      const { id } = req.params
-      const questsData = await selectByIdQuery(questsTabla, id)
-
-      if (userId !== questsData[0].usuario_id) {
-        return res
-                .status(403)
-                .json({ message: "Forbidden" })
-      }
-      const delQuest = await deleteByIdQuery(questsTabla, id)
-      res
-        .status(204)
-        .json(delQuest)
-    }
-    return res
+    if (userRol !== 'educador') {
+      return res
             .status(403)
             .json({ message: "Forbidden" })
+    }
+    const { id } = req.params
+    const questsData = await selectByIdQuery(questsTabla, id)
+
+    if (userId !== questsData[0].usuario_id) {
+      return res
+              .status(403)
+              .json({ message: "Forbidden" })
+    }
+    const delQuest = await deleteByIdQuery(questsTabla, id)
+    res
+      .status(204)
+      .json(delQuest)
   } catch (error) {
     next(error)
   }

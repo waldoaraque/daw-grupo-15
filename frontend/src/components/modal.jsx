@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import '../styles/Modal.css' // Estilos CSS para el modal
 
 export default function Modal({ isOpen, onClose, message, type, children }) {
+
   if (!isOpen) {
     return null
   }
