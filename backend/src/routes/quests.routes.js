@@ -1,22 +1,25 @@
 import { Router } from "express"
 import {
   getQuests,
-  getQuestById,
+  getQuestByContentId,
   createQuest,
   updateQuest,
-  deleteQuest
+  deleteQuest,
+  createAnswer
 } from "../controllers/index.js"
 
 const questsRouter = Router()
 
 questsRouter.get("/quests", getQuests)
 
-questsRouter.get("/quests/:id", getQuestById)
+questsRouter.get("/quests/:id", getQuestByContentId)
 
 questsRouter.post("/quests", createQuest)
 
 questsRouter.put("/quests/:id", updateQuest)
 
 questsRouter.delete("/quests/:id", deleteQuest)
+
+questsRouter.post("/answers", createAnswer)
 
 export default questsRouter

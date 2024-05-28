@@ -55,10 +55,11 @@ import {
 
 import {
   getQuests,
-  getQuestById,
+  getQuestByContentId,
   createQuest,
   updateQuest,
-  deleteQuest
+  deleteQuest,
+  createAnswer
 } from "./quests.controller.js"
 
 export {
@@ -94,7 +95,8 @@ export {
   updateContenido,
   deleteContenido,
   getQuests,
-  getQuestById,
+  getQuestByContentId,
+  createAnswer,
   createQuest,
   updateQuest,
   deleteQuest

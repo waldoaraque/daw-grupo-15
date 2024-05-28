@@ -40,6 +40,9 @@ export default function Temas() {
         if (input.contenidoMensaje !== '') {
             let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
             //result =
+            if (!listMensajes) {
+                setListMensajes(result)
+            }
             setListMensajes(prevMensajes => [result, ...prevMensajes])
             /*
                 falta por agregar el nombre y apellido del usuario en tiempo real...

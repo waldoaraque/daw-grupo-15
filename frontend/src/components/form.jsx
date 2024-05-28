@@ -78,14 +78,17 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                     fields.map((field, index) => (
                         <div key={field.id_field || index}>
                             {field.type === 'textarea' ? (
-                                <textarea
-                                    name={field.name}
-                                    value={input[field.name]}
-                                    className={field.className}
-                                    placeholder={field.placeholder}
-                                    onChange={handleChange}
-                                    required={field.required}
-                                />
+                                <>
+                                    <label htmlFor="">{field.label}</label>
+                                    <textarea
+                                        name={field.name}
+                                        value={input[field.name]}
+                                        className={field.className}
+                                        placeholder={field.placeholder}
+                                        onChange={handleChange}
+                                        required={field.required}
+                                    />
+                                </>
                             ) : (
                                 <>
                                     <label htmlFor="">{field.label}</label>

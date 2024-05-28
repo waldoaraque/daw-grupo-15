@@ -4,7 +4,7 @@ import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
 import Modal from '../components/modal'
-import { updateQuestService, postQuestService, getQuestService } from '../services/quests.service'
+import { updateQuestService, postQuestService, listQuestService } from '../services/quests.service'
 
 export default function Contenido () {
     const { id } = useParams()
@@ -12,11 +12,13 @@ export default function Contenido () {
     const [contenido, setContenido] = useState(location.state?.contenido || null)
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
+    const [quests, setQuests] = useState(false)
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
     const [video, setVideo] = useState(null)
+    let responsesFields = []
 
     const { user, token, tokenPayload, logOut } = useAuth()
 
@@ -44,22 +46,35 @@ export default function Contenido () {
     }, [contenido])
 
     const handleSubmitQuest = async (input, resetForm) => {
-        // if (input.contenidoMensaje !== '') {
-        //     let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
-        //     //result =
-        //     setListMensajes(prevMensajes => [result, ...prevMensajes])
-        //     /*
-        //         falta por agregar el nombre y apellido del usuario en tiempo real...
-        //     */
-        //     resetForm()
-        //     setMessageModalSuccess('Se ha publicado tu mensaje!')
-        //     return
-        // }
-        // setMessageModalError('No se está pasando texto, por favor verifique.')
-        // return
-    }
+        if (quests) {
+            const results = []
+    
+            for (const i in quests) {
+                const questionId = quests[i].id_quest
+                const answerKey = `answer_${i}`
+                
+                if (input.hasOwnProperty(answerKey)) {
+                    const answer = input[answerKey]
+                    if (answer) {
+                        const result = await postQuestService(
+                            { respuesta: answer, quest_id: questionId }, 
+                            { token }
+                        )
+                        results.push(result)
+                    }
+                }
+            }
+            resetForm()
+            setMessageModalSuccess('Respuesta enviada!')
+            return
+        }
+    
+        setMessageModalError('No se están obteniendo las preguntas, por favor verifique.')
+        return
+    }    
 
     const handleUpdateQuest = async (input, resetForm) => {
+
         for (const key in input) {
             if (input.hasOwnProperty(key)) {
                 if (key.startsWith('question_')) {
@@ -77,6 +92,11 @@ export default function Contenido () {
         }
     }
 
+    const listQuests = async () => {
+        let result = await listQuestService(id, { token })
+        return result
+    }
+
     const closeModalSuccess = () => setMessageModalSuccess(false)
     const closeModalError  = () => setMessageModalError(false)
 
@@ -86,14 +106,31 @@ export default function Contenido () {
     }
 
     const closeEditModal = () => setIsEditModalOpen(false)
-    const openCreateModal = () => setIsCreateModalOpen(true)
+    const openCreateModal = async () => {
+        const quests = await listQuests()
+        setQuests(quests)
+        setIsCreateModalOpen(true)
+        
+    }
     const closeCreateModal = () => setIsCreateModalOpen(false)
 
-    const responsesFields = [
-        // requiero utilizar la lista de preguntas (quests) para rellenar los fields con los label
-        {}
-    ]
-
+    if (quests) {
+        let i = 0
+        for (const key in quests) {
+            responsesFields.push(
+                { 
+                    type: 'textarea', 
+                    name: `answer_${i}`, 
+                    label: quests[key].pregunta, 
+                    placeholder: 'Ingresa tu respuesta', 
+                    required: true,
+                    questionId: quests[key].id_quest
+                }
+            )
+            i += 1
+        } 
+    }
+    
     return (
         <DefaultLayout>
             <Modal 

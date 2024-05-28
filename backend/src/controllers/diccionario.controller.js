@@ -61,8 +61,9 @@ export const generateWord = async (req, res, next) => {
     if (identifySearchPattern(pattern) && pattern.length > 4) {
        // verificar que la palabra o patrón de búsqueda esté en la base de datos...  
       palabra = await getDataFromDB(pattern)
-      if (palabra.message) {
-        delete palabra.message
+      
+      if (!palabra.length) {
+        // delete palabra.message
         resultAI = await generateWordOnOpenAI(pattern)
         palabra = JSON.parse(resultAI)
         if(!palabra.definicion) {
