@@ -27,7 +27,7 @@ export default function headerInSession() {
           <li><Link to='/home'>Home</Link></li>
           <li><Link to='/temario'>Temario</Link></li>
           <li><Link to='/diccionario'>Eco Diccionario</Link></li>
-          <li><Link to='/ranking'>Ranking de Usurios</Link></li>
+          <li><Link to='/ranking'>Ranking de Usuarios</Link></li>
           <li><Link to='/foro'>Foro</Link></li>
           <li><Link to='/contact'>Contacto</Link></li>
           <li><Link to='/logout'>Cerrar Sesión</Link></li>

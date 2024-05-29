@@ -12,9 +12,7 @@ export const signup =async (req, res, next) => {
       apellido_usuario,
       email,
       contrasena,
-      // tipo_usuario,
-      // escuela_id,
-      // foto_usuario
+      tipo_usuario,
     } = req.body
 
     const hashedPassword = await bcrypt.hash(contrasena, 10)

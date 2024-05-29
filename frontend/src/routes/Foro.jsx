@@ -1,4 +1,3 @@
-import '../styles/Foro.css'
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
@@ -25,12 +24,12 @@ export default function Foro() {
     const [messageModalError, setMessageModalError] = useState(false)
 
     if (!user) {
-        logOut()
+        return <Navigate to='/login' />
     }
 
     useEffect(() => {
         if (!user && !tokenPayload) {
-            logOut()
+            return <Navigate to='/login' />
         }
 
         const listTemas = async () => {
@@ -71,7 +70,11 @@ export default function Foro() {
                 { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
                 { token }
             )
-            setListTema(prevTemas => [result, ...prevTemas])
+            if (!listTema || !Array.isArray(listTema)) {
+                setListTema(result)
+            } else {
+                setListTema(prevTemas => [result, ...prevTemas])
+            }
             resetForm()
             closeCreateModal()
             setMessageModalSuccess('Tu tema ha sido publicado!')
@@ -203,7 +206,7 @@ export default function Foro() {
                                                 </Modal>
                                             </>
                                         )}
-                                        {tokenPayload.user_type === 'director' && (
+                                        {(tokenPayload.user_type === 'educador' || tokenPayload.user_type === 'director') && (
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faTrash} 

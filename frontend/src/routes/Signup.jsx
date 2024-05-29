@@ -35,7 +35,7 @@ export default function Signup() {
         {
             type: 'text',
             name: 'nombre',
-            className: '',
+            className: 'input-login-text',
             //pattern: '',
             placeholder: 'Nombre',
             required: true
@@ -43,7 +43,7 @@ export default function Signup() {
         {
             type: 'text',
             name: 'apellido',
-            className: '',
+            className: 'input-login-text',
             //pattern: '',
             placeholder: 'Apellido',
             required: true
@@ -51,7 +51,7 @@ export default function Signup() {
         {
             type: 'text',
             name: 'email',
-            className: '',
+            className: 'input-login-text',
             //pattern: '',
             placeholder: 'Email',
             required: true
@@ -59,7 +59,7 @@ export default function Signup() {
         {
             type: 'password',
             name: 'password',
-            className: '',
+            className: 'input-login-password',
             //pattern: '',
             placeholder: 'Contraseña',
             required: true
@@ -67,7 +67,7 @@ export default function Signup() {
         {
             type: 'password',
             name: 'password',
-            className: '',
+            className: 'input-login-password',
             //pattern: '',
             placeholder: 'Repetir Contraseña',
             required: true
@@ -89,6 +89,11 @@ export default function Signup() {
                     type='error'
                     onClose={closeModalError}
                 />
+                {/* <select name="select">
+                    <option value="estudiante">Estudiante</option>
+                    <option value="educador" selected>Educador</option>
+                    <option value="director">Director</option>
+                </select> */}
                 <DynamicForm 
                     formTitle='SignUp'
                     fields={signupFields}

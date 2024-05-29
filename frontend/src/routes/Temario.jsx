@@ -1,7 +1,6 @@
 import DefaultLayout from '../layout/DefaultLayout'
 import Modal from '../components/modal'
 import DynamicForm from '../components/form'
-import DynamicFormContent from '../components/formContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link, Navigate } from 'react-router-dom'
@@ -96,8 +95,11 @@ export default function Foro() {
                     }
                 }
             }
-            
-            setListContent(prevTemas => [contentResult, ...prevTemas])
+            if (!listContent || !Array.isArray(listContent)) {
+                setListContent(result)
+            } else {
+                setListContent(prevTemas => [contentResult, ...prevTemas])
+            }
             resetForm()
             closeCreateModal()
             setMessageModalSuccess('Tu contenido ha sido publicado!')
@@ -150,7 +152,7 @@ export default function Foro() {
         { 
             type: 'textarea', 
             name: 'content', 
-            label: 'Contenido', 
+            label: 'Contenido',
             placeholder: 'Descripción...', 
             required: true 
         },

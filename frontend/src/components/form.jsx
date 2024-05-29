@@ -83,7 +83,8 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                                     <textarea
                                         name={field.name}
                                         value={input[field.name]}
-                                        className={field.className}
+                                        className= 'input-login-text'
+                                        pattern={field.pattern}
                                         placeholder={field.placeholder}
                                         onChange={handleChange}
                                         required={field.required}
@@ -96,7 +97,8 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                                         type={field.type}
                                         name={field.name}
                                         value={field.type === 'file' ? undefined : input[field.name]}
-                                        className={field.className}
+                                        className= 'input-login-text'
+                                        pattern={field.pattern}
                                         placeholder={field.placeholder}
                                         onChange={handleChange}
                                         required={field.required}
@@ -111,12 +113,15 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                 )}
                 {buttonAdd && 
                     <> 
+                    <label htmlFor="">Agregar Input</label>
                     <FontAwesomeIcon 
                         icon={faAdd} 
                         className="" 
                         onClick={addOptionalField} 
                     />
+                    <br />
                     </>
+                    
                 }
 
                 {optionalFields.map((field, index) => (
@@ -126,14 +131,15 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                             type="text"
                             name={field.name}
                             value={input[field.name] || ''}
-                            className={field.className}
+                            className= 'input-login-text'
+                            pattern={field.pattern}
                             placeholder={field.placeholder}
                             onChange={handleChange}
                             required={field.required}
                         />
                         <FontAwesomeIcon 
                             icon={faTrash}
-                            className="" 
+                            className="foro-icon-edit" 
                             onClick={() => removeOptionalField(field.id)} 
                         />
                     </div>

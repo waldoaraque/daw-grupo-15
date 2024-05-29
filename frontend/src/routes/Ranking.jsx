@@ -1,4 +1,3 @@
-import '../styles/Ranking.css'
 import DefaultLayout from '../layout/DefaultLayout'
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'

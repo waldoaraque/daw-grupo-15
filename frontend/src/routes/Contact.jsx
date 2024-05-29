@@ -22,7 +22,7 @@ export default function Contact () {
         {
             type: 'text',
             name: 'email',
-            className: '',
+            className: 'input-login-text',
             //pattern: '',
             placeholder: 'Email',
             required: true
@@ -30,7 +30,7 @@ export default function Contact () {
         {
             type: 'textarea',
             name: 'message',
-            className: '',
+            className: 'input-login-text',
             //pattern: '',
             placeholder: 'Escribe tu mensaje...',
             required: true

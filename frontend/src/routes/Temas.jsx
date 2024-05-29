@@ -1,4 +1,3 @@
-import '../styles/Temas.css'
 import React, { useState, useEffect } from 'react'
 import { useParams, useLocation, Navigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
@@ -40,10 +39,11 @@ export default function Temas() {
         if (input.contenidoMensaje !== '') {
             let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
             //result =
-            if (!listMensajes) {
+            if (!listMensajes || !Array.isArray(listMensajes)) {
                 setListMensajes(result)
+            } else {
+                setListMensajes(prevMensajes => [result, ...prevMensajes])
             }
-            setListMensajes(prevMensajes => [result, ...prevMensajes])
             /*
                 falta por agregar el nombre y apellido del usuario en tiempo real...
             */

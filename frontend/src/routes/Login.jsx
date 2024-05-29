@@ -39,7 +39,7 @@ export default function Login() {
       type: 'password',
       name: 'password',
       className: 'input-login-password',
-      //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}',
+      //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}',
       placeholder: 'Contraseña',
       required: true 
     }

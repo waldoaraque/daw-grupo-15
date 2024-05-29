@@ -1,10 +1,10 @@
 @hostname = localhost
 @port = 4000
 @host = {{hostname}}:{{port}}
-@id = 6
+@id = 35
 @basePath = api/usuarios
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvcjRAY29ycmVvLmNvbSIsInVzZXJfdHlwZSI6ImRpcmVjdG9yIiwiaWF0IjoxNzE2ODgxODIxLCJleHAiOjE3MTY4ODkwMjF9.pIdrrd-bb-hOaPeb-FiLLOHdslO9Kt3QJxfq-fafv-s 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvcjRAY29ycmVvLmNvbSIsInVzZXJfdHlwZSI6ImRpcmVjdG9yIiwiaWF0IjoxNzE2OTIyODIyLCJleHAiOjE3MTY5MzAwMjJ9.EVI5vJf3YvvK8orkQXK9IsOypc62FSqwB_0_a88YR9s
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
@@ -37,13 +37,13 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre_usuario": "kevin",
-    "apellido_usuario": "alvarez",
-    "email": "director@correo.com",
-    "contrasena": "Gracia1122-",
-    "tipo_usuario": "director",
+    "nombre_usuario": "Iñaki",
+    "apellido_usuario": "Perez",
+    "email": "iperez33@correo.com",
+    "contrasena": "Gracia1122",
+    "tipo_usuario": "estudiante",
     "escuela_id": 1,
-    "foto_usuario": ""
+    "foto_usuario": null
 }
 
 ### Delete User
