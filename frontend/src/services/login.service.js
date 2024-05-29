@@ -1,9 +1,9 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 
 export const loginService = async (creds)  => { 
-  const apiUrl = `http://${apiHost}:${apiPort}/api/login`
+  const endpoint = `${apiURL}/api/login`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

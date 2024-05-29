@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const listPtsUsers = async ({ token })  => {
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/puntuaciones`
+  const endpoint = `${apiURL}/api/puntuaciones`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

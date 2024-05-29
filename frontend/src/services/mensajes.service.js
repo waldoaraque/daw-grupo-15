@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const listMensajesService = async (id, { token }) => {
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/mensajes/${id}`
+  const endpoint = `${apiURL}/api/mensajes/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -29,9 +29,9 @@ export const listMensajesService = async (id, { token }) => {
 
 export const postMensajesService = async (message, {token}) => {
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/mensajes`
+  const endpoint = `${apiURL}/api/mensajes`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

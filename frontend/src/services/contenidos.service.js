@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const getContentService = async ({ token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/contenidos`
+  const endpoint = `${apiURL}/api/contenidos`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,9 +27,9 @@ export const getContentService = async ({ token }) => {
 
 export const createContentService = async (contenido, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/contenidos`
+  const endpoint = `${apiURL}/api/contenidos`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Authorization': bearerToken
@@ -52,9 +52,9 @@ export const createContentService = async (contenido, { token }) => {
 
 export const updateContentService = async (id, contenido, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/contenidos/${id}`
+  const endpoint = `${apiURL}/api/contenidos/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -77,9 +77,9 @@ export const updateContentService = async (id, contenido, { token }) => {
 
 export const deleteContentService = async (id, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/contenidos/${id}`
+  const endpoint = `${apiURL}/api/contenidos/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

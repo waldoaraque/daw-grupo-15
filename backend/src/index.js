@@ -19,8 +19,13 @@ import { apiHost, apiPort } from "./config.js"
 
 const app = express()
 
+const corsOptions = {
+  origin: 'https://localhost',
+  optionsSuccessStatus: 200,
+}
+
 // Middlewares
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

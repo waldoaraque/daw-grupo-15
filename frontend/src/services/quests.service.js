@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const createQuestService = async (quest, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/quests`
+  const endpoint = `${apiURL}/api/quests`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,9 +28,9 @@ export const createQuestService = async (quest, { token }) => {
 
 export const postQuestService = async (answer, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/answers`
+  const endpoint = `${apiURL}/api/answers`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,9 +57,9 @@ export const updateQuestService = async ({ token }) => {
 
 export const listQuestService = async (id, { token }) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/quests/${id}`
+  const endpoint = `${apiURL}/api/quests/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

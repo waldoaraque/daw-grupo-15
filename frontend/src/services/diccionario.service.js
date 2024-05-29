@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const diccionarioWordService = async (palabra, { token })  => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/palabras/${palabra}`
+  const endpoint = `${apiURL}/api/palabras/${palabra}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -28,9 +28,9 @@ export const diccionarioWordService = async (palabra, { token })  => {
 
 export const diccionarioCategoryService = async (category, { token })  => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/palabras/${category}`
+  const endpoint = `${apiURL}/api/palabras/${category}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

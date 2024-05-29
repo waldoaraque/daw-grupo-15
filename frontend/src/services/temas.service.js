@@ -1,11 +1,11 @@
-import { apiHost, apiPort } from './config.js'
+import { apiURL } from './config.js'
 import { setToken } from './token.service.js'
 
 export const listTemasService = async ({ token })  => {
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/temas`
+  const endpoint = `${apiURL}/api/temas`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,9 +27,9 @@ export const listTemasService = async ({ token })  => {
 
 export const createTemaService = async (tema, {token}) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/temas`
+  const endpoint = `${apiURL}/api/temas`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,9 +52,9 @@ export const createTemaService = async (tema, {token}) => {
 
 export const updateTemaService = async (id, tema, {token}) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/temas/${id}`
+  const endpoint = `${apiURL}/api/temas/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -77,9 +77,9 @@ export const updateTemaService = async (id, tema, {token}) => {
 
 export const deleteTemaService = async (id, {token}) => { 
   let bearerToken = setToken(token)
-  const apiUrl = `http://${apiHost}:${apiPort}/api/temas/${id}`
+  const endpoint = `${apiURL}/api/temas/${id}`
   try {
-    const res = await fetch(apiUrl, {
+    const res = await fetch(endpoint, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
