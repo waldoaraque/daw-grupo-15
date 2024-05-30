@@ -70,11 +70,9 @@ export default function Foro() {
                 { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
                 { token }
             )
-            if (!listTema || !Array.isArray(listTema)) {
-                setListTema(result)
-            } else {
-                setListTema(prevTemas => [result, ...prevTemas])
-            }
+            setListTema(prevTemas => {
+                return Array.isArray(prevTemas) ? [result, ...prevTemas] : [result]
+            })
             resetForm()
             closeCreateModal()
             setMessageModalSuccess('Tu tema ha sido publicado!')

@@ -54,8 +54,6 @@ export const createContenido = async (req, res, next) => {
       descripcion_contenido
     } = req.body
     
-    // validar files ...
-    //const imagenBin = fs.readFileSync(files.imagen[0].path)
     const videoBin = fs.readFileSync(file.path)
 
     const contenidosData = {
@@ -69,7 +67,6 @@ export const createContenido = async (req, res, next) => {
     const newContenido = await insertQuery(contenidosTabla, contenidosData)
     
     // Eliminar archivos temporales
-    // fs.unlinkSync(file.imagen[0].path)
     fs.unlinkSync(file.path)
 
     res
@@ -83,27 +80,31 @@ export const createContenido = async (req, res, next) => {
 
 export const updateContenido = async (req, res, next) => {
   try {
-    const { userId, userRol } = req
+    const { userId, userRol, file } = req
     const { id } = req.params
-    let id_tema = parseInt(id)
+    let id_contenido = parseInt(id)
     if (userRol !== 'educador') {
       return res
             .status(403)
             .json({ message: "Forbidden" })
     }
     const {
-      titulo_tema,
-      descripcion_tema
+      titulo_contenido,
+      descripcion_contenido
     } = req.body
 
+    const videoBin = fs.readFileSync(file.path)
     const contenidosData = {
-      titulo_tema,
+      titulo_contenido,
       usuario_id: userId,
-      foro_id: 3,
-      descripcion_tema
+      imagen_contenido: null,
+      descripcion_contenido,
+      video_contenido: videoBin
     }
 
-    const putContenido = await updateByIdQuery(contenidosTabla, contenidosData, id_tema)
+    const putContenido = await updateByIdQuery(contenidosTabla, contenidosData, id_contenido)
+    // Eliminar archivos temporales
+    fs.unlinkSync(file.path)
     res
       .status(200)
       .json(putContenido)

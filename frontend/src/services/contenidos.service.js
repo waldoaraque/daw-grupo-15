@@ -57,10 +57,9 @@ export const updateContentService = async (id, contenido, { token }) => {
     const res = await fetch(endpoint, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': bearerToken
       },
-      body: JSON.stringify(contenido)
+      body: contenido
     })
     if (res.ok) {
       const contenidos = await res.json()

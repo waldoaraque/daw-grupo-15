@@ -41,31 +41,35 @@ export default function Temas() {
     const handleSubmitMensaje = async (input, resetForm) => {
         if (input.contenidoMensaje !== '') {
             try {
-                let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token });
+                let result = await postMensajesService({ 
+                    'contenido_mensaje': input.contenidoMensaje, 
+                    'tema_id': id }, 
+                    { token }
+                )
 
                 if (result && result.id_mensajes) {
                     const mensajeConUsuario = {
                         ...result,
                         nombre_usuario: tokenPayload.user_fullname,
                         apellido_usuario: ''
-                    };
+                    }
 
                     setListMensajes(prevMensajes => {
-                        return Array.isArray(prevMensajes) ? [mensajeConUsuario, ...prevMensajes] : [mensajeConUsuario];
-                    });
-                    resetForm();
-                    setMessageModalSuccess('Se ha publicado tu mensaje!');
+                        return Array.isArray(prevMensajes) ? [mensajeConUsuario, ...prevMensajes] : [mensajeConUsuario]
+                    })
+                    resetForm()
+                    setMessageModalSuccess('Se ha publicado tu mensaje!')
                 } else {
-                    setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.');
+                    setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.')
                 }
             } catch (error) {
-                console.error('Error al publicar mensaje:', error);
-                setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.');
+                console.error('Error al publicar mensaje:', error)
+                setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.')
             }
-            return;
+            return
         }
-        setMessageModalError('No se está pasando texto, por favor verifique.');
-        return;
+        setMessageModalError('No se está pasando texto, por favor verifique.')
+        return
     }
 
     const closeModalSuccess = () => setMessageModalSuccess(false)

@@ -121,11 +121,9 @@ export default function Diccionario() {
                         </div>
                     )}
 
-                    {searchResult && Array.isArray(searchResult) && !searchResult.length && (
-                        <div>
-                            <p>No hay datos para esta búsqueda.</p>
-                        </div>
-                    )}
+                    <div>
+                        <p>No hay datos para esta búsqueda.</p>
+                    </div>
                 </Modal>
             </div>
         </DefaultLayout>
