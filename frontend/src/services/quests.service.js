@@ -1,4 +1,4 @@
-import { apiURL } from './config.js'
+import { apiURL } from '../config.js'
 import { setToken } from './token.service.js'
 
 export const createQuestService = async (quest, { token }) => { 
@@ -49,10 +49,6 @@ export const postQuestService = async (answer, { token }) => {
     console.error('Error al realizar la solicitud:', error)
     return
   }
-}
-
-export const updateQuestService = async ({ token }) => { 
-
 }
 
 export const listQuestService = async (id, { token }) => { 

@@ -7,7 +7,8 @@ al que se le consultarán palabras de la A a la Z
 esperando su significado en formato JSON: 
 {'categoria': A...Z, 'palabra': ..., 'definicion': ...},
 pero ten cuidado, si no recibes una palabra que tenga que ver 
-con el tema medio ambiente o ecológico devuelve el mismo json
+con el tema medio ambiente, ecológico, planeta, organismos, y todo lo que 
+tenga que ver con la vida misma devuelve el mismo json
 pero el campo 'definicion' vacío, y por último siempre 
 definiciones en español, nunca en inglés, 
 los campos del json siempre así como te los he definido.`

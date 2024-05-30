@@ -78,30 +78,26 @@ export const updateQuest = async (req, res, next) => {
   try {
     const { userId, userRol } = req
     const { id } = req.params
-    let id_tema = parseInt(id)
+    const id_quest = parseInt(id)
     if (userRol !== 'educador') {
       return res
             .status(403)
             .json({ message: "Forbidden" })
     }
     const {
-      titulo_tema,
-      descripcion_tema
+      pregunta,
+      contenido_id
     } = req.body
 
     const questsData = {
-      titulo_tema,
       usuario_id: userId,
-      foro_id: 3,
-      descripcion_tema
+      contenido_id,
+      pregunta
     }
-
-    const putQuest = await updateByIdQuery(questsTabla, questsData, id_tema)
-
+    const putQuest = await updateByIdQuery(questsTabla, questsData, id_quest)
     res
       .status(200)
       .json(putQuest)
-    
   } catch (error) {
     next(error)
   }

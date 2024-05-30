@@ -1,14 +1,14 @@
-import { apiURL } from './config.js'
+import { apiURL } from '../config.js'
 
 export const signupService = async (data)  => { 
   try {
-    const res = await fetch(`${http}://${apiHost}:${apiPort}/api/signup`, {
+    const res = await fetch(`${apiURL}/api/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({"nombre_usuario": data.name, "apellido_usuario": data.apellido, "email": data.email, "contrasena": data.contrasena }),
-    });
+      body: JSON.stringify(data)
+    })
     if (res.ok) {
       return res.status
     } else {

@@ -1,1 +1,0 @@
-export const apiURL = import.meta.env.VITE_APISERVER_URL

@@ -45,7 +45,7 @@ export const getTemaById = async (req, res, next) => {
 export const createTema = async (req, res, next) => {
   try {
     const { userId, userRol } = req
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== 'educador' && userRol !== 'director') {
       return res
             .status(403)
             .json({ message: "Forbidden" })
@@ -76,7 +76,7 @@ export const updateTema = async (req, res, next) => {
     const { userId, userRol } = req
     const { id } = req.params
     let id_tema = parseInt(id)
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== 'educador' && userRol !== 'director') {
       return res
             .status(403)
             .json({ message: "Forbidden" })
@@ -105,7 +105,7 @@ export const deleteTema = async (req, res, next) => {
   try {
     const { userId, userRol } = req
     const { id } = req.params
-    if (userRol !== 'educador' || userRol !== 'director') {
+    if (userRol !== 'educador' && userRol !== 'director') {
       return res
             .status(403)
             .json({ message: "Forbidden" })

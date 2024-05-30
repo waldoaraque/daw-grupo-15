@@ -41,16 +41,22 @@ export const AuthProvider = ({ children }) => {
 
     const loginAction = async (data) => {
         try {
-            const authentication = await loginService({ email: data.username, contrasena: data.password });
-            const payloadToken = jwtDecode(authentication.token);
-            setUser(authentication.username);
-            setToken(authentication.token);
-            setTokenPayload(payloadToken);
-            window.localStorage.setItem('userSession', JSON.stringify(authentication));
+            const authentication = await loginService({ email: data.username, contrasena: data.password })
+            console.log(authentication)
+            if (!authentication) {
+                setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.')
+                return
+            }
+            const payloadToken = jwtDecode(authentication.token)
+            setUser(authentication.username)
+            setToken(authentication.token)
+            setTokenPayload(payloadToken)
+            window.localStorage.setItem('userSession', JSON.stringify(authentication))
         } catch (error) {
-            setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.');
+            setMessageModalError('Error haciendo LogIn, verifique los datos de email y contraseña.')
+            return
         }
-    };
+    }
 
     const logOut = () => {
         setUser(null);

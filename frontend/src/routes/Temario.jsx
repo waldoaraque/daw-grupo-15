@@ -70,6 +70,10 @@ export default function Foro() {
 
     const handleSubmitContent = async (input, resetForm) => {
         if (input.title !== '' && input.content !== '') {
+            if (input.video && !(input.video instanceof File) || (input.video && input.video.size === 0)) {
+                setMessageModalError('El archivo de video no es válido o está vacío.')
+                return
+            }
             const data = new FormData()
             data.append('titulo_contenido', input.title)
             data.append('descripcion_contenido', input.content)
@@ -95,11 +99,9 @@ export default function Foro() {
                     }
                 }
             }
-            if (!listContent || !Array.isArray(listContent)) {
-                setListContent(result)
-            } else {
-                setListContent(prevTemas => [contentResult, ...prevTemas])
-            }
+            setListContent(prevContents => {
+                return Array.isArray(prevContents) ? [contentResult, ...prevContents] : [contentResult]
+            })
             resetForm()
             closeCreateModal()
             setMessageModalSuccess('Tu contenido ha sido publicado!')
@@ -110,14 +112,37 @@ export default function Foro() {
     }
 
     const handleUpdateContent = async (input, resetForm) => {
-        if (input.tituloTema !== '' && input.descripcionTema !== '') {
+        if (input.title !== '' && input.content !== '' && input.video !== '') {
+            if (input.video && !(input.video instanceof File) || (input.video && input.video.size === 0)) {
+                setMessageModalError('El archivo de video no es válido o está vacío.')
+                return
+            }
+            const data = new FormData()
+            data.append('titulo_contenido', input.title)
+            data.append('descripcion_contenido', input.content)
+            data.append('video', input.video)
+
             let result = await updateContentService(
-                selectedTema.id_tema, 
-                { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
+                selectedContent.id_contenido, 
+                data,
                 { token }
             )
-            setListTema(prevTemas => prevTemas.map(tema =>
-                tema.id_tema === selectedTema.id_tema ? result : tema
+            for (const key in input) {
+                if (input.hasOwnProperty(key)) {
+                    if (key.startsWith('question_')) {
+                        let questResult = await createQuestService(
+                            // contenido_id, pregunta
+                            {
+                                'contenido_id': result.id_contenido,
+                                'pregunta': input[key]
+                            },
+                            { token }
+                        )
+                    }
+                }
+            }
+            setListContent(prevTemas => prevTemas.map(content =>
+                content.id_contenido === selectedContent.id_contenido ? result : content
             ))
             resetForm()
             closeEditModal()
@@ -131,7 +156,7 @@ export default function Foro() {
     const handleDeleteContent = async (input, resetForm) => {
         if (input.titulo === 'Eliminar') {
             let result = await deleteContentService(selectedContent.id_contenido, { token })
-            setListContent(result)
+            setListContent(prevContents => prevContents.filter(content => content.id_contenido !== selectedContent.id_contenido))
             resetForm()
             closeDeleteModal()
             setMessageModalSuccess('Tu contenido ha sido eliminado!')
@@ -161,7 +186,7 @@ export default function Foro() {
             name: 'video', 
             label: 'Subir Video', 
             accept: 'videos/*',  
-            required: false 
+            required: true
         }
     ]
     
@@ -178,7 +203,7 @@ export default function Foro() {
 
     return (
         <DefaultLayout>
-            <div className="foro-container">
+            <div className="main-container">
                 <Modal 
                     isOpen={messageModalSuccess}
                     message={messageModalSuccess}
@@ -225,7 +250,7 @@ export default function Foro() {
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faPen} 
-                                                    className=""
+                                                    className="foro-icon-edit"
                                                     onClick={() => openEditModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
@@ -245,7 +270,7 @@ export default function Foro() {
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faTrash} 
-                                                    className="" 
+                                                    className="foro-icon-delete" 
                                                     onClick={() => openDeleteModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>

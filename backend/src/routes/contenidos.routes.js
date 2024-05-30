@@ -28,7 +28,7 @@ contenidosRouter.get("/contenidos/:id", getContenidoById)
 
 contenidosRouter.post("/contenidos", upload.single('video'), createContenido)
 
-contenidosRouter.put("/contenidos/:id", updateContenido)
+contenidosRouter.put("/contenidos/:id", upload.single('video'), updateContenido)
 
 contenidosRouter.delete("/contenidos/:id", deleteContenido)
 

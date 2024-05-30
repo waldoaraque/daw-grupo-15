@@ -2,18 +2,19 @@ import DefaultLayout from '../layout/DefaultLayout'
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 import { listPtsUsers } from '../services/ranking.service'
+import { Navigate } from 'react-router-dom'
 
 export default function Ranking() {
     const { user, token, logOut } = useAuth()
     const [listUsersDataPts, setListUsersDataPts] = useState(null)
     
     if(!user) {
-        logOut()
+        return <Navigate to='/login' />
     }
 
     useEffect(() => {
       if (!user) {
-          return // No hacer nada si no hay usuario
+        return <Navigate to='/login' />
       }
       const listPts = async () => {
           try {
@@ -24,11 +25,11 @@ export default function Ranking() {
           }
       }
       listPts()
-  }, [user, token])
+    }, [user, token])
 
     return (
         <DefaultLayout>
-            <div className="ranking-container">
+            <div className="main-container">
                 <h1 className="ranking-title">Ranking</h1>
                 <section>
                     <p className="ranking-description">
@@ -50,7 +51,6 @@ export default function Ranking() {
                             <thead>
                                 <tr>
                                     <th>Usuario</th>
-                                    <th>Email</th>
                                     <th>Puntos</th>
                                 </tr>
                             </thead>
@@ -58,7 +58,6 @@ export default function Ranking() {
                                 {listUsersDataPts.map((puntuaciones, index) => (
                                     <tr key={index}>
                                         <td>{puntuaciones.nombre_usuario} {puntuaciones.apellido_usuario}</td>
-                                        <td>{puntuaciones.email}</td>
                                         <td>{puntuaciones.total_pts}</td>
                                     </tr>
                                 ))}

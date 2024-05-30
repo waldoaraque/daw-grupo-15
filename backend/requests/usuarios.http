@@ -1,10 +1,10 @@
 @hostname = localhost
 @port = 4000
 @host = {{hostname}}:{{port}}
-@id = 35
+@id = 53
 @basePath = api/usuarios
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvcjRAY29ycmVvLmNvbSIsInVzZXJfdHlwZSI6ImRpcmVjdG9yIiwiaWF0IjoxNzE2OTIyODIyLCJleHAiOjE3MTY5MzAwMjJ9.EVI5vJf3YvvK8orkQXK9IsOypc62FSqwB_0_a88YR9s
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo2MCwiZW1haWwiOiJkaXJlY3RvckBjb3JyZW8uY29tIiwidXNlcl90eXBlIjoiZGlyZWN0b3IiLCJ1c2VyX2Z1bGxuYW1lIjoiQW5nZWwgTmF2YXJybyIsImlhdCI6MTcxNzA3Mjc5MiwiZXhwIjoxNzE3MDc5OTkyfQ.Zc3tCFymotJllIbxeL-vXsu7sTEucKmL61bx93WIUjY
 
 ### List Users
 GET http://{{host}}/{{basePath}} HTTP/1.1
@@ -37,9 +37,9 @@ content-type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "nombre_usuario": "Iñaki",
-    "apellido_usuario": "Perez",
-    "email": "iperez33@correo.com",
+    "nombre_usuario": "Pedrito",
+    "apellido_usuario": "Gonzalez",
+    "email": "pgzl@correo.com",
     "contrasena": "Gracia1122",
     "tipo_usuario": "estudiante",
     "escuela_id": 1,

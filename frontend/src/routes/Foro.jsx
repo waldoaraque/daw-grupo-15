@@ -70,11 +70,9 @@ export default function Foro() {
                 { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
                 { token }
             )
-            if (!listTema || !Array.isArray(listTema)) {
-                setListTema(result)
-            } else {
-                setListTema(prevTemas => [result, ...prevTemas])
-            }
+            setListTema(prevTemas => {
+                return Array.isArray(prevTemas) ? [result, ...prevTemas] : [result]
+            })
             resetForm()
             closeCreateModal()
             setMessageModalSuccess('Tu tema ha sido publicado!')
@@ -106,7 +104,7 @@ export default function Foro() {
     const handleDeleteTema = async (input, resetForm) => {
         if (input.tituloTema === 'Eliminar') {
             let result = await deleteTemaService(selectedTema.id_tema, { token })
-            setListTema(result)
+            setListTema(prevTemas => prevTemas.filter(tema => tema.id_tema !== selectedTema.id_tema))
             resetForm()
             closeDeleteModal()
             setMessageModalSuccess('Tu tema ha sido eliminado!')
@@ -146,7 +144,7 @@ export default function Foro() {
 
     return (
         <DefaultLayout>
-            <div className="foro-container">
+            <div className="main-container">
                 <Modal 
                     isOpen={messageModalSuccess}
                     message={messageModalSuccess}

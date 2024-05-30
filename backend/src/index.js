@@ -23,9 +23,13 @@ const corsOptions = {
   origin: 'https://localhost',
   optionsSuccessStatus: 200,
 }
+if (process.env.NODE_ENV !== 'production') {
+  app.use(cors())  
+} else {
+  app.use(cors(corsOptions))
+}
 
 // Middlewares
-app.use(cors(corsOptions))
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

@@ -8,23 +8,30 @@ import { useForm } from 'react-hook-form'
 import { signupService } from '../services/signup.service'
 
 export default function Signup() {
-    const [name, setName] = useState('')
-    const [apellido, setApellido] = useState('')
-    const [email, setEmail] = useState('')
-    const [contrasena, setContrasena] = useState('')
-    const { handleSubmit, register } = useForm()
+    const { user, loginAction } = useAuth()
+    const [ status, setStatus ] = useState(false)
     const [messageModalSuccess, setMessageModalSuccess] = useState(false)
     const [messageModalError, setMessageModalError] = useState(false)
 
-    const handleSignup = async (data) => {
-        try {
-            const status = await signupService({ 'email': data.email, 'contrasena': data.contrasena })
-          //setUser(user)
-          //setEmail('')
-          //setContrasena('')
-          //navigate('/dashboard')
-        } catch (error) {
+    if (user) {
+        return <Navigate to='/home' />
+    }
 
+    const handleSignup = async (input) => {
+        if (input.nombre !== '' && input.apellido !== '' && input.username !== '' && input.password) {
+            const status = await signupService(
+                {   
+                    'nombre_usuario': input.nombre,
+                    'apellido_usuario': input.apellido,
+                    'email': input.username, 
+                    'contrasena': input.password
+                })
+            if (status !== 201) {
+                setMessageModalError('No se ha logrado completar el registro de usuario.')
+                return
+            }
+            loginAction(input)
+            return
         }
     }
 
@@ -50,7 +57,7 @@ export default function Signup() {
         },
         {
             type: 'text',
-            name: 'email',
+            name: 'username',
             className: 'input-login-text',
             //pattern: '',
             placeholder: 'Email',
@@ -66,7 +73,7 @@ export default function Signup() {
         },
         {
             type: 'password',
-            name: 'password',
+            name: 'password_two',
             className: 'input-login-password',
             //pattern: '',
             placeholder: 'Repetir Contraseña',
@@ -76,7 +83,7 @@ export default function Signup() {
 
     return (
         <DefaultLayout>
-            <div className='login-container'>
+            <div className='main-container'>
                 <Modal 
                     isOpen={messageModalSuccess}
                     message={messageModalSuccess}
