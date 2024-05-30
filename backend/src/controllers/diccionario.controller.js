@@ -3,13 +3,13 @@ import { generateWordOnOpenAI } from "../openai/gpt.js"
 
 const dicTabla = "diccionarioeco"
 
-const identifySearchPattern = (searchPattern) => /^(?!.*(\w)\1)[a-zA-Z]+$/.test(searchPattern)
+const identifySearchPattern = (searchPattern) => /^[a-z]+$/.test(searchPattern)
 
 const getDataFromDB = async (searchPattern) => {
   const resSelectpalabra = await selectByParamsConditionQuery(
     dicTabla,
     ["categoria", "palabra", "definicion"],
-    "palabra = $1 OR categoria = $1",
+    "palabra = $1",
     [searchPattern]
   )
   if (resSelectpalabra.length === 0) {
@@ -42,7 +42,7 @@ export const generateWord = async (req, res, next) => {
     const pattern = search.toLowerCase()
 
     let palabra = {}
-    if (!identifySearchPattern(pattern) && pattern.length < 4) {
+    if (identifySearchPattern(pattern) && !pattern.length < 4) {
       palabra = await getDataFromDB(pattern)
       if (!palabra.length) {
         const resultAI = await generateWordOnOpenAI(pattern)
@@ -62,3 +62,20 @@ export const generateWord = async (req, res, next) => {
   }
 }
 
+export const getCategoriesWords = async (req, res, next) => {
+  try {
+    const { category } = req.params
+
+    const resSelectpalabra = await selectByParamsConditionQuery(
+      dicTabla,
+      ["categoria", "palabra", "definicion"],
+      "categoria = $1",
+      [category]
+    )
+    res
+      .status(200)
+      .json(resSelectpalabra)
+  } catch (error) {
+    next(error)
+  }
+}

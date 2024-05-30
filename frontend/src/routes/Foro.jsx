@@ -182,7 +182,6 @@ export default function Foro() {
                             <div className="foro-list">
                                 {listTema.map((tema, index) => (
                                     <div className="foro-item" key={tema.id_tema}>
-                                        {console.log(tema)}
                                         <Link to={`/temas/${tema.id_tema}`} state={{ tema }}>
                                             <p>{tema.titulo_tema}</p>
                                         </Link>

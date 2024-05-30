@@ -52,7 +52,7 @@ export default function Diccionario() {
             }
             const result = await diccionarioWordService(searchTerm, { token })
             if (result === undefined) {
-                setMessageModalError(`Error al buscar la palabra no coincide con el patrón de búsqueda esperado.`)
+                setMessageModalError(`Error al buscar la palabra. Procura utilizar palabras referentes al tema ecológico`)
                 return
             }
             setSearchResult(result)

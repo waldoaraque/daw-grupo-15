@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { 
-  generateWord
+  generateWord,
+  getCategoriesWords
 } from "../controllers/index.js"
 
 const diccionarioRouter = Router()
@@ -10,5 +11,7 @@ diccionarioRouter.get("/palabras", (req, res) => {
 })
 
 diccionarioRouter.get("/palabras/:search", generateWord)
+diccionarioRouter.get("/categorias/:category", getCategoriesWords)
+
 
 export default diccionarioRouter

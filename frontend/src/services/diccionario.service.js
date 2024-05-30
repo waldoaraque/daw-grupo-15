@@ -28,7 +28,7 @@ export const diccionarioWordService = async (palabra, { token })  => {
 
 export const diccionarioCategoryService = async (category, { token })  => { 
   let bearerToken = setToken(token)
-  const endpoint = `${apiURL}/api/palabras/${category}`
+  const endpoint = `${apiURL}/api/categorias/${category}`
   try {
     const res = await fetch(endpoint, {
       method: 'GET',

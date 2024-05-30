@@ -17,7 +17,7 @@ export const getPuntuacionesData = async (req, res, next) => {
     if (puntuacionesData.length === 0)
       return res
               .status(404)
-              .json({ message: "Mensajes not found" })
+              .json({ message: "Points not found" })
     res
       .status(200)
       .json(puntuacionesData)
