@@ -31,15 +31,14 @@ export default function Login() {
       type: 'text',
       name: 'username',
       className: 'input-login-text',
-      //pattern: '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}',
       placeholder: 'Email',
-      required: true 
+      formSuggest: `Ejemplo usuario@dominio.com`,
+      required: true
     },
     { 
       type: 'password',
       name: 'password',
       className: 'input-login-password',
-      //pattern: '(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}',
       placeholder: 'Contraseña',
       required: true 
     }
@@ -47,7 +46,7 @@ export default function Login() {
 
   return (
     <DefaultLayout>
-      <div className='login-container'>
+      <div className='main-container'>
         <Modal 
           isOpen={messageModalSuccess}
           message={messageModalSuccess}

@@ -17,6 +17,8 @@ export default function DefaultLayout({children}) {
                 ? headerInLogin() 
                 : headerInSession() 
             }
+            { user ? (<div className="user-session"><p>Sesión: {user}</p></div>) : ( <></>) }
+            
             <main>
                 {children}
             </main>

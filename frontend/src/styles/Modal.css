@@ -50,12 +50,42 @@
 }
 
 .modal-close {
-  padding-top: 50px;
+  /* padding-top: 50px;*/
   position: absolute;
-  top: 10px;
+ /* top: 10px; */
   right: 10px;
-  background: none;
+  /* background: none;*/
+  background-color: #7c817f8f;
   border: none;
   font-size: 24px;
+  min-width: 50px;
   cursor: pointer;
+}
+
+.add-question-container {
+  display: flex;
+  align-items: center;
+}
+
+.add-question-container label {
+  margin-right: 8px; /* Ajusta el margen según sea necesario */
+}
+
+.add-icon {
+  cursor: pointer;
+}
+
+.icon-edit{
+  cursor: pointer;
+  padding: 0px 10px;
+  color: #555;
+}
+
+.custom-input {
+  width: calc(80% - 40px); /* Resta el ancho del icono del ancho total */
+  padding: 10px 40px 10px 10px; /* Ajusta el espacio interno para el texto y el icono */
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }

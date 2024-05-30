@@ -3,7 +3,7 @@ import { useAuth } from '../auth/AuthProvider'
 import Modal from '../components/modal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { useState, Navigate } from 'react'
 import { diccionarioCategoryService, diccionarioWordService } from '../services/diccionario.service'
 
 export default function Diccionario() {
@@ -15,7 +15,7 @@ export default function Diccionario() {
     const [messageModalError, setMessageModalError] = useState(false)
 
     if(!user) {
-        logOut()
+        return <Navigate to='/login'/>
     }
 
     const openModal = () => {
@@ -36,7 +36,6 @@ export default function Diccionario() {
         try {
             // Realizar la búsqueda utilizando el servicio del API backend
             const results = await diccionarioCategoryService(letter, { token })
-            console.log(results)
             setSearchResult(results)
             setIsModalOpen(true)
         } catch (error) {
@@ -52,6 +51,10 @@ export default function Diccionario() {
                 return
             }
             const result = await diccionarioWordService(searchTerm, { token })
+            if (result === undefined) {
+                setMessageModalError(`Error al buscar la palabra no coincide con el patrón de búsqueda esperado.`)
+                return
+            }
             setSearchResult(result)
             setIsModalOpen(true)
 
@@ -66,14 +69,14 @@ export default function Diccionario() {
 
     return (
         <DefaultLayout>
-            <div className='diccionario-container'>
+            <div className='main-container'>
                 <Modal isOpen={messageModalSuccess} message={messageModalSuccess} type='success' onClose={closeModalSuccess} />
                 <Modal isOpen={messageModalError} message={messageModalError} type='error' onClose={closeModalError} />
                 <div className='search-container'>
-                    <h1>Eco Diccionario</h1>
+                   <h1 class="diccionario-title">Eco Diccionario</h1>
                         <div className='search-engine'>
                             <input
-                                className=''
+                                className='input-diccionario-text'
                                 type='text'
                                 placeholder='Buscar palabra...'
                                 value={searchTerm}

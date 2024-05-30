@@ -84,7 +84,7 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                                         name={field.name}
                                         value={input[field.name]}
                                         className= 'input-login-text'
-                                        pattern={field.pattern}
+                                        //pattern={field.pattern}
                                         placeholder={field.placeholder}
                                         onChange={handleChange}
                                         required={field.required}
@@ -96,9 +96,10 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                                     <input
                                         type={field.type}
                                         name={field.name}
-                                        value={field.type === 'file' ? undefined : input[field.name]}
+                                        value={field.type === 'file' ? undefined : field.value}
                                         className= 'input-login-text'
-                                        pattern={field.pattern}
+                                        //pattern={field.pattern}
+                                        defaultValue={field.defaultValue}
                                         placeholder={field.placeholder}
                                         onChange={handleChange}
                                         required={field.required}
@@ -112,18 +113,17 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                     <></>
                 )}
                 {buttonAdd && 
-                    <> 
-                    <label htmlFor="">Agregar Input</label>
+                    <div className="add-question-container">
+                    <label htmlFor="">Agregar Pregunta</label>
                     <FontAwesomeIcon 
                         icon={faAdd} 
-                        className="" 
+                        className="add-icon" 
                         onClick={addOptionalField} 
                     />
-                    <br />
-                    </>
+                    </div>
                     
                 }
-
+                <br />
                 {optionalFields.map((field, index) => (
                     <div key={field.id}>
                         <label htmlFor="">{field.label}</label>
@@ -131,7 +131,7 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                             type="text"
                             name={field.name}
                             value={input[field.name] || ''}
-                            className= 'input-login-text'
+                            className= 'custom-input'
                             pattern={field.pattern}
                             placeholder={field.placeholder}
                             onChange={handleChange}
@@ -139,7 +139,7 @@ const DynamicForm = ({ fields, buttonAdd, onSubmit, buttonText, formTitle, formS
                         />
                         <FontAwesomeIcon 
                             icon={faTrash}
-                            className="foro-icon-edit" 
+                            className="icon-edit" 
                             onClick={() => removeOptionalField(field.id)} 
                         />
                     </div>

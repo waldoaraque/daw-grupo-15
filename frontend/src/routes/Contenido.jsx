@@ -4,7 +4,10 @@ import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
 import Modal from '../components/modal'
-import { updateQuestService, postQuestService, listQuestService } from '../services/quests.service'
+import {
+    postQuestService, 
+    listQuestService 
+} from '../services/quests.service'
 
 export default function Contenido () {
     const { id } = useParams()
@@ -15,7 +18,6 @@ export default function Contenido () {
     const [quests, setQuests] = useState(false)
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
     const [video, setVideo] = useState(null)
     let responsesFields = []
@@ -57,7 +59,10 @@ export default function Contenido () {
                     const answer = input[answerKey]
                     if (answer) {
                         const result = await postQuestService(
-                            { respuesta: answer, quest_id: questionId }, 
+                            {
+                                respuesta: answer, 
+                                quest_id: questionId 
+                            }, 
                             { token }
                         )
                         results.push(result)
@@ -65,31 +70,13 @@ export default function Contenido () {
                 }
             }
             resetForm()
+            closeCreateModal()
             setMessageModalSuccess('Respuesta enviada!')
             return
         }
     
         setMessageModalError('No se están obteniendo las preguntas, por favor verifique.')
         return
-    }    
-
-    const handleUpdateQuest = async (input, resetForm) => {
-
-        for (const key in input) {
-            if (input.hasOwnProperty(key)) {
-                if (key.startsWith('question_')) {
-                    let questResult = await updateQuestService(
-                        // contenido_id, pregunta
-                        {
-                            'contenido_id': id,
-                            // necesito el id de la quest también
-                            'pregunta': input[key]
-                        },
-                        { token }
-                    )
-                }
-            }
-        }
     }
 
     const listQuests = async () => {
@@ -100,12 +87,6 @@ export default function Contenido () {
     const closeModalSuccess = () => setMessageModalSuccess(false)
     const closeModalError  = () => setMessageModalError(false)
 
-    const openEditModal = (quest) => {
-        //setSelectedContent(quest)
-        setIsEditModalOpen(true)
-    }
-
-    const closeEditModal = () => setIsEditModalOpen(false)
     const openCreateModal = async () => {
         const quests = await listQuests()
         setQuests(quests)
@@ -128,7 +109,7 @@ export default function Contenido () {
                 }
             )
             i += 1
-        } 
+        }
     }
     
     return (
@@ -154,10 +135,11 @@ export default function Contenido () {
                 <div>
                     {video ? (
                         
-                        <video width="600" controls preload='auto' muted >
+                        <video class="responsive-video" width="400" controls preload='auto' muted >
                             <source src={video}  type="video/mp4" />
                             Tu navegador no soporta el elemento de video.
                         </video>
+                        
                     ) : (
                         <p>Cargando video...</p>
                     )}
@@ -178,24 +160,6 @@ export default function Contenido () {
                                     fields={responsesFields}
                                     onSubmit={handleSubmitQuest}
                                     buttonText='Enviar Respuestas'
-                                />
-                            </div>
-                        </Modal>
-                    </>
-                )}
-                {tokenPayload.user_type === 'educador' && (
-                    <>
-                        <button className="foro-button" onClick={openEditModal}>
-                            Editar Quest
-                        </button>
-                    
-                        <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
-                            <div>
-                                <DynamicForm
-                                    formTitle='Edita la Quest'
-                                    onSubmit={handleUpdateQuest}
-                                    buttonText='Actualizar Quest'
-                                    buttonAdd={true}
                                 />
                             </div>
                         </Modal>

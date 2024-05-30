@@ -110,14 +110,19 @@ export default function Foro() {
     }
 
     const handleUpdateContent = async (input, resetForm) => {
-        if (input.tituloTema !== '' && input.descripcionTema !== '') {
+        if (input.title !== '' && input.content !== '') {
+            const data = new FormData()
+            data.append('titulo_contenido', input.title)
+            data.append('descripcion_contenido', input.content)
+            data.append('video', input.video)
+
             let result = await updateContentService(
-                selectedTema.id_tema, 
-                { 'titulo_tema': input.tituloTema, 'descripcion_tema': input.descripcionTema }, 
+                selectedContent.id_contenido, 
+                data,
                 { token }
             )
-            setListTema(prevTemas => prevTemas.map(tema =>
-                tema.id_tema === selectedTema.id_tema ? result : tema
+            setListContent(prevTemas => prevTemas.map(content =>
+                content.id_contenido === selectedContent.id_contenido ? result : content
             ))
             resetForm()
             closeEditModal()
@@ -178,7 +183,7 @@ export default function Foro() {
 
     return (
         <DefaultLayout>
-            <div className="foro-container">
+            <div className="main-container">
                 <Modal 
                     isOpen={messageModalSuccess}
                     message={messageModalSuccess}
@@ -225,7 +230,7 @@ export default function Foro() {
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faPen} 
-                                                    className=""
+                                                    className="foro-icon-edit"
                                                     onClick={() => openEditModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isEditModalOpen} onClose={closeEditModal}>
@@ -245,7 +250,7 @@ export default function Foro() {
                                             <>
                                                 <FontAwesomeIcon 
                                                     icon={faTrash} 
-                                                    className="" 
+                                                    className="foro-icon-delete" 
                                                     onClick={() => openDeleteModal(contenido)} 
                                                 />
                                                 <Modal isOpen={isDeleteModalOpen} onClose={closeDeleteModal}>

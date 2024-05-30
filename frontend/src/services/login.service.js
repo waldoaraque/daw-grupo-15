@@ -1,4 +1,4 @@
-import { apiURL } from './config.js'
+import { apiURL } from '../config.js'
 
 export const loginService = async (creds)  => { 
   const endpoint = `${apiURL}/api/login`
@@ -17,8 +17,6 @@ export const loginService = async (creds)  => {
         "token": access_token
       }
       return responseUserData
-      //const accessToken = data.access_token
-      //localStorage.setItem('token', accessToken)
     } else {
       console.error('Inicio de sesión fallido')
       return

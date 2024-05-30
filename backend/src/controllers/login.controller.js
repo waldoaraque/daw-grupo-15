@@ -21,7 +21,7 @@ export const login = async (req, res, next) => {
     // Verificar las credenciales
     const validateCredentials = await selectByParamsConditionQuery(
       usuarioTabla,
-      ["id_usuario", "email", "contrasena", "tipo_usuario"],
+      ["id_usuario", "email", "contrasena", "tipo_usuario", "nombre_usuario", "apellido_usuario"],
       "email = $1",
       [email]
     )
@@ -36,7 +36,8 @@ export const login = async (req, res, next) => {
       const token = generateToken({ 
         user_id: usuario.id_usuario,
         email: usuario.email,
-        user_type: usuario.tipo_usuario
+        user_type: usuario.tipo_usuario,
+        user_fullname: `${usuario.nombre_usuario} ${usuario.apellido_usuario}`
       })
       res
         .status(200)

@@ -106,7 +106,7 @@ export default function Foro() {
     const handleDeleteTema = async (input, resetForm) => {
         if (input.tituloTema === 'Eliminar') {
             let result = await deleteTemaService(selectedTema.id_tema, { token })
-            setListTema(result)
+            setListTema(prevTemas => prevTemas.filter(tema => tema.id_tema !== selectedTema.id_tema))
             resetForm()
             closeDeleteModal()
             setMessageModalSuccess('Tu tema ha sido eliminado!')
@@ -146,7 +146,7 @@ export default function Foro() {
 
     return (
         <DefaultLayout>
-            <div className="foro-container">
+            <div className="main-container">
                 <Modal 
                     isOpen={messageModalSuccess}
                     message={messageModalSuccess}
@@ -184,6 +184,7 @@ export default function Foro() {
                             <div className="foro-list">
                                 {listTema.map((tema, index) => (
                                     <div className="foro-item" key={tema.id_tema}>
+                                        {console.log(tema)}
                                         <Link to={`/temas/${tema.id_tema}`} state={{ tema }}>
                                             <p>{tema.titulo_tema}</p>
                                         </Link>

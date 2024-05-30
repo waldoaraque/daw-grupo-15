@@ -1,4 +1,4 @@
-import { apiURL } from './config.js'
+import { apiURL } from '../config.js'
 import { setToken } from './token.service.js'
 
 export const diccionarioWordService = async (palabra, { token })  => { 

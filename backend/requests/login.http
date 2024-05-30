@@ -17,7 +17,7 @@ POST http://{{host}}/{{basePath}} HTTP/1.1
 content-type: application/json
 
 {
-    "email": "director4@correo.com",
+    "email": "director@correo.com",
     "contrasena": "Gracia1122"
 }
 
@@ -27,7 +27,7 @@ content-type: application/json
 
 {
     "email": "educador@correo.com",
-    "contrasena": "1234"
+    "contrasena": "Gracia11"
 }
 
 ### LogIn Rol Estudiante

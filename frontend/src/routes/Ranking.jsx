@@ -28,7 +28,7 @@ export default function Ranking() {
 
     return (
         <DefaultLayout>
-            <div className="ranking-container">
+            <div className="main-container">
                 <h1 className="ranking-title">Ranking</h1>
                 <section>
                     <p className="ranking-description">

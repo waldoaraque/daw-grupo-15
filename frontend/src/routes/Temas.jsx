@@ -4,7 +4,10 @@ import { useAuth } from '../auth/AuthProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import DynamicForm from '../components/form'
 import Modal from '../components/modal'
-import { listMensajesService, postMensajesService } from '../services/mensajes.service'
+import { 
+    listMensajesService, 
+    postMensajesService 
+} from '../services/mensajes.service'
 
 export default function Temas() {
     const { id } = useParams()
@@ -37,22 +40,32 @@ export default function Temas() {
 
     const handleSubmitMensaje = async (input, resetForm) => {
         if (input.contenidoMensaje !== '') {
-            let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token })
-            //result =
-            if (!listMensajes || !Array.isArray(listMensajes)) {
-                setListMensajes(result)
-            } else {
-                setListMensajes(prevMensajes => [result, ...prevMensajes])
+            try {
+                let result = await postMensajesService({ 'contenido_mensaje': input.contenidoMensaje, 'tema_id': id }, { token });
+
+                if (result && result.id_mensajes) {
+                    const mensajeConUsuario = {
+                        ...result,
+                        nombre_usuario: tokenPayload.user_fullname,
+                        apellido_usuario: ''
+                    };
+
+                    setListMensajes(prevMensajes => {
+                        return Array.isArray(prevMensajes) ? [mensajeConUsuario, ...prevMensajes] : [mensajeConUsuario];
+                    });
+                    resetForm();
+                    setMessageModalSuccess('Se ha publicado tu mensaje!');
+                } else {
+                    setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error al publicar mensaje:', error);
+                setMessageModalError('Error al publicar el mensaje. Por favor, inténtelo de nuevo.');
             }
-            /*
-                falta por agregar el nombre y apellido del usuario en tiempo real...
-            */
-            resetForm()
-            setMessageModalSuccess('Se ha publicado tu mensaje!')
-            return
+            return;
         }
-        setMessageModalError('No se está pasando texto, por favor verifique.')
-        return
+        setMessageModalError('No se está pasando texto, por favor verifique.');
+        return;
     }
 
     const closeModalSuccess = () => setMessageModalSuccess(false)
