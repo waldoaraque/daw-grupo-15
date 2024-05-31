@@ -126,7 +126,7 @@ export default function Contenido () {
                 type='error'
                 onClose={closeModalError} 
             />
-            <div className="tema-container">
+            <div className="main-container">
                 {/* AGREGAR CONTENIDO ... */}
                 <div className="tema-header">
                     <h1 className="tema-title">{contenido.titulo_contenido}</h1>
