@@ -9,62 +9,38 @@
     background-color: #D3D3D3;
 }
 
-
 .user-session {
-    background-color: #ddd;
+    background-color: #D3D3D3;
     font-size: 18px;
-    position: relative;
+    position: absolute;
     top: 26%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /*padding: 20px;*/ 
 }
 
 @media (max-width: 908px) {
     .user-session {
-        background-color: #ddd;
-        font-size: 18px;
-        /*position: fixed;*/ 
-        top: 29%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /*padding: 20px;*/ 
+        top: 26%;
     }
 }
 
 @media (max-width: 768px) {
     .user-session {
-        background-color: #ddd;
-        font-size: 18px;
-        /*position: fixed;*/ 
         top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /*padding: 20px;*/ 
     }
 }
 
 @media (max-width: 600px) {
     .user-session {
-        background-color: #ddd;
-        font-size: 18px;
-        /*position: fixed;*/ 
         top: 22%;
-        left: 50%;
-        /*transform: translate(-50%, -50%);*/
-        /*padding: 20px;*/ 
     }
 }
 
 @media (max-width: 513px) {
     .user-session {
-        background-color: #ddd;
-        font-size: 18px;
-        /*position: fixed;*/ 
-        top: 22%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        /*padding: 20px;*/
+        top: 29%;
+        padding: 10px; /* Ajusta según sea necesario */
         margin-top: 10px;
+        font-size: 13px;
     }
 }

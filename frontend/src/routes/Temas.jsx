@@ -101,7 +101,7 @@ export default function Temas() {
 
     return (
         <DefaultLayout>
-            <div className="tema-container">
+            <div className="main-container">
                 <div className="tema-header">
                     <h1 className="tema-title">{tema.titulo_tema}</h1>
                     <p className="tema-description">{tema.descripcion_tema}</p>
